@@ -12,6 +12,7 @@ import { DEF_BY_ID, type FighterDef } from "~/lib/fighters";
 import { FORMS } from "~/lib/forms";
 import { QUESTS, claimQuest, goalDone, questReady, useQuests, type Quest, type Stats } from "~/lib/quests";
 import { cn } from "~/lib/utils";
+import { ProgressCodeSheet } from "~/components/progress-code-sheet";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -28,6 +29,7 @@ function TopBar() {
       <Button asChild variant="ghost" size="sm"><Link to="/"><Text id="common.arena" /></Link></Button>
       <Button asChild variant="ghost" size="sm"><Link to="/roster"><Text id="common.fighters" /></Link></Button>
       <Button asChild variant="secondary" size="sm"><Link to="/quests" aria-current="page"><Text id="common.quests" /></Link></Button>
+      <ProgressCodeSheet />
     </nav>
   );
 }

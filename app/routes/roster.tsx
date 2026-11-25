@@ -22,6 +22,7 @@ import { FighterPortrait } from "~/components/quest-scenes";
 import { FORMS, FORM_NAME, HYPER_FORM, PERFECTED_FLAME, formsOf, type Form, type FormKind } from "~/lib/forms";
 import { useHybrids } from "~/lib/hybrids";
 import { FusionSheet, HybridParents } from "~/components/fusion-sheet";
+import { ProgressCodeSheet } from "~/components/progress-code-sheet";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -62,6 +63,7 @@ function TopBar() {
           <Text id="common.quests" />
         </Link>
       </Button>
+      <ProgressCodeSheet />
     </nav>
   );
 }

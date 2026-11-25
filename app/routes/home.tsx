@@ -37,6 +37,7 @@ import { CHAPTERS, STAGES_PER_CHAPTER, bossesBeaten, canTeam, chapterOpen, fusio
 import { StoryScene } from "~/components/story-scene";
 import { storyBackdrop } from "~/lib/story-backdrops";
 import type { Scene } from "~/lib/story-script";
+import { ProgressCodeSheet } from "~/components/progress-code-sheet";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -594,6 +595,7 @@ export default function Home() {
         <Button asChild variant="secondary" size="sm"><Link to="/"><Text id="common.arena" /></Link></Button>
         <Button asChild variant="ghost" size="sm"><Link to="/roster"><Text id="common.fighters" /></Link></Button>
         <Button asChild variant="ghost" size="sm"><Link to="/quests"><Text id="common.quests" /></Link></Button>
+        <ProgressCodeSheet />
       </nav>
 
       {screen === "title" ? (

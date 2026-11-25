@@ -10,7 +10,8 @@ happens, and anything chained after it still runs.
 
 ## About this app
 
-NPC Arena is a single-player browser game where you watch power-themed NPCs fight. No sign-in, no database; all progress (quests, Story, hybrids, own character, volume) lives in the browser's localStorage. Brought over whole from the builder's GitHub code (same stack), so screens, wording and rules are theirs.
+NPC Arena is a single-player browser game where you watch power-themed NPCs fight. No sign-in; all progress (quests, Story, hybrids, own character, volume) lives in the browser's localStorage.
+- Progress code (`components/progress-code-sheet.tsx`, key button in every page's nav): copies the progress saves (list in `lib/progress-code.ts` SAVE_KEYS; volume excluded) into the one database table, `progress_saves`, under a code minted by `~stencil/access-codes` (purpose "progress-code"; the code names the row). `routes/api.progress-code.tsx` saves/updates/loads, guarded by `limitVisitor`. The browser remembers its code and saves to it only when the player presses save; loading writes the saves back to localStorage and reloads the page. A new localStorage save that counts as progress must be added to SAVE_KEYS. Brought over whole from the builder's GitHub code (same stack), so screens, wording and rules are theirs.
 - Arena (`/`): title screen with a silent demo fight, then a canvas arena. Modes: Duel, Free for all, Teams, Tournament (`lib/bracket.ts`), Team Tournament, Juggernaut, Story, Free World.
 - Engine `lib/arena-engine.ts` (physics, camera, AI, forms, entrances); cinematic layer `lib/arena-cinema.ts`; sound and music synthesised with Web Audio (`arena-sound.ts`, `arena-music.ts`).
 - Fighters are data in `lib/fighters.ts`; move looks, forms, entrances, quest and boss designs in their own lib files. A new fighter touches fighters/bosses, forms, move-looks, arena-engine, arena-sound, spawn-intros, designs, arena-cinema and strings.

@@ -201,6 +201,40 @@
     "appName": "NPC Arena",
     "quests": "Quests"
   },
+  "progressCode": {
+    "open": "Progress code",
+    "title": "Progress code",
+    "intro": "Your quests, Story progress, characters and hybrids are saved in this browser. A progress code keeps a copy you can load back later, on this device or another one.",
+    "yours": {
+      "heading": "Your code",
+      "none": "You don't have a code yet. Make one to keep a copy of your progress so far.",
+      "make": "Make my code",
+      "making": "Making your code…",
+      "copy": "Copy",
+      "copied": "Copied",
+      "keep": "Write it down somewhere safe. Anyone who has this code can load your progress. The copy only changes when you save to it.",
+      "update": "Save my latest progress to this code",
+      "saving": "Saving…",
+      "updated": "Saved. Your code now holds your latest progress."
+    },
+    "load": {
+      "heading": "Load progress",
+      "body": "Type a progress code to bring that progress into this browser.",
+      "label": "Progress code",
+      "button": "Load",
+      "looking": "Checking…",
+      "confirm": "Code {{code}} found. Loading it replaces all the progress in this browser with the progress saved in the code. This browser will then save to that code too.",
+      "yes": "Load this progress",
+      "cancel": "Cancel"
+    },
+    "error": {
+      "wrong": "That code doesn't match any saved progress. Check it and try again.",
+      "tooMany": "Too many tries. Wait a few minutes, then try again.",
+      "busy": "Too many saves in a short time. Wait a few minutes, then try again.",
+      "tooLarge": "This progress is too big to save in a code.",
+      "failed": "Something went wrong. Please try again."
+    }
+  },
   "roster": {
     "eyebrow": "The roster",
     "title": "Meet the 16 fighters",
