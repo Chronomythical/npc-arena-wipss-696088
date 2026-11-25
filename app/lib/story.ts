@@ -161,6 +161,48 @@ export const CHAPTERS: Chapter[] = [
       { foes: [], boss: "lanternmaw" },
     ],
   },
+  {
+    // Book 2, chapter 2: The Singing Rot
+    stages: [
+      st("c"),
+      st("g"),
+      st("gc", 0.82),
+      st("bb", 0.66),
+      st("ccg", 0.46),
+      st("bgc", 0.46),
+      st("ggcb", 0.26),
+      st("ecbg", 0.24),
+      { foes: [], boss: "sporemother" },
+    ],
+  },
+  {
+    // Book 2, chapter 3: The City That Forgets
+    stages: [
+      st("g"),
+      st("cg", 0.85),
+      st("bc", 0.78),
+      st("gg", 0.78),
+      st("cbg", 0.46),
+      st("ccb", 0.44),
+      st("gbcc", 0.24),
+      st("egbc", 0.22),
+      { foes: [], boss: "mnemovore" },
+    ],
+  },
+  {
+    // Book 2, chapter 4: The Moth Moon
+    stages: [
+      st("b"),
+      st("gc", 0.85),
+      st("cc", 0.8),
+      st("bgg", 0.48),
+      st("gcb", 0.46),
+      st("ccbg", 0.27),
+      st("bbgc", 0.23),
+      st("egcbc", 0.15),
+      { foes: [], boss: "dustmoth" },
+    ],
+  },
 ];
 
 /** The books of Story mode: where each starts in CHAPTERS and how many chapters it will have once it is all written. */

@@ -972,6 +972,228 @@ export function drawBossDesign(
       }
       break;
     }
+    // ----- The Sporemother: a fungal hive, a great mushroom cap for a head and shelf fungus down its back -----
+    case "sporemother": {
+      const back = -face;
+      if (layer === "back") {
+        if (alive) glow(ctx, mid.x, mid.y, 86 * s, "hsl(170 80% 40% / 0.22)", "hsl(170 80% 40% / 0)");
+        // shelf fungus stacked up its back
+        for (let i = 0; i < 4; i++) {
+          const fx = neck.x + (mid.x - neck.x) * (i / 3) + (hip.x - neck.x) * (i / 6) + back * 9 * s;
+          const fy = neck.y + (hip.y - neck.y) * (i / 3.4);
+          const w = (13 - i * 1.5) * s;
+          ctx.fillStyle = i % 2 ? "hsl(318 24% 30%)" : "hsl(322 28% 38%)";
+          ctx.strokeStyle = INK;
+          ctx.lineWidth = 1.4 * s;
+          ctx.beginPath();
+          ctx.ellipse(fx + back * w * 0.4, fy, w, 4.5 * s, back * 0.2, Math.PI, TAU);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          if (alive) {
+            ctx.strokeStyle = "hsl(170 100% 64% / 0.7)";
+            ctx.lineWidth = 1 * s;
+            ctx.beginPath();
+            ctx.moveTo(fx - w * 0.5 + back * w * 0.4, fy + 0.5 * s);
+            ctx.lineTo(fx + w * 0.9 + back * w * 0.4, fy + 0.5 * s);
+            ctx.stroke();
+          }
+        }
+      } else {
+        // the face under the cap: dark, with three small round singing mouths
+        ctx.fillStyle = "hsl(310 30% 12%)";
+        ctx.beginPath();
+        ctx.ellipse(head.x + face * 2 * s, head.y + 3 * s, 9 * s, 8 * s, 0, 0, TAU);
+        ctx.fill();
+        const song = alive ? 0.6 + 0.4 * Math.sin(t * 6) : 0.4;
+        for (const [dx, dy, r] of [[-1, 2, 2.6], [5, 5, 2], [1, 8, 1.6]] as const) {
+          const mx = head.x + face * dx * s, my = head.y + dy * s;
+          if (alive) glow(ctx, mx, my, r * 2.6 * s, "hsl(170 100% 70% / 0.6)", "hsl(170 100% 60% / 0)");
+          ctx.fillStyle = alive ? "hsl(170 100% 86%)" : "hsl(300 10% 40%)";
+          ctx.beginPath();
+          ctx.ellipse(mx, my, r * s, r * s * song, 0, 0, TAU);
+          ctx.fill();
+        }
+        // the cap: a wide dome, pale spots on top and glowing gills beneath
+        const cx = head.x, cy = head.y - 5 * s, cw = 21 * s, chh = 15 * s;
+        ctx.strokeStyle = alive ? "hsl(170 100% 66% / 0.85)" : "hsl(300 10% 40%)";
+        ctx.lineWidth = 1 * s;
+        for (let i = -4; i <= 4; i++) {
+          ctx.beginPath();
+          ctx.moveTo(cx + i * 1.5 * s, cy + 2 * s);
+          ctx.lineTo(cx + i * 4.6 * s, cy + 0.5 * s);
+          ctx.stroke();
+        }
+        ctx.fillStyle = "hsl(322 30% 36%)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.8 * s;
+        ctx.beginPath();
+        ctx.moveTo(cx - cw, cy + 1 * s);
+        ctx.bezierCurveTo(cx - cw, cy - chh * 1.3, cx + cw, cy - chh * 1.3, cx + cw, cy + 1 * s);
+        ctx.quadraticCurveTo(cx, cy - 3 * s, cx - cw, cy + 1 * s);
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = "hsl(330 40% 84%)";
+        for (const [dx, dy, r] of [[-11, -5, 2.6], [-3, -10, 3.2], [7, -8, 2.4], [13, -3, 1.8], [1, -4, 1.6]] as const) {
+          ctx.beginPath();
+          ctx.arc(cx + face * dx * s, cy + dy * s, r * s, 0, TAU);
+          ctx.fill();
+        }
+        // spores lifting off the cap
+        if (alive) {
+          ctx.globalCompositeOperation = "lighter";
+          motes(ctx, cx, cy - 6 * s, 40 * s, 60 * s, t, 6, "hsl(170 100% 70%)", 1.5 * s);
+          ctx.globalCompositeOperation = "source-over";
+        }
+      }
+      break;
+    }
+    // ----- The Mnemovore: tall and faceless, a smooth blank mask, long fingers, a halo that keeps forgetting itself -----
+    case "mnemovore": {
+      const back = -face;
+      if (layer === "back") {
+        if (alive) {
+          glow(ctx, mid.x, mid.y, 84 * s, "hsl(270 40% 10% / 0.45)", "hsl(270 40% 10% / 0)");
+          // a thin halo behind the head, flickering out a piece at a time
+          ctx.strokeStyle = "hsl(300 100% 84% / 0.75)";
+          ctx.lineWidth = 1.6 * s;
+          for (let i = 0; i < 8; i++) {
+            if (Math.sin(t * 1.7 + i * 2.3) < -0.3) continue;
+            const a0 = (i / 8) * TAU + t * 0.3;
+            ctx.beginPath();
+            ctx.arc(head.x + back * 3 * s, head.y - 6 * s, 21 * s, a0, a0 + 0.55);
+            ctx.stroke();
+          }
+        }
+      } else {
+        // the mask: taller than a head, smooth and blank, with one seam down the middle
+        const mx = head.x + face * 1 * s, my = head.y - 3 * s;
+        ctx.fillStyle = "hsl(30 20% 88%)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.8 * s;
+        ctx.beginPath();
+        ctx.ellipse(mx, my, 10 * s, 15 * s, face * 0.08, 0, TAU);
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = "hsl(270 10% 70% / 0.5)";
+        ctx.beginPath();
+        ctx.ellipse(mx - face * 3 * s, my + 2 * s, 5 * s, 11 * s, face * 0.08, 0, TAU);
+        ctx.fill();
+        const open = act && act.phase !== "after" ? 1 : 0;
+        ctx.strokeStyle = open && alive ? "hsl(300 100% 80%)" : "hsl(270 10% 50%)";
+        ctx.lineWidth = (open ? 2.6 : 1) * s;
+        ctx.beginPath();
+        ctx.moveTo(mx + face * 1 * s, my - 13 * s);
+        ctx.lineTo(mx + face * 2 * s, my + 13 * s);
+        ctx.stroke();
+        if (open && alive) {
+          ctx.globalCompositeOperation = "lighter";
+          glow(ctx, mx + face * 1.5 * s, my, 12 * s, "hsl(300 100% 80% / 0.6)", "hsl(300 100% 60% / 0)");
+          ctx.globalCompositeOperation = "source-over";
+        }
+        // long fingers off both hands, three each, far too long
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.6 * s;
+        for (const [h, e] of [[p.hF, p.eF], [p.hB, p.eB]] as const) {
+          const a = Math.atan2(h.y - e.y, h.x - e.x);
+          for (let i = -1; i <= 1; i++) {
+            const fa = a + i * 0.28;
+            ctx.beginPath();
+            ctx.moveTo(h.x, h.y);
+            ctx.quadraticCurveTo(h.x + Math.cos(fa) * 9 * s, h.y + Math.sin(fa) * 9 * s, h.x + Math.cos(fa + 0.3) * 17 * s, h.y + Math.sin(fa + 0.3) * 17 * s);
+            ctx.stroke();
+          }
+        }
+      }
+      break;
+    }
+    // ----- The Dustmoth: a furred moth head with huge dark eyes, feathered antennae, a ruff, folded wings -----
+    case "dustmoth": {
+      const back = -face;
+      if (layer === "back") {
+        if (alive) glow(ctx, mid.x, mid.y, 90 * s, "hsl(208 60% 70% / 0.14)", "hsl(208 60% 70% / 0)");
+        // folded wings down its back, tips trailing behind
+        const flick = alive ? Math.sin(t * 2.6) * 0.06 : 0;
+        for (let w = 0; w < 2; w++) {
+          const bx = shoulder.x + back * 4 * s, by = shoulder.y + 2 * s;
+          const len = (62 - w * 14) * s, an = Math.PI / 2 + back * (0.5 + w * 0.35 + flick);
+          const tx = bx + Math.cos(an) * len, ty = by + Math.sin(an) * len;
+          ctx.fillStyle = w ? "hsl(30 16% 34%)" : "hsl(34 18% 42%)";
+          ctx.strokeStyle = INK;
+          ctx.lineWidth = 1.6 * s;
+          ctx.beginPath();
+          ctx.moveTo(bx, by);
+          ctx.quadraticCurveTo(bx + back * 26 * s, by + len * 0.2, tx, ty);
+          ctx.quadraticCurveTo(bx + back * 4 * s, by + len * 0.7, bx, by);
+          ctx.fill();
+          ctx.stroke();
+          ctx.strokeStyle = "hsl(40 30% 70% / 0.6)";
+          ctx.lineWidth = 1 * s;
+          ctx.beginPath();
+          ctx.moveTo(bx, by);
+          ctx.lineTo(tx, ty);
+          ctx.stroke();
+        }
+      } else {
+        // a ruff of pale fur round the neck
+        ctx.fillStyle = "hsl(40 30% 82%)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.4 * s;
+        ctx.beginPath();
+        for (let i = 0; i <= 10; i++) {
+          const a = Math.PI * (i / 10);
+          const r = (i % 2 ? 9 : 12) * s;
+          const x = neck.x + Math.cos(a) * r, y = neck.y + 2 * s + Math.sin(a) * r * 0.6;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        // the head: round and furred
+        ctx.fillStyle = "hsl(34 16% 36%)";
+        ctx.beginPath();
+        ctx.arc(head.x, head.y, (HEAD + 2) * s, 0, TAU);
+        ctx.fill();
+        ctx.stroke();
+        // two huge compound eyes, glossy black with a cold moonlit shine
+        for (const dx of [-5, 6]) {
+          const ex = head.x + face * dx * s, ey = head.y - 1 * s;
+          ctx.fillStyle = "hsl(230 30% 8%)";
+          ctx.beginPath();
+          ctx.ellipse(ex, ey, 6 * s, 7.5 * s, 0, 0, TAU);
+          ctx.fill();
+          ctx.fillStyle = alive ? "hsl(208 100% 86%)" : "hsl(208 10% 50%)";
+          ctx.beginPath();
+          ctx.arc(ex + face * 2 * s, ey - 3 * s, 1.8 * s, 0, TAU);
+          ctx.fill();
+        }
+        // feathered antennae curling up and back
+        for (const side of [0, 1]) {
+          const ax = head.x + face * (side ? 4 : -2) * s, ay = head.y - 11 * s;
+          const sway = alive ? Math.sin(t * 3 + side) * 3 * s : 0;
+          const tx = ax + back * (10 + side * 6) * s + sway, ty = ay - 24 * s;
+          ctx.strokeStyle = INK;
+          ctx.lineWidth = 1.8 * s;
+          ctx.beginPath();
+          ctx.moveTo(ax, ay);
+          ctx.quadraticCurveTo(ax + face * 8 * s, ay - 16 * s, tx, ty);
+          ctx.stroke();
+          ctx.strokeStyle = "hsl(40 24% 70%)";
+          ctx.lineWidth = 1 * s;
+          for (let k = 1; k <= 6; k++) {
+            const u = k / 7;
+            const px = (1 - u) * (1 - u) * ax + 2 * u * (1 - u) * (ax + face * 8 * s) + u * u * tx;
+            const py = (1 - u) * (1 - u) * ay + 2 * u * (1 - u) * (ay - 16 * s) + u * u * ty;
+            ctx.beginPath();
+            ctx.moveTo(px - 3 * s, py - 1 * s);
+            ctx.lineTo(px + 3 * s, py + 1 * s);
+            ctx.stroke();
+          }
+        }
+      }
+      break;
+    }
   }
   ctx.restore();
   if (layer === "front") drawBossExtras(ctx, design, layer, p, s, face, t, alive, vx, act);
@@ -1706,6 +1928,234 @@ function drawBossPhase(
       }
       break;
     }
+    case "sporemother": {
+      if (front) {
+        // 2: caps bursting open on its shoulders and arms, gills glowing
+        const caps: [Pt, number][] = [[shoulder, 7], [p.eF, 5.5], [p.eB, 5], [{ x: hip.x, y: hip.y - 4 * s }, 6]];
+        caps.forEach(([q, r], i) => {
+          const pulse = 1 + Math.sin(t * 4 + i) * 0.08;
+          ctx.fillStyle = "hsl(170 100% 66% / 0.8)";
+          ctx.beginPath();
+          ctx.ellipse(q.x, q.y - 1 * s, r * s * pulse, 1.6 * s, 0, 0, TAU);
+          ctx.fill();
+          ctx.fillStyle = i % 2 ? "hsl(322 30% 40%)" : "hsl(316 34% 46%)";
+          ctx.strokeStyle = INK;
+          ctx.lineWidth = 1.2 * s;
+          ctx.beginPath();
+          ctx.ellipse(q.x, q.y - 1.5 * s, r * s * pulse, r * 0.7 * s, 0, Math.PI, TAU);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+        });
+      } else {
+        // and tall caps growing behind it
+        for (let i = 0; i < 3; i++) {
+          const x = hip.x + back * (14 + i * 10) * s, y = hip.y + 22 * s, h = (34 + i * 10) * s;
+          ctx.strokeStyle = "hsl(40 20% 76%)";
+          ctx.lineWidth = 3 * s;
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          ctx.quadraticCurveTo(x + back * 6 * s, y - h * 0.5, x + Math.sin(t + i) * 3 * s, y - h);
+          ctx.stroke();
+          ctx.fillStyle = "hsl(318 30% 34%)";
+          ctx.strokeStyle = INK;
+          ctx.lineWidth = 1.2 * s;
+          ctx.beginPath();
+          ctx.ellipse(x + Math.sin(t + i) * 3 * s, y - h, 10 * s, 7 * s, 0, Math.PI, TAU);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          glow(ctx, x + Math.sin(t + i) * 3 * s, y - h + 1 * s, 9 * s, "hsl(170 100% 66% / 0.6)", "hsl(170 100% 60% / 0)");
+        }
+      }
+      if (phase >= 3) {
+        // 3: a crown of thin fruiting bodies around its head, each with a glowing tip
+        orbit(9, 20, 5, head.y - 16 * s, 0.8, (x, y, i) => {
+          ctx.strokeStyle = "hsl(40 24% 80%)";
+          ctx.lineWidth = 1.6 * s;
+          ctx.beginPath();
+          ctx.moveTo(x, y + 6 * s);
+          ctx.lineTo(x, y - (6 + (i % 3) * 4) * s);
+          ctx.stroke();
+          ctx.globalCompositeOperation = "lighter";
+          glow(ctx, x, y - (6 + (i % 3) * 4) * s, 5 * s, "hsl(170 100% 76% / 0.9)", "hsl(170 100% 60% / 0)");
+          ctx.globalCompositeOperation = "source-over";
+        });
+      }
+      if (phase >= 4 && !front) {
+        // 4: a web of glowing mycelium spreading out behind it, through the floor and up the air
+        ctx.globalCompositeOperation = "lighter";
+        ctx.strokeStyle = `hsl(170 100% 60% / ${0.35 + 0.15 * Math.sin(t * 3)})`;
+        ctx.lineWidth = 1.4 * s;
+        for (let i = 0; i < 10; i++) {
+          const a = -Math.PI + (i / 9) * Math.PI;
+          const len = (80 + (i % 3) * 30) * s;
+          jagLine(ctx, [{ x: mid.x, y: mid.y }, { x: mid.x + Math.cos(a) * len * 0.5, y: mid.y + Math.sin(a) * len * 0.5 }, { x: mid.x + Math.cos(a + 0.2) * len, y: mid.y + Math.sin(a + 0.2) * len }], 10, i);
+        }
+        glow(ctx, hip.x, hip.y + 26 * s, 90 * s, "hsl(170 100% 50% / 0.3)", "hsl(170 100% 50% / 0)");
+        ctx.globalCompositeOperation = "source-over";
+      }
+      break;
+    }
+    case "mnemovore": {
+      if (front) {
+        // 2: the blank mask splits open down its seam into a mouth of stolen light
+        const mx = head.x + face * 2 * s, my = head.y - 3 * s;
+        const gape = 3.5 + Math.sin(t * 3) * 1;
+        ctx.fillStyle = "hsl(280 50% 8%)";
+        ctx.beginPath();
+        ctx.ellipse(mx, my + 1 * s, gape * s, 12 * s, face * 0.08, 0, TAU);
+        ctx.fill();
+        ctx.globalCompositeOperation = "lighter";
+        glow(ctx, mx, my + 1 * s, 10 * s, "hsl(300 100% 80% / 0.7)", "hsl(300 100% 60% / 0)");
+        ctx.globalCompositeOperation = "source-over";
+        ctx.fillStyle = "hsl(30 20% 92%)";
+        for (let i = 0; i < 5; i++) {
+          const ty = my - 8 * s + i * 4 * s;
+          ctx.beginPath();
+          ctx.moveTo(mx - gape * s, ty);
+          ctx.lineTo(mx - gape * s + 2.4 * s, ty + 1.2 * s);
+          ctx.lineTo(mx - gape * s, ty + 2.4 * s);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.moveTo(mx + gape * s, ty + 1.2 * s);
+          ctx.lineTo(mx + gape * s - 2.4 * s, ty + 2.4 * s);
+          ctx.lineTo(mx + gape * s, ty + 3.6 * s);
+          ctx.fill();
+        }
+      }
+      if (phase >= 3) {
+        // 3: the faces of everyone it has eaten, drifting round it like masks
+        orbit(6, 48, 14, mid.y - 6 * s, 0.9, (x, y, i, depth) => {
+          ctx.globalAlpha = 0.55 + 0.4 * Math.abs(depth);
+          ctx.fillStyle = "hsl(30 18% 86%)";
+          ctx.strokeStyle = INK;
+          ctx.lineWidth = 1.2 * s;
+          ctx.beginPath();
+          ctx.ellipse(x, y + Math.sin(t * 2 + i) * 4 * s, 6 * s, 8 * s, 0, 0, TAU);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "hsl(280 50% 10%)";
+          for (const dx of [-2.2, 2.2]) {
+            ctx.beginPath();
+            ctx.ellipse(x + dx * s, y - 2 * s + Math.sin(t * 2 + i) * 4 * s, 1.2 * s, 1.8 * s, 0, 0, TAU);
+            ctx.fill();
+          }
+          ctx.globalAlpha = 1;
+        });
+      }
+      if (phase >= 4 && !front) {
+        // 4: the world behind it goes blank as a page, and a ring of written names burns round its head
+        const px = mid.x + back * 6 * s, py = mid.y - 24 * s;
+        ctx.fillStyle = `hsl(40 30% 94% / ${0.55 + 0.1 * Math.sin(t)})`;
+        ctx.strokeStyle = "hsl(270 20% 40% / 0.6)";
+        ctx.lineWidth = 1.2 * s;
+        ctx.beginPath();
+        ctx.rect(px - 50 * s, py - 70 * s, 100 * s, 130 * s);
+        ctx.fill();
+        ctx.stroke();
+        ctx.strokeStyle = "hsl(270 20% 60% / 0.35)";
+        for (let i = 0; i < 9; i++) {
+          const ly = py - 56 * s + i * 13 * s;
+          const fade = (Math.sin(t * 0.8 + i) + 1) / 2;
+          ctx.beginPath();
+          ctx.moveTo(px - 40 * s, ly);
+          ctx.lineTo(px - 40 * s + 80 * s * fade, ly);
+          ctx.stroke();
+        }
+        ctx.globalCompositeOperation = "lighter";
+        ctx.strokeStyle = "hsl(300 100% 80% / 0.9)";
+        ctx.lineWidth = 1.4 * s;
+        for (let i = 0; i < 18; i++) {
+          const a = (i / 18) * TAU + t * 0.5;
+          const r = 30 * s;
+          const x = head.x + Math.cos(a) * r, y = head.y - 6 * s + Math.sin(a) * r * 0.9;
+          ctx.beginPath();
+          ctx.moveTo(x - 2 * s, y + 2 * s);
+          ctx.lineTo(x, y - 2 * s);
+          ctx.lineTo(x + 2 * s, y + 1 * s);
+          ctx.stroke();
+        }
+        ctx.globalCompositeOperation = "source-over";
+      }
+      break;
+    }
+    case "dustmoth": {
+      if (!front) {
+        // 2: the wings spread wide, each with a great staring eyespot
+        const beat = Math.sin(t * 3) * 0.1;
+        for (const dir of [1, -1]) {
+          const bx = shoulder.x, by = shoulder.y;
+          ctx.fillStyle = "hsl(34 20% 40% / 0.96)";
+          ctx.strokeStyle = INK;
+          ctx.lineWidth = 2 * s;
+          ctx.beginPath();
+          ctx.moveTo(bx, by);
+          ctx.bezierCurveTo(bx + dir * 40 * s, by - (70 + beat * 60) * s, bx + dir * 96 * s, by - (50 + beat * 40) * s, bx + dir * 88 * s, by + 6 * s);
+          ctx.quadraticCurveTo(bx + dir * 60 * s, by + 40 * s, bx, by + 18 * s);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+          const ex = bx + dir * 56 * s, ey = by - 18 * s - beat * 30 * s;
+          ctx.fillStyle = "hsl(40 80% 56%)";
+          ctx.beginPath();
+          ctx.arc(ex, ey, 14 * s, 0, TAU);
+          ctx.fill();
+          ctx.fillStyle = "hsl(230 30% 8%)";
+          ctx.beginPath();
+          ctx.arc(ex, ey, 9 * s, 0, TAU);
+          ctx.fill();
+          ctx.fillStyle = "hsl(208 100% 88%)";
+          ctx.beginPath();
+          ctx.arc(ex + face * 3 * s, ey - 3 * s, 2.6 * s, 0, TAU);
+          ctx.fill();
+        }
+      }
+      if (phase >= 3 && front) {
+        // 3: a crescent of stolen moonlight held in its jaws, scales shedding off it
+        const cx = head.x + face * 12 * s, cy = head.y + 8 * s;
+        ctx.globalCompositeOperation = "lighter";
+        glow(ctx, cx, cy, 16 * s, "hsl(208 100% 86% / 0.7)", "hsl(208 100% 70% / 0)");
+        ctx.globalCompositeOperation = "source-over";
+        ctx.fillStyle = "hsl(208 60% 94%)";
+        ctx.beginPath();
+        ctx.arc(cx, cy, 8 * s, 0, TAU);
+        ctx.arc(cx - face * 4 * s, cy - 2 * s, 7 * s, 0, TAU, true);
+        ctx.fill("evenodd");
+        ctx.globalCompositeOperation = "lighter";
+        motes(ctx, mid.x, hip.y + 20 * s, 90 * s, 120 * s, t, 10, "hsl(40 60% 80%)", 1.6 * s, -1);
+        ctx.globalCompositeOperation = "source-over";
+      }
+      if (phase >= 4 && !front) {
+        // 4: the moon behind it goes dark, and a second pair of wings made of night sky opens over the first
+        const mx = mid.x + back * 10 * s, my = head.y - 40 * s;
+        glow(ctx, mx, my, 70 * s, "hsl(208 100% 86% / 0.5)", "hsl(208 100% 80% / 0)");
+        ctx.fillStyle = "hsl(230 40% 6%)";
+        ctx.beginPath();
+        ctx.arc(mx, my, 44 * s, 0, TAU);
+        ctx.fill();
+        for (const dir of [1, -1]) {
+          const bx = shoulder.x, by = shoulder.y - 6 * s;
+          ctx.fillStyle = "hsl(232 50% 8% / 0.95)";
+          ctx.strokeStyle = "hsl(208 100% 84% / 0.8)";
+          ctx.lineWidth = 1.6 * s;
+          ctx.beginPath();
+          ctx.moveTo(bx, by);
+          ctx.bezierCurveTo(bx + dir * 60 * s, by - 120 * s, bx + dir * 140 * s, by - 90 * s, bx + dir * 130 * s, by - 20 * s);
+          ctx.quadraticCurveTo(bx + dir * 80 * s, by - 10 * s, bx, by);
+          ctx.fill();
+          ctx.stroke();
+          ctx.fillStyle = "hsl(0 0% 100%)";
+          for (let i = 0; i < 9; i++) {
+            const u = (i * 0.37) % 1, v = (i * 0.61) % 1;
+            ctx.globalAlpha = 0.5 + 0.5 * Math.sin(t * 4 + i);
+            ctx.fillRect(bx + dir * (30 + u * 90) * s, by - (24 + v * 70) * s, 1.8 * s, 1.8 * s);
+          }
+          ctx.globalAlpha = 1;
+        }
+      }
+      break;
+    }
   }
   ctx.restore();
 }
@@ -1917,6 +2367,53 @@ function drawBossExtras(
       } else {
         pauldron(ctx, shoulder, face, s, "hsl(186 30% 20%)", "hsl(66 100% 60%)", 2);
         fists("hsl(66 100% 80%)", "hsl(170 100% 40% / 0)");
+      }
+      break;
+    case "sporemother":
+      if (layer === "back") {
+        // a heavy skirt of fungus, gills glowing at the hem
+        robe(ctx, hip, p.fF, p.fB, s, t, "hsl(316 26% 20% / 0.95)", "hsl(170 100% 62%)");
+        if (alive) {
+          ctx.globalCompositeOperation = "lighter";
+          motes(ctx, mid.x, hip.y + 10 * s, 90 * s, 140 * s, t * 0.5, 12, "hsl(170 100% 70%)", 1.5 * s);
+          ctx.globalCompositeOperation = "source-over";
+        }
+      } else {
+        pauldron(ctx, shoulder, face, s, "hsl(322 28% 34%)", "hsl(170 100% 64%)", 0);
+        fists("hsl(170 100% 80%)", "hsl(170 100% 50% / 0)");
+      }
+      break;
+    case "mnemovore":
+      if (layer === "back") {
+        // a long coat the colour of an old photograph, scraps of torn pages drifting off it
+        cape(40, "hsl(266 16% 20% / 0.95)", "hsl(300 100% 82% / 0.7)", 6);
+        if (alive) {
+          ctx.fillStyle = "hsl(40 30% 86% / 0.8)";
+          for (let i = 0; i < 5; i++) {
+            const k = (t * 0.12 + i / 5) % 1;
+            const x = hip.x + back * (20 + i * 9) * s + Math.sin(t + i) * 6 * s, y = hip.y + 30 * s - k * 140 * s;
+            ctx.save();
+            ctx.globalAlpha = Math.sin(k * Math.PI);
+            ctx.translate(x, y);
+            ctx.rotate(t * (i % 2 ? 1 : -1) + i);
+            ctx.fillRect(-3 * s, -4 * s, 6 * s, 8 * s);
+            ctx.restore();
+          }
+        }
+      } else {
+        fists("hsl(300 100% 86%)", "hsl(280 100% 60% / 0)");
+      }
+      break;
+    case "dustmoth":
+      if (layer === "back") {
+        if (alive) {
+          ctx.globalCompositeOperation = "lighter";
+          motes(ctx, mid.x, hip.y + 20 * s, 100 * s, 150 * s, t * 0.4, 12, "hsl(40 40% 80%)", 1.4 * s, -1);
+          ctx.globalCompositeOperation = "source-over";
+        }
+      } else {
+        pauldron(ctx, shoulder, face, s, "hsl(40 26% 70%)", "hsl(208 100% 84%)", 0);
+        fists("hsl(208 100% 88%)", "hsl(208 100% 60% / 0)");
       }
       break;
   }

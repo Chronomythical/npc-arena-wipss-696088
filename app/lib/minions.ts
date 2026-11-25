@@ -338,4 +338,85 @@ export const MINIONS: Crew[] = [
       surge: { from: "lantern-gaze", name: "Lamp Gaze" },
     }),
   },
+  // Book 2, chapter 2: the Sporemother's choir, everything the rot has taken
+  {
+    grunt: minion("grunt", "sporemother", {
+      base: "flora", name: "Sporeling", color: "hsl(316 22% 26%)", mark: "hsl(170 100% 64%)",
+      power: "Cap Bite", ability: "A walking mushroom with a mouth under its cap. It bites and leaves spores in the wound.",
+      tone: ["hsl(330 40% 44%)", "hsl(330 90% 82%)"], moves: ["Cap Bite", "Stalk Hop", "Puffball"],
+      surge: { from: "spore-lash", name: "Little Lash" },
+    }),
+    caster: minion("caster", "sporemother", {
+      base: "sono", name: "Choir Husk", color: "hsl(300 16% 30%)", mark: "hsl(170 100% 64%)",
+      power: "Borrowed Voice", ability: "Once a traveller in the wood. Now it only sings the hive's song, loud enough to knock you flat.",
+      tone: ["hsl(190 50% 40%)", "hsl(180 100% 84%)"], moves: ["Hollow Note", "Hush Wave", "Sour Chord", "Pull of the Song"],
+      surge: { from: "choir-spores", name: "Spore Verse" },
+    }),
+    brute: minion("brute", "sporemother", {
+      base: "terra", name: "Rotwood Giant", color: "hsl(24 26% 18%)", mark: "hsl(170 100% 64%)",
+      power: "Bark Rot", ability: "An old oak the fungus wears like armour. It hits like a falling tree.",
+      tone: ["hsl(28 34% 30%)", "hsl(90 60% 64%)"], moves: ["Stump Fist", "Root Quake", "Rot Boulder"],
+      surge: { from: "mycelium-bloom", name: "Rot Bloom" },
+    }),
+    elite: minion("elite", "sporemother", {
+      base: "toxi", name: "The Gardener", color: "hsl(312 30% 14%)", mark: "hsl(166 100% 70%)",
+      power: "Blight Shears", ability: "Tends the Sporemother's garden and cuts down anything that will not grow the right way.",
+      tone: ["hsl(300 40% 30%)", "hsl(166 100% 70%)"], moves: ["Shear Snip", "Blight Spray", "Weed Out", "Mulch"],
+      surge: { from: "hive-song", name: "Garden Hymn" },
+    }),
+  },
+  // Book 2, chapter 3: the Mnemovore's forgotten, people with their faces worn away
+  {
+    grunt: minion("grunt", "mnemovore", {
+      base: "shift", name: "Faceless", color: "hsl(262 12% 34%)", mark: "hsl(300 100% 82%)",
+      power: "Worn Away", ability: "Someone the Mnemovore finished with. It forgot its own face, so it borrows yours.",
+      tone: ["hsl(270 20% 50%)", "hsl(300 60% 88%)"], moves: ["Blank Jab", "Copy Swipe", "Mimic"],
+      surge: { from: "forget-touch", name: "Dull Touch" },
+    }),
+    caster: minion("caster", "mnemovore", {
+      base: "chrono", name: "Archivist", color: "hsl(250 16% 26%)", mark: "hsl(300 100% 82%)",
+      power: "Torn Pages", ability: "Rips pages out of the city's records and throws the moments written on them.",
+      tone: ["hsl(40 30% 70%)", "hsl(300 100% 88%)"], moves: ["Page Cut", "Lost Hour", "Torn Minute", "Ink Blot"],
+      surge: { from: "stolen-moments", name: "Stolen Second" },
+    }),
+    brute: minion("brute", "mnemovore", {
+      base: "magneto", name: "Statue Keeper", color: "hsl(220 8% 36%)", mark: "hsl(300 100% 82%)",
+      power: "Stone Memory", ability: "A statue of a hero nobody remembers, still guarding a square nobody visits.",
+      tone: ["hsl(210 10% 54%)", "hsl(220 20% 84%)"], moves: ["Plinth Smash", "Stone Pull", "Toppling Blow"],
+      surge: { from: "blank-page", name: "Blank Slam" },
+    }),
+    elite: minion("elite", "mnemovore", {
+      base: "tele", name: "The Understudy", color: "hsl(270 20% 16%)", mark: "hsl(306 100% 86%)",
+      power: "Stolen Life", ability: "Wears a life the Mnemovore ate and plays it perfectly. It steps in wherever someone was forgotten.",
+      tone: ["hsl(290 40% 34%)", "hsl(306 100% 86%)"], moves: ["Cue Strike", "Exit Left", "Spotlight", "Curtain Fall"],
+      surge: { from: "unremember", name: "Forgotten Step" },
+    }),
+  },
+  // Book 2, chapter 4: the Dustmoth's brood, things that crawled out of the moon dust
+  {
+    grunt: minion("grunt", "dustmoth", {
+      base: "velo", name: "Mothling", color: "hsl(34 14% 30%)", mark: "hsl(208 100% 84%)",
+      power: "Flutter Rush", ability: "Fast, small and always flying at the brightest thing it can see.",
+      tone: ["hsl(36 24% 52%)", "hsl(46 60% 84%)"], moves: ["Flutter Jab", "Wing Rush", "Dart"],
+      surge: { from: "wing-cut", name: "Dust Cut" },
+    }),
+    caster: minion("caster", "dustmoth", {
+      base: "lux", name: "Lamp Moth", color: "hsl(40 16% 34%)", mark: "hsl(208 100% 84%)",
+      power: "Stolen Glow", ability: "Swallowed so much moonlight it glows. It spits the light back out as bolts.",
+      tone: ["hsl(208 60% 70%)", "hsl(0 0% 100%)"], moves: ["Glow Jab", "Moonbolt", "Pale Flash", "Night Lances"],
+      surge: { from: "moon-dust", name: "Moon Puff" },
+    }),
+    brute: minion("brute", "dustmoth", {
+      base: "aero", name: "Cocoon Hulk", color: "hsl(36 12% 40%)", mark: "hsl(208 100% 84%)",
+      power: "Silk Armour", ability: "Never finished hatching. It wraps itself in silk thick enough to stop a sword.",
+      tone: ["hsl(40 20% 76%)", "hsl(40 40% 92%)"], moves: ["Silk Slam", "Cocoon Roll", "Thread Gust"],
+      surge: { from: "wingbeat", name: "Heavy Wingbeat" },
+    }),
+    elite: minion("elite", "dustmoth", {
+      base: "umbra", name: "The Moonless", color: "hsl(230 24% 12%)", mark: "hsl(208 100% 88%)",
+      power: "Moon Shadow", ability: "The shadow the Dustmoth throws across the moon, given claws. It hunts wherever the light has gone out.",
+      tone: ["hsl(230 40% 22%)", "hsl(208 100% 86%)"], moves: ["Crescent Claw", "Dark Side", "New Moon Orb", "Moonless Night"],
+      surge: { from: "dust-fall", name: "Ash Fall" },
+    }),
+  },
 ];

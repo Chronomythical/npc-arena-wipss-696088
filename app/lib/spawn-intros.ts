@@ -2169,6 +2169,145 @@ export const BOSS_INTROS: Record<BossDesign, IntroSpec> = {
       ctx.restore();
     },
   },
+  // The Sporemother: the floor splits and pale roots crawl out across it, a ring of mushrooms bursts up in a
+  // circle, they all open their caps and sing, and the boss grows up out of the middle of the ring.
+  sporemother: {
+    len: BOSS_LEN, hit: 0.62, shake: 10, wave: ["hsl(170 100% 64%)", "hsl(318 26% 17%)"],
+    body: (u, s) => base(u < 0.62 ? "rise" : settle(u, "flex", 0.8), {
+      alpha: seg(u, 0.36, 0.6),
+      dy: (1 - easeOut(seg(u, 0.36, 0.64))) * 70 * s,
+      sy: 0.4 + 0.6 * easeOut(seg(u, 0.36, 0.64)), clip: true,
+      solid: "hsl(318 30% 14%)", solidA: 1 - seg(u, 0.58, 0.86),
+    }),
+    bursts: [
+      { at: 0.62, n: 34, spd: 360, shape: "dust", a: "hsl(170 100% 70%)", b: "hsl(320 70% 84%)", grav: -40, add: true, from: "body", dir: "out" },
+      { at: 0.62, n: 14, spd: 260, shape: "leaf", a: "hsl(316 30% 30%)", b: "hsl(24 30% 26%)", grav: 300, add: false, from: "feet", dir: "up" },
+    ],
+    trickle: { rate: 26, until: 0.62, spd: 70, shape: "dust", a: "hsl(170 100% 70%)", b: "hsl(320 60% 80%)", grav: -90, add: true, from: "feet", dir: "out", life: 1 },
+    back: ({ ctx, x, y, s, u, t }) => {
+      const on = seg(u, 0, 0.16) * (1 - seg(u, 0.8, 1));
+      if (on <= 0) return;
+      ctx.save();
+      // roots crawling out across the floor
+      ctx.strokeStyle = hsla(40, 20, 74, 0.85 * on);
+      ctx.lineCap = "round";
+      const grow = easeOut(seg(u, 0.02, 0.34));
+      for (let i = 0; i < 8; i++) {
+        const dir = i % 2 ? 1 : -1, len = (90 + wob(i * 2.7) * 60 + 60) * s * grow;
+        ctx.lineWidth = (4 - (i % 3)) * s;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        for (let k = 1; k <= 6; k++) ctx.lineTo(x + dir * (len * k) / 6, y + Math.sin(k * 1.7 + i) * 3 * s);
+        ctx.stroke();
+      }
+      // the ring of mushrooms bursting up, then opening and singing
+      const pop = easeOut(seg(u, 0.18, 0.4));
+      for (let i = 0; i < 7; i++) {
+        const mx = x + (i - 3) * 30 * s, h = (14 + (i % 3) * 8) * s * pop;
+        if (h <= 0) continue;
+        ctx.strokeStyle = hsla(40, 20, 80, on);
+        ctx.lineWidth = 3 * s;
+        ctx.beginPath();
+        ctx.moveTo(mx, y);
+        ctx.lineTo(mx, y - h);
+        ctx.stroke();
+        ctx.fillStyle = hsla(320, 30, 38, on);
+        ctx.beginPath();
+        ctx.ellipse(mx, y - h, 9 * s * pop, 6 * s * pop, 0, Math.PI, Math.PI * 2);
+        ctx.fill();
+        const sing = seg(u, 0.32, 0.5);
+        if (sing > 0) glow(ctx, mx, y - h - 6 * s, 14 * s, 14 * s * (1 + Math.sin(t * 8 + i) * 0.2), hsla(170, 100, 66, 0.6 * sing * on), hsla(170, 100, 60, 0));
+      }
+      ctx.restore();
+    },
+  },
+  // The Mnemovore: the arena drains of colour like an old photograph, a doorway that was never there is drawn
+  // in thin pale lines, it opens onto white, and the boss steps out of it while the doorway is forgotten again.
+  mnemovore: {
+    len: BOSS_LEN, hit: 0.6, shake: 8, wave: ["hsl(300 100% 82%)", "hsl(262 18% 20%)"],
+    body: (u, s) => base(u < 0.6 ? "float" : settle(u, "guard", 0.8), {
+      alpha: seg(u, 0.4, 0.6),
+      dx: (1 - easeOut(seg(u, 0.4, 0.62))) * -18 * s,
+      solid: "hsl(40 30% 92%)", solidA: 1 - seg(u, 0.56, 0.84),
+    }),
+    bursts: [
+      { at: 0.6, n: 28, spd: 320, shape: "pixel", a: "hsl(300 100% 84%)", b: "hsl(0 0% 100%)", grav: 0, add: true, from: "body", dir: "out" },
+      { at: 0.6, n: 12, spd: 180, shape: "glyph", a: "hsl(40 30% 88%)", b: "hsl(270 20% 60%)", grav: 60, add: false, from: "body", dir: "out" },
+    ],
+    back: ({ ctx, x, y, s, u }) => {
+      const on = easeOut(seg(u, 0, 0.18)) * (1 - seg(u, 0.78, 1));
+      if (on <= 0) return;
+      ctx.save();
+      // everything fades like an old photograph
+      ctx.fillStyle = hsla(36, 20, 80, 0.32 * on);
+      ctx.fillRect(-400, -400, 2000, 1200);
+      // a doorway that was never there, drawn in pale lines, then opening onto white
+      const draw = easeOut(seg(u, 0.08, 0.34));
+      const dw = 40 * s, dh = 120 * s;
+      ctx.strokeStyle = hsla(300, 60, 70, 0.9 * on);
+      ctx.lineWidth = 2 * s;
+      ctx.beginPath();
+      ctx.moveTo(x - dw, y);
+      ctx.lineTo(x - dw, y - dh * Math.min(1, draw * 2));
+      if (draw > 0.5) ctx.lineTo(x - dw + 2 * dw * Math.min(1, (draw - 0.5) * 4), y - dh);
+      if (draw > 0.75) ctx.lineTo(x + dw, y - dh + dh * Math.min(1, (draw - 0.75) * 4));
+      ctx.stroke();
+      const open = seg(u, 0.34, 0.5) * (1 - seg(u, 0.64, 0.78));
+      if (open > 0) {
+        ctx.fillStyle = hsla(40, 30, 96, open * on);
+        ctx.fillRect(x - dw, y - dh, 2 * dw, dh);
+        glow(ctx, x, y - dh / 2, 90 * s, 90 * s, hsla(300, 100, 90, 0.5 * open), hsla(300, 100, 80, 0));
+      }
+      ctx.restore();
+    },
+  },
+  // The Dustmoth: the moon's light gutters, a cloud of dust and small moths spirals down out of the dark, the
+  // dust gathers into a huge pair of folded wings, and they open on the boss with a wingbeat that shakes the arena.
+  dustmoth: {
+    len: BOSS_LEN, hit: 0.66, shake: 14, wave: ["hsl(208 100% 84%)", "hsl(32 12% 22%)"],
+    body: (u, s) => base(u < 0.66 ? "air" : settle(u, "land", 0.8), {
+      alpha: seg(u, 0.44, 0.66),
+      dy: -(1 - easeOut(seg(u, 0.3, 0.66))) * 120 * s,
+      solid: "hsl(34 16% 30%)", solidA: 1 - seg(u, 0.6, 0.88),
+    }),
+    bursts: [
+      { at: 0.66, n: 40, spd: 520, shape: "dust", a: "hsl(40 40% 80%)", b: "hsl(208 100% 86%)", grav: 80, add: false, from: "body", dir: "out" },
+      { at: 0.66, n: 18, spd: 300, shape: "star", a: "hsl(208 100% 88%)", b: "hsl(0 0% 100%)", grav: -20, add: true, from: "body", dir: "out" },
+    ],
+    trickle: { rate: 30, until: 0.62, spd: 120, shape: "leaf", a: "hsl(36 20% 60%)", b: "hsl(40 30% 80%)", grav: 120, add: false, from: "body", dir: "out", life: 0.9 },
+    back: ({ ctx, x, y, s, u, t }) => {
+      const dark = easeOut(seg(u, 0, 0.2)) * (1 - seg(u, 0.8, 1));
+      if (dark <= 0) return;
+      ctx.save();
+      ctx.fillStyle = hsla(230, 40, 6, 0.55 * dark);
+      ctx.fillRect(-400, -400, 2000, 1200);
+      // dust spiralling down out of the dark
+      const fall = seg(u, 0.05, 0.6);
+      ctx.fillStyle = hsla(40, 30, 80, 0.8 * dark);
+      for (let i = 0; i < 40; i++) {
+        const k = (i / 40 + fall) % 1;
+        const r = (140 - k * 120) * s, a = t * 2 + i * 0.7;
+        ctx.fillRect(x + Math.cos(a) * r, y - 90 * s - 200 * s * (1 - k) + Math.sin(a) * r * 0.3, 2 * s, 2 * s);
+      }
+      // the dust gathers into folded wings, which open as it lands
+      const form = easeOut(seg(u, 0.36, 0.6));
+      const spread = easeOut(seg(u, 0.6, 0.74));
+      if (form > 0) {
+        for (const dir of [1, -1]) {
+          ctx.fillStyle = hsla(34, 20, 40, 0.9 * form * dark);
+          ctx.beginPath();
+          ctx.moveTo(x, y - 80 * s);
+          ctx.quadraticCurveTo(x + dir * (20 + spread * 110) * s, y - (150 + spread * 40) * s, x + dir * (14 + spread * 120) * s, y - (20 + spread * 40) * s);
+          ctx.quadraticCurveTo(x + dir * 10 * s, y - 30 * s, x, y - 80 * s);
+          ctx.fill();
+          if (spread > 0) {
+            glow(ctx, x + dir * 70 * s * spread, y - 100 * s, 16 * s, 16 * s, hsla(40, 90, 60, spread * dark), hsla(40, 90, 50, 0));
+          }
+        }
+      }
+      ctx.restore();
+    },
+  },
 };
 
 // ---------- hybrids ----------

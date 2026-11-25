@@ -81,6 +81,12 @@ const BOSS_STANCE: Record<BossDesign, Pose> = {
   axiom: { t: -0.04, aF1: 0.95, aF2: 1.25, aB1: -0.95, aB2: -1.25, lF1: 0.12, lF2: -0.08, lB1: -0.1, lB2: -0.2 },
   // The Lanternmaw: stooped forward under its lure, one claw reaching out, the other hanging low
   lanternmaw: { t: 0.32, aF1: 1.35, aF2: 1.7, aB1: 0.35, aB2: 0.2, lF1: 0.4, lF2: -0.1, lB1: -0.3, lB2: -0.25 },
+  // The Sporemother: swollen and slow, leaning back, both arms raised a little as if conducting its choir
+  sporemother: { t: -0.12, aF1: 0.7, aF2: 1.6, aB1: -0.6, aB2: -1.4, lF1: 0.18, lF2: 0.05, lB1: -0.2, lB2: -0.05 },
+  // The Mnemovore: very tall and very still, long arms hanging straight down, head tilted as if listening
+  mnemovore: { t: 0.06, aF1: 0.2, aF2: 0.1, aB1: -0.15, aB2: -0.1, lF1: 0.1, lF2: 0.0, lB1: -0.1, lB2: 0.0 },
+  // The Dustmoth: hunched forward, both clawed arms tucked up under the chin like a praying insect
+  dustmoth: { t: 0.2, aF1: 1.9, aF2: 2.6, aB1: 1.6, aB2: 2.5, lF1: 0.3, lF2: 0.1, lB1: -0.25, lB2: -0.1 },
 };
 /** How each boss breathes at rest: speed, torso sway, arm sway (front, back) and knee bob. */
 const BOSS_IDLE: Record<BossDesign, { hz: number; t: number; aF: number; aB: number; l: number }> = {
@@ -93,6 +99,9 @@ const BOSS_IDLE: Record<BossDesign, { hz: number; t: number; aF: number; aB: num
   blacksun: { hz: 1.4, t: 0.02, aF: 0.03, aB: 0.03, l: 0 },
   axiom: { hz: 1.1, t: 0.02, aF: 0.1, aB: -0.1, l: 0.03 },
   lanternmaw: { hz: 1.3, t: 0.06, aF: 0.12, aB: 0.06, l: 0.03 },
+  sporemother: { hz: 1.0, t: 0.05, aF: 0.14, aB: 0.12, l: 0.02 },
+  mnemovore: { hz: 0.6, t: 0.02, aF: 0.03, aB: 0.03, l: 0.01 },
+  dustmoth: { hz: 2.6, t: 0.03, aF: 0.05, aB: 0.05, l: 0.04 },
 };
 /** Hybrids pick one of these by their pair, so the same pair always stands the same way: two powers held ready at once. */
 const HYBRID_STANCES: Pose[] = [

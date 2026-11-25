@@ -937,6 +937,153 @@
           "l2": "Good. Let it come up and take a proper look.",
           "l3": "The sea goes still. Far above, a second crack opens in the sky, and through it something enormous turns one eye toward the world."
         }
+      },
+      "c10": {
+        "intro": {
+          "l1": "The eye in the sky looked down once, and where its gaze fell, the Mirewood began to sing.",
+          "l2": "Travellers who went in to listen never came out. Now the trees are wearing their voices.",
+          "l3": "Deep in the wood, the second herald of the Elder Dark has planted a garden. Everything in it belongs to one mind."
+        },
+        "s1": {
+          "l1": "Hush. Hear it? The whole wood is humming the same note.",
+          "l2": "We hear it. We just don't feel like humming."
+        },
+        "s2": {
+          "l1": "Stay a while. Breathe deep. The spores are kind.",
+          "l2": "We'll hold our breath, thanks."
+        },
+        "s3": {
+          "l1": "I came here looking for my brother. Now I sing with him.",
+          "l2": "Then we'll get you both out."
+        },
+        "s4": {
+          "l1": "This oak stood a thousand years. The rot took it in one night.",
+          "l2": "And we'll take it back in one fight."
+        },
+        "s5": {
+          "l1": "Every one of us is a mouth. All of us are one voice.",
+          "l2": "Lucky for you, we're used to fighting crowds."
+        },
+        "s6": {
+          "l1": "The song gets louder the further in you walk.",
+          "l2": "Good. We'll know we're getting close."
+        },
+        "s7": {
+          "l1": "Lie down in the moss. Let it grow over you. It stops hurting after a while.",
+          "l2": "We'll stay standing."
+        },
+        "s8": {
+          "l1": "Weeds. You are weeds in Mother's garden. I am here to pull you out.",
+          "l2": "Bring your shears. You'll need them."
+        },
+        "s9": {
+          "l1": "Little voices. Each of you sings alone. How lonely that must be.",
+          "l2": "We're not alone. We're just not yours.",
+          "l3": "Everyone joins the choir in the end. Let me show you the harmony."
+        },
+        "outro": {
+          "l1": "The song does not end. It only moves to a new garden. And the one who eats memories is already feeding.",
+          "l2": "Then we'll find it before it gets full.",
+          "l3": "The wood falls quiet and the travellers wake up in the moss, coughing. But far away, a whole city has started to forget its own name."
+        }
+      },
+      "c11": {
+        "intro": {
+          "l1": "Greyhaven was the city that stood longest against the Reign 8. Its people swore they would never forget.",
+          "l2": "Now they can't remember the war, or their neighbours, or the way home. Streets are fading off the map one by one.",
+          "l3": "The third herald of the Elder Dark is eating the city's memories, and every one it swallows makes it stronger."
+        },
+        "s1": {
+          "l1": "Have we met? You have the kind of face people forget.",
+          "l2": "We'll make sure you remember this one."
+        },
+        "s2": {
+          "l1": "I filed this street under Never Was. It has stopped being there.",
+          "l2": "We're walking on it right now."
+        },
+        "s3": {
+          "l1": "I guarded this square for a hero. I can't remember which one.",
+          "l2": "Then let's make some new memories."
+        },
+        "s4": {
+          "l1": "I borrowed this face from a baker. He won't be needing it.",
+          "l2": "Give it back when we're done."
+        },
+        "s5": {
+          "l1": "The records say you won a great war. Shall I tear out the page?",
+          "l2": "Tear all you like. We were there."
+        },
+        "s6": {
+          "l1": "Every clock in Greyhaven stopped at the same minute. It forgot the next one.",
+          "l2": "Then we'll wind it back up."
+        },
+        "s7": {
+          "l1": "Your friends, your homes, your names. Tell me the one you'd miss least.",
+          "l2": "None of them are on the menu."
+        },
+        "s8": {
+          "l1": "I play the lives the master leaves behind. Tonight I'll play yours.",
+          "l2": "Sorry. We're not finished with them."
+        },
+        "s9": {
+          "l1": "I know you. You beat eight tyrants and one herald of the deep. I can taste it on you.",
+          "l2": "Then you know how this ends.",
+          "l3": "Endings are only memories too. And I am so very hungry."
+        },
+        "outro": {
+          "l1": "Before you came I ate the oldest memory in this city. It was of the Elder Dark, before the stars were lit. It remembers the way home.",
+          "l2": "Then it can forget it.",
+          "l3": "Greyhaven's streets come back one by one, and its people remember their names. That night the moon rises with a shadow across it, and the shadow has wings."
+        }
+      },
+      "c12": {
+        "intro": {
+          "l1": "Above the Starward Peaks, the old observatory has watched the moon for three hundred years.",
+          "l2": "Last night its keepers watched a shape cross the moon, and then another, and then a thousand more. The moon is going dark.",
+          "l3": "The fourth herald of the Elder Dark has come to eat the last light in the night sky, and the brightest things on the mountain are its first meal."
+        },
+        "s1": {
+          "l1": "Bright. You're so bright. Hold still.",
+          "l2": "You'll find we're hard to catch."
+        },
+        "s2": {
+          "l1": "I swallowed a lamp once. Then another. I can't stop.",
+          "l2": "We'll help you stop."
+        },
+        "s3": {
+          "l1": "The moon tastes of frost and silver. Soon there'll be none left.",
+          "l2": "Leave the moon alone."
+        },
+        "s4": {
+          "l1": "I never finished hatching. The Mother says I don't need to.",
+          "l2": "Then you won't be needing these wings either."
+        },
+        "s5": {
+          "l1": "Look how the stars go out. One by one, like lamps at bedtime.",
+          "l2": "We're not sleepy."
+        },
+        "s6": {
+          "l1": "The keepers lit every lamp in the tower to call for help. We ate the lamps first.",
+          "l2": "Help's here anyway."
+        },
+        "s7": {
+          "l1": "Can you feel the dust in your eyes? Soon you won't need them.",
+          "l2": "We've fought blind before."
+        },
+        "s8": {
+          "l1": "I am the dark side of the moon. When the Mother is finished, I'll be the only side.",
+          "l2": "Not tonight."
+        },
+        "s9": {
+          "l1": "Small lights. I have eaten suns smaller than you, in the dark between the stars.",
+          "l2": "Then you've never eaten anything that fights back.",
+          "l3": "Everything flickers out when my wings close. Come into the dark."
+        },
+        "outro": {
+          "l1": "Too late, little lights. With the moon dark for one night, the door was open long enough.",
+          "l2": "Open for what?",
+          "l3": "The moon comes back, pale and scarred. But behind it the stars have moved, and they trace a shape that was never there before: something vast, waiting at the edge of the sky."
+        }
       }
     },
     "map": {
@@ -977,6 +1124,48 @@
         "s7": "Kelp Cathedral",
         "s8": "The Hadal Gate",
         "s9": "The Lanternmaw's Deep"
+      }
+    },
+    "ch10": {
+      "title": "Chapter 2: The Singing Rot",
+      "stages": {
+        "s1": "Mirewood Edge",
+        "s2": "The Humming Path",
+        "s3": "Hollow Oaks",
+        "s4": "Rotwood Bridge",
+        "s5": "The Spore Glade",
+        "s6": "Choir Hollow",
+        "s7": "The Mossbed",
+        "s8": "The Gardener's Rows",
+        "s9": "The Sporemother's Garden"
+      }
+    },
+    "ch11": {
+      "title": "Chapter 3: The City That Forgets",
+      "stages": {
+        "s1": "Greyhaven Gate",
+        "s2": "Unnamed Street",
+        "s3": "Statue Square",
+        "s4": "The Bakers' Row",
+        "s5": "The Hall of Records",
+        "s6": "Clock Tower Stop",
+        "s7": "The Faded Quarter",
+        "s8": "The Empty Theatre",
+        "s9": "The Blank Page"
+      }
+    },
+    "ch12": {
+      "title": "Chapter 4: The Moth Moon",
+      "stages": {
+        "s1": "Starward Trail",
+        "s2": "Lamp Post Climb",
+        "s3": "Frost Ridge",
+        "s4": "Cocoon Hollow",
+        "s5": "The Silver Steps",
+        "s6": "Keepers' Tower",
+        "s7": "The Dusty Terrace",
+        "s8": "The Dark Side",
+        "s9": "The Dustmoth's Eclipse"
       }
     }
   },

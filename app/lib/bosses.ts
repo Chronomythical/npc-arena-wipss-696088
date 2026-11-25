@@ -4,7 +4,7 @@
 import type { BossDesign, FighterDef, Move } from "./fighters";
 import type { Form } from "./forms";
 
-export type BossId = "nullshade" | "maelstrom" | "magmaw" | "everwinter" | "riftmaker" | "hollowking" | "blacksun" | "axiom" | "lanternmaw";
+export type BossId = "nullshade" | "maelstrom" | "magmaw" | "everwinter" | "riftmaker" | "hollowking" | "blacksun" | "axiom" | "lanternmaw" | "sporemother" | "mnemovore" | "dustmoth";
 
 const M = (m: Omit<Move, "wind" | "act" | "rec"> & Partial<Pick<Move, "wind" | "act" | "rec">>): Move => ({
   wind: 0.2,
@@ -139,6 +139,51 @@ export const BOSSES: Record<BossId, FighterDef> = {
       M({ id: "drowned-whispers", name: "Drowned Whispers", kind: "projectile", anim: "cast", range: 560, minRange: 80, cd: 2.8, dmg: 6, speed: 420, size: 11, count: 3, spread: 0.24, shape: "orb", status: "blind", statusDur: 0.8 }),
       M({ id: "lantern-gaze", name: "Lantern Gaze", kind: "beam", anim: "thrust", range: 500, minRange: 70, cd: 3.4, dmg: 14, act: 0.34, status: "blind", statusDur: 1, wind: 0.32 }),
       M({ id: "crushing-deep", name: "Crushing Deep", kind: "zone", anim: "slam", range: 400, cd: 9, dmg: 6, radius: 140, dur: 4.5, pullIn: 140, status: "slow", statusDur: 0.6, wind: 0.36 }),
+    ],
+  },
+  // Book 2, chapter 2. The second herald: a fungal hive grown out of a drowned forest, one mind singing
+  // through a thousand mouths. Its spores poison, its roots drag you in, and its song stops you dead.
+  sporemother: {
+    id: "toxi", boss: "sporemother", name: "The Sporemother", power: "Hive Bloom", role: "control",
+    ability: "A fungal hive that grew out of the Elder Dark's first crack. Its spores poison, its roots drag enemies in, and everything it infects joins its song.",
+    color: "hsl(318 26% 17%)", glow: "hsl(170 100% 64%)", hp: 500, speed: 84,
+    moves: [
+      M({ id: "spore-lash", name: "Spore Lash", kind: "melee", anim: "lunge", range: 96, cd: 1, dmg: 10, kb: 220, status: "poison", statusDur: 2 }),
+      M({ id: "choir-spores", name: "Choir Spores", kind: "projectile", anim: "cast", range: 560, minRange: 80, cd: 2.6, dmg: 5, speed: 380, size: 11, count: 4, spread: 0.3, shape: "orb", status: "poison", statusDur: 2 }),
+      M({ id: "root-snare", name: "Root Snare", kind: "pull", anim: "slam", range: 460, minRange: 110, cd: 4.5, dmg: 8, status: "slow", statusDur: 1.2, wind: 0.28 }),
+      M({ id: "mycelium-bloom", name: "Mycelium Bloom", kind: "eruption", anim: "raise", range: 540, minRange: 40, cd: 5.5, dmg: 11, radius: 46, count: 3, lift: -520, status: "poison", statusDur: 2.5, wind: 0.36 }),
+      M({ id: "hive-song", name: "Hive Song", kind: "burst", anim: "raise", range: 150, cd: 6.5, dmg: 12, radius: 160, kb: 300, status: "stun", statusDur: 0.6, wind: 0.34 }),
+      M({ id: "rot-garden", name: "Rot Garden", kind: "zone", anim: "slam", range: 400, cd: 9, dmg: 6, radius: 140, dur: 5, status: "poison", statusDur: 1.5, wind: 0.36 }),
+    ],
+  },
+  // Book 2, chapter 3. The third herald: a tall, faceless thing that eats memories. Whatever it touches forgets
+  // how to move, how to aim, and finally who it is. It steps out of the places people forgot.
+  mnemovore: {
+    id: "chrono", boss: "mnemovore", name: "The Mnemovore", power: "Memory Eating", role: "trickster",
+    ability: "A herald of the Elder Dark that feeds on memories. Its touch makes enemies forget how to move, it steps out of forgotten places, and every memory it eats makes it stronger.",
+    color: "hsl(262 18% 20%)", glow: "hsl(300 100% 82%)", hp: 530, speed: 96,
+    moves: [
+      M({ id: "forget-touch", name: "Forgetting Touch", kind: "melee", anim: "thrust", range: 84, cd: 0.95, dmg: 10, kb: 200, status: "stun", statusDur: 0.3 }),
+      M({ id: "stolen-moments", name: "Stolen Moments", kind: "projectile", anim: "cast", range: 580, minRange: 90, cd: 2.4, dmg: 6, speed: 560, size: 10, count: 3, spread: 0.18, shape: "shard", status: "slow", statusDur: 1 }),
+      M({ id: "unremember", name: "Unremember", kind: "blink", anim: "kick", range: 560, minRange: 130, cd: 4, dmg: 13, kb: 300, lift: -300 }),
+      M({ id: "fade-ray", name: "Fade Ray", kind: "beam", anim: "thrust", range: 520, minRange: 70, cd: 3.4, dmg: 13, act: 0.32, status: "slow", statusDur: 1.2, wind: 0.32 }),
+      M({ id: "memory-sink", name: "Memory Sink", kind: "zone", anim: "cast", range: 400, cd: 9, dmg: 6, radius: 130, dur: 4.5, pullIn: 160, status: "slow", statusDur: 0.6, wind: 0.34 }),
+      M({ id: "blank-page", name: "Blank Page", kind: "burst", anim: "raise", range: 150, cd: 7, dmg: 13, radius: 170, kb: 360, status: "stun", statusDur: 0.5, wind: 0.34 }),
+    ],
+  },
+  // Book 2, chapter 4. The fourth herald: a moth the size of a cathedral that came to eat the moon. The dust off
+  // its wings blinds, its wingbeats throw whole crowds, and the eyes on its wings stop you where you stand.
+  dustmoth: {
+    id: "aero", boss: "dustmoth", name: "The Dustmoth", power: "Void Dust", role: "control",
+    ability: "A herald of the Elder Dark that flew in from the space between stars to eat the moon. The dust off its wings blinds, its wingbeats throw crowds aside, and the eyes on its wings hold you still.",
+    color: "hsl(32 12% 22%)", glow: "hsl(208 100% 84%)", hp: 560, speed: 92,
+    moves: [
+      M({ id: "wing-cut", name: "Wing Cut", kind: "melee", anim: "spin", range: 98, cd: 1, dmg: 11, kb: 260, status: "blind", statusDur: 0.4 }),
+      M({ id: "moon-dust", name: "Moon Dust", kind: "projectile", anim: "cast", range: 580, minRange: 80, cd: 2.6, dmg: 5, speed: 460, size: 10, count: 4, spread: 0.26, shape: "orb", status: "blind", statusDur: 0.8 }),
+      M({ id: "ash-gale", name: "Ash Gale", kind: "dash", anim: "lunge", range: 520, minRange: 90, cd: 4.5, dmg: 13, kb: 360, lift: -240, wind: 0.3 }),
+      M({ id: "wingbeat", name: "Wingbeat", kind: "burst", anim: "raise", range: 160, cd: 6, dmg: 13, radius: 180, kb: 520, lift: -360, wind: 0.32 }),
+      M({ id: "dust-fall", name: "Dust Fall", kind: "rain", anim: "raise", range: 540, cd: 5.5, dmg: 7, count: 7, radius: 170, size: 9, status: "blind", statusDur: 0.6, wind: 0.34 }),
+      M({ id: "moth-swarm", name: "Moth Swarm", kind: "zone", anim: "cast", range: 400, cd: 9, dmg: 6, radius: 140, dur: 4.5, status: "blind", statusDur: 0.6, wind: 0.36 }),
     ],
   },
 };
@@ -411,6 +456,93 @@ export const BOSS_PHASES: Partial<Record<BossDesign, Form[]>> = {
       moves: [
         M({ id: "call-of-the-deep", name: "Call of the Deep", kind: "zone", anim: "raise", range: 440, cd: 10, dmg: 7, radius: 200, dur: 5, pullIn: 240, status: "slow", statusDur: 0.6, wind: 0.4 }),
         M({ id: "elder-gaze", name: "The Elder Gaze", kind: "burst", anim: "raise", range: 480, cd: 12, dmg: 15, radius: 430, kb: 400, lift: -380, status: "blind", statusDur: 1.5, wind: 0.55, rec: 0.35 }),
+      ],
+    },
+  ],
+  sporemother: [
+    {
+      ...P2, power: "toxi", title: "THE CHOIR SWELLS", dodge: 0.1,
+      blurb: "Mushroom caps burst open across its back and every one of them sings. Spores rain from the canopy, and its roots grab from further away.",
+      body: "hsl(316 28% 20%)", glow: "hsl(170 100% 68%)", a: "hsl(300 40% 40%)", b: "hsl(170 100% 72%)",
+      moves: [
+        M({ id: "spore-rain", name: "Spore Rain", kind: "rain", anim: "raise", range: 540, cd: 5.5, dmg: 6, count: 8, radius: 170, size: 10, status: "poison", statusDur: 2, wind: 0.34 }),
+        M({ id: "puppet-roots", name: "Puppet Roots", kind: "pull", anim: "cast", range: 500, minRange: 100, cd: 4.5, dmg: 9, status: "stun", statusDur: 0.4, wind: 0.26 }),
+      ],
+    },
+    {
+      ...P3, power: "toxi", title: "ONE MIND", drain: 0.12,
+      blurb: "A ring of glowing fruiting bodies rises round its head like a crown. Its song becomes a beam, and every hit feeds the hive.",
+      body: "hsl(312 30% 15%)", glow: "hsl(160 100% 72%)", a: "hsl(170 90% 50%)", b: "hsl(320 80% 84%)",
+      moves: [
+        M({ id: "fruiting-spires", name: "Fruiting Spires", kind: "eruption", anim: "slam", range: 560, minRange: 40, cd: 6, dmg: 13, radius: 50, count: 4, lift: -640, status: "poison", statusDur: 2, wind: 0.38 }),
+        M({ id: "chorus-beam", name: "Chorus Beam", kind: "beam", anim: "thrust", range: 540, minRange: 70, cd: 4, dmg: 15, act: 0.36, status: "stun", statusDur: 0.5, wind: 0.34 }),
+      ],
+    },
+    {
+      ...P4, power: "toxi", title: "GARDEN OF THE ELDER DARK", guard: 0.8, regen: 1.2,
+      blurb: "The whole forest floor wakes up under it and sings with one voice. The Last Bloom covers most of the arena in spores, and Everything Sings drags everyone into the rot.",
+      body: "hsl(310 34% 10%)", glow: "hsl(166 100% 76%)", a: "hsl(160 100% 40%)", b: "hsl(300 100% 86%)", dark: "hsl(320 40% 6%)",
+      moves: [
+        M({ id: "everything-sings", name: "Everything Sings", kind: "zone", anim: "raise", range: 440, cd: 10, dmg: 7, radius: 200, dur: 5, pullIn: 200, status: "poison", statusDur: 1.5, wind: 0.4 }),
+        M({ id: "last-bloom", name: "The Last Bloom", kind: "burst", anim: "raise", range: 480, cd: 12, dmg: 15, radius: 430, kb: 380, lift: -360, status: "poison", statusDur: 3, wind: 0.55, rec: 0.35 }),
+      ],
+    },
+  ],
+  mnemovore: [
+    {
+      ...P2, power: "chrono", title: "THE HUNGER OPENS", dodge: 0.14,
+      blurb: "Its blank face splits down the middle into a mouth full of stolen moments. Old memories swarm out of it, and it reels in whoever forgets to run.",
+      body: "hsl(266 20% 22%)", glow: "hsl(300 100% 84%)", a: "hsl(280 40% 46%)", b: "hsl(300 100% 86%)",
+      moves: [
+        M({ id: "echo-swarm", name: "Echo Swarm", kind: "projectile", anim: "cast", range: 600, minRange: 80, cd: 3, dmg: 5, speed: 600, size: 9, count: 5, spread: 0.3, shape: "shard", status: "slow", statusDur: 0.6 }),
+        M({ id: "lost-way", name: "Lost Way", kind: "pull", anim: "cast", range: 480, minRange: 110, cd: 4.5, dmg: 9, status: "stun", statusDur: 0.4, wind: 0.26 }),
+      ],
+    },
+    {
+      ...P3, power: "chrono", title: "A THOUSAND FACES", drain: 0.14,
+      blurb: "The faces of everyone it has eaten drift around it like masks. They fall on you as it calls them down, and every hit it lands eats a little more.",
+      body: "hsl(270 22% 16%)", glow: "hsl(310 100% 86%)", a: "hsl(300 70% 70%)", b: "hsl(0 0% 100%)",
+      moves: [
+        M({ id: "falling-faces", name: "Falling Faces", kind: "rain", anim: "raise", range: 540, cd: 6, dmg: 8, count: 7, radius: 170, size: 11, status: "stun", statusDur: 0.25, wind: 0.36, rec: 0.3 }),
+        M({ id: "devoured-years", name: "Devoured Years", kind: "beam", anim: "thrust", range: 560, minRange: 70, cd: 4.2, dmg: 16, act: 0.36, status: "slow", statusDur: 1.5, wind: 0.34 }),
+      ],
+    },
+    {
+      ...P4, power: "chrono", title: "THE DARK REMEMBERS YOU", guard: 0.8, regen: 1.2,
+      blurb: "The page of the world behind it goes blank and a halo of written names burns round its head. The Blank drags everyone in, and Oblivion wipes most of the arena.",
+      body: "hsl(270 24% 9%)", glow: "hsl(300 100% 88%)", a: "hsl(280 50% 20%)", b: "hsl(300 100% 86%)", dark: "hsl(270 40% 4%)",
+      moves: [
+        M({ id: "the-blank", name: "The Blank", kind: "zone", anim: "raise", range: 440, cd: 10, dmg: 7, radius: 200, dur: 5, pullIn: 240, status: "slow", statusDur: 0.6, wind: 0.4 }),
+        M({ id: "oblivion", name: "Oblivion", kind: "burst", anim: "raise", range: 480, cd: 12, dmg: 16, radius: 430, kb: 400, lift: -360, status: "stun", statusDur: 0.8, wind: 0.55, rec: 0.35 }),
+      ],
+    },
+  ],
+  dustmoth: [
+    {
+      ...P2, power: "aero", title: "THE WINGS OPEN", dodge: 0.14,
+      blurb: "Its folded wings spread wide and two great eyespots stare out of them. Their stare holds you still, and its antennae taste for whoever is hiding.",
+      body: "hsl(34 14% 26%)", glow: "hsl(208 100% 86%)", a: "hsl(30 20% 50%)", b: "hsl(208 100% 86%)",
+      moves: [
+        M({ id: "eyespot-stare", name: "Eyespot Stare", kind: "beam", anim: "thrust", range: 540, minRange: 70, cd: 4, dmg: 13, act: 0.34, status: "stun", statusDur: 0.5, wind: 0.32 }),
+        M({ id: "silk-line", name: "Silk Line", kind: "pull", anim: "cast", range: 480, minRange: 110, cd: 4.5, dmg: 9, status: "slow", statusDur: 1.2, wind: 0.26 }),
+      ],
+    },
+    {
+      ...P3, power: "aero", title: "THE MOON EATER", drain: 0.12,
+      blurb: "A pale crescent of stolen moonlight hangs in its jaws, and its wings shed glowing scales. Moonlight spears up out of the ground, and every hit feeds it.",
+      body: "hsl(30 14% 18%)", glow: "hsl(204 100% 88%)", a: "hsl(210 70% 70%)", b: "hsl(0 0% 100%)",
+      moves: [
+        M({ id: "moon-spears", name: "Moon Spears", kind: "eruption", anim: "slam", range: 560, minRange: 40, cd: 6, dmg: 13, radius: 46, count: 4, lift: -700, status: "blind", statusDur: 0.6, wind: 0.38 }),
+        M({ id: "scale-storm", name: "Scale Storm", kind: "projectile", anim: "cast", range: 600, minRange: 80, cd: 3.2, dmg: 5, speed: 620, size: 9, count: 6, spread: 0.32, shape: "disc", status: "blind", statusDur: 0.5 }),
+      ],
+    },
+    {
+      ...P4, power: "aero", title: "WINGS OVER THE WORLD", guard: 0.8, regen: 1.2,
+      blurb: "A second pair of wings opens, made of the night sky itself, and the moon behind it goes dark. Last Light pulls everyone toward it, and Eclipse of Wings blasts most of the arena.",
+      body: "hsl(230 30% 8%)", glow: "hsl(208 100% 90%)", a: "hsl(230 50% 20%)", b: "hsl(208 100% 86%)", dark: "hsl(230 50% 4%)",
+      moves: [
+        M({ id: "last-light", name: "Last Light", kind: "zone", anim: "raise", range: 440, cd: 10, dmg: 7, radius: 200, dur: 5, pullIn: 240, status: "blind", statusDur: 0.6, wind: 0.4 }),
+        M({ id: "eclipse-of-wings", name: "Eclipse of Wings", kind: "burst", anim: "raise", range: 480, cd: 12, dmg: 16, radius: 430, kb: 460, lift: -400, status: "blind", statusDur: 1.5, wind: 0.55, rec: 0.35 }),
       ],
     },
   ],

@@ -5,7 +5,8 @@ import {
   PiAnchorFill, PiBellFill, PiBoneFill, PiBuildingsFill, PiCactusFill, PiCastleTurretFill, PiCheckBold, PiClockFill, PiCloudLightningFill,
   PiEyeFill, PiFireFill, PiGhostFill, PiHourglassFill, PiLighthouseFill, PiLightningFill, PiLockSimpleFill, PiMoonStarsFill,
   PiMountainsFill, PiPlanetFill, PiShootingStarFill, PiSkullFill, PiSnowflakeFill, PiSpiralFill, PiStarFill, PiSunFill,
-  PiSunHorizonFill, PiTreeFill, PiWavesFill,
+  PiSunHorizonFill, PiTreeFill, PiWavesFill, PiBookOpenFill, PiBugFill, PiButterflyFill, PiHouseFill, PiMaskHappyFill, PiMoonFill,
+  PiPlantFill, PiScrollFill, PiTreeEvergreenFill,
 } from "react-icons/pi";
 import { Text, useString } from "~stencil/ui/strings";
 import { cn } from "~/lib/utils";
@@ -30,6 +31,12 @@ const THEMES: Theme[] = [
   { top: "hsl(240 60% 6%)", bottom: "hsl(266 50% 22%)", blob: "hsl(272 100% 80% / 0.14)", deco: "hsl(272 100% 88% / 0.55)", road: "hsl(272 100% 80%)", icons: [PiPlanetFill, PiShootingStarFill, PiStarFill, PiMoonStarsFill] },
   // Book 2. Lights Under the Sea: a drowned harbour at night, lure lights glowing under the water
   { top: "hsl(204 56% 8%)", bottom: "hsl(184 42% 24%)", blob: "hsl(66 100% 60% / 0.12)", deco: "hsl(66 100% 74% / 0.55)", road: "hsl(66 100% 62%)", icons: [PiWavesFill, PiEyeFill, PiAnchorFill, PiBellFill] },
+  // Book 2. The Singing Rot: a drowned forest overgrown with glowing fungus
+  { top: "hsl(300 26% 10%)", bottom: "hsl(316 20% 24%)", blob: "hsl(170 100% 60% / 0.12)", deco: "hsl(170 100% 72% / 0.5)", road: "hsl(170 100% 62%)", icons: [PiTreeEvergreenFill, PiPlantFill, PiBugFill, PiTreeFill] },
+  // Book 2. The City That Forgets: a foggy old town, its edges fading to blank paper
+  { top: "hsl(270 18% 16%)", bottom: "hsl(290 14% 40%)", blob: "hsl(40 30% 92% / 0.14)", deco: "hsl(300 100% 86% / 0.5)", road: "hsl(300 100% 80%)", icons: [PiHouseFill, PiBuildingsFill, PiMaskHappyFill, PiScrollFill, PiBookOpenFill] },
+  // Book 2. The Moth Moon: a mountain observatory under a huge low moon
+  { top: "hsl(232 50% 7%)", bottom: "hsl(220 34% 26%)", blob: "hsl(208 100% 84% / 0.12)", deco: "hsl(208 100% 88% / 0.55)", road: "hsl(208 100% 80%)", icons: [PiMoonFill, PiButterflyFill, PiMountainsFill, PiStarFill] },
 ];
 
 /** A smooth road through the points, in the SVG's 1000 by 520 space. */

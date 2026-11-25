@@ -505,6 +505,260 @@ const LOOKS: Look[] = [
       }
     },
   },
+  // Book 2, 2. The Singing Rot: a drowned forest swallowed by fungus. Giant glowing mushrooms grow taller every
+  // stage, spores hang in the air, and at the lair the whole canopy is one huge, singing cap.
+  {
+    sky: [["hsl(300 20% 22%)", "hsl(320 18% 32%)", "hsl(170 24% 38%)"], ["hsl(300 24% 16%)", "hsl(316 20% 24%)", "hsl(170 30% 28%)"], ["hsl(296 30% 10%)", "hsl(310 24% 16%)", "hsl(170 40% 20%)"], ["hsl(300 40% 5%)", "hsl(310 30% 9%)", "hsl(170 60% 16%)"]],
+    far: "hsl(300 16% 16%)", near: "hsl(300 18% 11%)", floor: ["hsl(310 16% 22%)", "hsl(300 20% 12%)"], line: "hsl(170 80% 60% / 0.22)", starsFrom: 3,
+    scene(ctx, stage, phase, rnd) {
+      // dead trees in the distance, the fungus climbing them
+      for (let i = 0; i < 9; i++) {
+        const tx = 30 + i * 115 + rnd() * 40, th = 160 + rnd() * 120;
+        ctx.fillStyle = "hsl(300 14% 14%)";
+        ctx.fillRect(tx - 6, 340 - th, 12, th + 40);
+        ctx.strokeStyle = "hsl(300 14% 14%)";
+        ctx.lineWidth = 5;
+        ctx.beginPath();
+        ctx.moveTo(tx, 340 - th * 0.6);
+        ctx.lineTo(tx + (rnd() - 0.5) * 80, 300 - th);
+        ctx.stroke();
+        for (let k = 0; k < 1 + phase; k++) {
+          const fy = 340 - th * (0.2 + rnd() * 0.6);
+          ctx.fillStyle = "hsl(320 26% 34%)";
+          ctx.beginPath();
+          ctx.ellipse(tx + 8, fy, 12, 4, 0, Math.PI, Math.PI * 2);
+          ctx.fill();
+          glow(ctx, tx + 8, fy + 2, 12, "hsl(170 100% 60%)", 0.4);
+        }
+      }
+      // giant mushrooms, more and taller every stage
+      for (let i = 0; i < 2 + Math.floor(stage / 2); i++) {
+        const mx = 80 + ((i * 337 + stage * 53) % (W - 160)), h = 90 + rnd() * 60 + stage * 10, r = 40 + rnd() * 30 + phase * 8;
+        ctx.fillStyle = "hsl(40 20% 72%)";
+        ctx.fillRect(mx - 7, FLOOR - h, 14, h);
+        glow(ctx, mx, FLOOR - h + 6, r * 1.4, "hsl(170 100% 60%)", 0.35);
+        ctx.fillStyle = "hsl(322 30% 36%)";
+        ctx.beginPath();
+        ctx.ellipse(mx, FLOOR - h, r, r * 0.6, 0, Math.PI, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "hsl(330 40% 82%)";
+        for (let k = 0; k < 4; k++) {
+          ctx.beginPath();
+          ctx.arc(mx + (rnd() - 0.5) * r * 1.2, FLOOR - h - rnd() * r * 0.4 - 4, 3 + rnd() * 4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      // the lair: the canopy above is one enormous cap, its gills glowing down on the fight
+      if (phase === 3) {
+        ctx.fillStyle = "hsl(318 30% 20%)";
+        ctx.beginPath();
+        ctx.ellipse(W / 2, -60, W * 0.75, 200, 0, 0, Math.PI);
+        ctx.fill();
+        ctx.strokeStyle = "hsl(170 100% 64% / 0.6)";
+        ctx.lineWidth = 2;
+        for (let i = -16; i <= 16; i++) {
+          ctx.beginPath();
+          ctx.moveTo(W / 2 + i * 10, 120);
+          ctx.lineTo(W / 2 + i * 46, 60);
+          ctx.stroke();
+        }
+      }
+      // spores hanging in the air
+      for (let i = 0; i < 20 + stage * 6; i++) {
+        const sx = rnd() * W, sy = 40 + rnd() * (FLOOR - 60);
+        glow(ctx, sx, sy, 4 + rnd() * 5, "hsl(170 100% 70%)", 0.5);
+      }
+    },
+    front(ctx, stage, phase, rnd) {
+      // roots across the ground, and small caps growing out of them
+      ctx.strokeStyle = "hsl(40 16% 50%)";
+      ctx.lineWidth = 3;
+      for (let i = 0; i < 4 + phase * 2; i++) {
+        const y0 = FLOOR - 4 - rnd() * 10;
+        ctx.beginPath();
+        ctx.moveTo(rnd() * W, y0);
+        for (let k = 0; k < 6; k++) ctx.lineTo(rnd() * W, FLOOR - 2 - rnd() * 12);
+        ctx.stroke();
+      }
+      for (let i = 0; i < 6 + stage; i++) {
+        const x = rnd() * W;
+        ctx.fillStyle = "hsl(316 30% 40%)";
+        ctx.beginPath();
+        ctx.ellipse(x, FLOOR - 8, 7, 5, 0, Math.PI, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "hsl(40 20% 76%)";
+        ctx.fillRect(x - 1.5, FLOOR - 8, 3, 8);
+      }
+    },
+  },
+  // Book 2, 3. The City That Forgets: an old city in fog where buildings fade from the edges as it is forgotten.
+  // Each stage more of it is missing, and at the lair only blank white pages are left of the streets.
+  {
+    sky: [["hsl(36 20% 64%)", "hsl(30 16% 72%)", "hsl(300 20% 80%)"], ["hsl(270 14% 50%)", "hsl(290 14% 62%)", "hsl(310 24% 74%)"], ["hsl(266 20% 28%)", "hsl(280 18% 40%)", "hsl(300 26% 56%)"], ["hsl(270 24% 12%)", "hsl(280 20% 22%)", "hsl(40 20% 86%)"]],
+    far: "hsl(270 10% 40%)", near: "hsl(270 12% 30%)", floor: ["hsl(30 10% 46%)", "hsl(270 12% 24%)"], line: "hsl(300 60% 80% / 0.22)", starsFrom: 3, flat: true,
+    scene(ctx, stage, phase, rnd) {
+      // two rows of rooftops and towers, the far row paler
+      for (const [row, col, top] of [[0, `hsl(270 10% ${58 - phase * 8}%)`, 200], [1, `hsl(270 12% ${40 - phase * 6}%)`, 250]] as const) {
+        let x = -20;
+        while (x < W) {
+          const bw = 50 + rnd() * 70, bh = FLOOR - top - rnd() * 110 + row * 30;
+          // forgotten buildings fade away from the top, more every stage
+          const gone = rnd() < stage * 0.07;
+          ctx.fillStyle = col;
+          ctx.globalAlpha = gone ? 0.25 : 1;
+          ctx.fillRect(x, FLOOR - bh, bw, bh);
+          if (rnd() < 0.4) {
+            ctx.beginPath();
+            ctx.moveTo(x, FLOOR - bh);
+            ctx.lineTo(x + bw / 2, FLOOR - bh - 30 - rnd() * 30);
+            ctx.lineTo(x + bw, FLOOR - bh);
+            ctx.fill();
+          }
+          ctx.fillStyle = "hsl(44 80% 80% / 0.7)";
+          for (let k = 0; k < 4; k++) if (rnd() < 0.5 - phase * 0.12) ctx.fillRect(x + 8 + rnd() * (bw - 20), FLOOR - bh + 14 + rnd() * (bh - 40), 6, 9);
+          ctx.globalAlpha = 1;
+          x += bw + 6;
+        }
+      }
+      // the erasure: a white wash eating the skyline from both edges inward
+      const reach = 40 + stage * 50;
+      for (const side of [0, 1]) {
+        const g = ctx.createLinearGradient(side ? W : 0, 0, side ? W - reach : reach, 0);
+        g.addColorStop(0, "hsl(40 30% 94%)");
+        g.addColorStop(1, "hsl(40 30% 94% / 0)");
+        ctx.fillStyle = g;
+        ctx.fillRect(side ? W - reach : 0, 0, reach, FLOOR);
+      }
+      // the lair: the middle of the city is a blank page, faint ruled lines where streets were
+      if (phase === 3) {
+        ctx.fillStyle = "hsl(40 30% 92% / 0.9)";
+        ctx.fillRect(W * 0.25, 120, W * 0.5, FLOOR - 120);
+        ctx.strokeStyle = "hsl(210 40% 70% / 0.5)";
+        ctx.lineWidth = 1.5;
+        for (let y = 150; y < FLOOR; y += 22) {
+          ctx.beginPath();
+          ctx.moveTo(W * 0.25, y);
+          ctx.lineTo(W * 0.75, y);
+          ctx.stroke();
+        }
+        ctx.strokeStyle = "hsl(0 70% 60% / 0.5)";
+        ctx.beginPath();
+        ctx.moveTo(W * 0.31, 120);
+        ctx.lineTo(W * 0.31, FLOOR);
+        ctx.stroke();
+      }
+      // fog, thicker as the chapter goes on
+      for (let i = 0; i < 4 + phase * 2; i++) {
+        ctx.fillStyle = `hsl(300 20% 90% / ${0.08 + phase * 0.03})`;
+        ctx.beginPath();
+        ctx.ellipse(rnd() * W, 300 + rnd() * 120, 200 + rnd() * 160, 30 + rnd() * 20, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    },
+    front(ctx, stage, phase, rnd) {
+      // cobbles and street lamps; lamps that were forgotten are only outlines
+      ctx.fillStyle = INK;
+      for (let i = 0; i < 4; i++) {
+        const x = 120 + i * 260 + rnd() * 30;
+        const lost = i < Math.floor(stage / 2);
+        if (lost) {
+          ctx.strokeStyle = "hsl(300 40% 80% / 0.5)";
+          ctx.lineWidth = 1.5;
+          ctx.strokeRect(x - 2, FLOOR - 110, 4, 110);
+          ctx.strokeRect(x - 8, FLOOR - 124, 16, 14);
+        } else {
+          ctx.fillRect(x - 2, FLOOR - 110, 4, 110);
+          ctx.fillRect(x - 8, FLOOR - 124, 16, 14);
+          if (phase < 3) glow(ctx, x, FLOOR - 117, 36, "hsl(44 100% 74%)", 0.55);
+        }
+      }
+    },
+  },
+  // Book 2, 4. The Moth Moon: a mountain observatory under a huge low moon. Moths crowd the moon a little more every
+  // stage until, at the lair, the Dustmoth's wings cover it and only its rim still shines.
+  {
+    sky: [["hsl(226 40% 18%)", "hsl(220 34% 28%)", "hsl(210 30% 44%)"], ["hsl(230 44% 12%)", "hsl(224 36% 20%)", "hsl(212 34% 34%)"], ["hsl(234 50% 8%)", "hsl(228 40% 14%)", "hsl(216 40% 24%)"], ["hsl(236 60% 4%)", "hsl(232 46% 8%)", "hsl(220 40% 14%)"]],
+    far: "hsl(226 22% 18%)", near: "hsl(226 20% 12%)", floor: ["hsl(30 8% 30%)", "hsl(226 16% 14%)"], line: "hsl(208 100% 84% / 0.22)", starsFrom: 0,
+    scene(ctx, stage, phase, rnd) {
+      // the moon, huge and low
+      const mx = W * 0.62, my = 170, mr = 120;
+      glow(ctx, mx, my, mr * 2, "hsl(208 100% 84%)", phase === 3 ? 0.2 : 0.4);
+      ctx.fillStyle = phase === 3 ? "hsl(230 40% 8%)" : "hsl(210 40% 88%)";
+      ctx.beginPath();
+      ctx.arc(mx, my, mr, 0, Math.PI * 2);
+      ctx.fill();
+      if (phase < 3) {
+        ctx.fillStyle = "hsl(210 20% 74% / 0.6)";
+        for (let i = 0; i < 6; i++) {
+          ctx.beginPath();
+          ctx.arc(mx + (rnd() - 0.5) * mr * 1.3, my + (rnd() - 0.5) * mr * 1.3, 8 + rnd() * 18, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      } else {
+        // the lair: great wings across the moon, only its rim still lit
+        ctx.strokeStyle = "hsl(208 100% 86%)";
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.arc(mx, my, mr, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.fillStyle = "hsl(32 14% 18%)";
+        for (const dir of [1, -1]) {
+          ctx.beginPath();
+          ctx.moveTo(mx, my + 10);
+          ctx.bezierCurveTo(mx + dir * 120, my - 200, mx + dir * 320, my - 120, mx + dir * 280, my + 40);
+          ctx.quadraticCurveTo(mx + dir * 160, my + 120, mx, my + 10);
+          ctx.fill();
+          ctx.fillStyle = "hsl(40 80% 56%)";
+          ctx.beginPath();
+          ctx.arc(mx + dir * 180, my - 30, 30, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = "hsl(230 30% 8%)";
+          ctx.beginPath();
+          ctx.arc(mx + dir * 180, my - 30, 18, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = "hsl(32 14% 18%)";
+        }
+      }
+      // moths crowding round the moon, more every stage
+      ctx.fillStyle = "hsl(30 14% 22%)";
+      for (let i = 0; i < 6 + stage * 5; i++) {
+        const a = rnd() * Math.PI * 2, r = mr * (0.6 + rnd() * 0.9);
+        const x = mx + Math.cos(a) * r, y = my + Math.sin(a) * r, w = 4 + rnd() * 5;
+        ctx.beginPath();
+        ctx.ellipse(x - w * 0.6, y, w, w * 0.6, -0.5, 0, Math.PI * 2);
+        ctx.ellipse(x + w * 0.6, y, w, w * 0.6, 0.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      // the observatory dome on the far ridge
+      ctx.fillStyle = "hsl(226 20% 20%)";
+      ctx.fillRect(140, 250, 90, 60);
+      ctx.beginPath();
+      ctx.arc(185, 250, 45, Math.PI, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = phase < 2 ? "hsl(44 90% 70%)" : "hsl(226 20% 12%)";
+      ctx.fillRect(176, 214, 18, 30);
+    },
+    front(ctx, stage, phase, rnd) {
+      // dust drifting down over everything, heavier every stage
+      for (let i = 0; i < 30 + stage * 12; i++) {
+        ctx.fillStyle = `hsl(40 30% 80% / ${0.2 + rnd() * 0.4})`;
+        ctx.fillRect(rnd() * W, rnd() * FLOOR, 2, 2);
+      }
+      // broken telescopes and rails along the terrace
+      ctx.fillStyle = INK;
+      ctx.fillRect(0, FLOOR - 30, W, 6);
+      for (let x = 30; x < W; x += 110) ctx.fillRect(x, FLOOR - 26, 6, 26);
+      for (let i = 0; i < 2; i++) {
+        const x = 260 + i * 460;
+        ctx.save();
+        ctx.translate(x, FLOOR - 40);
+        ctx.rotate(-0.6 - (phase >= 2 ? 0.5 : 0) * (i ? 1 : -1));
+        ctx.fillRect(-6, -40, 12, 50);
+        ctx.restore();
+        ctx.fillRect(x - 3, FLOOR - 40, 6, 40);
+      }
+    },
+  },
 ];
 
 function paint(ch: number, stage: number): HTMLCanvasElement {
