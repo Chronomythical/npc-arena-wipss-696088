@@ -2102,7 +2102,73 @@ export const BOSS_INTROS: Record<BossDesign, IntroSpec> = {
       ctx.restore();
     },
   },
-
+  // The Lanternmaw: the arena sinks into deep dark water, one small light drifts down out of the black and hangs
+  // at head height, swaying, and the boss looms up out of the dark behind its own lure.
+  lanternmaw: {
+    len: BOSS_LEN, hit: 0.64, shake: 12, wave: ["hsl(66 100% 64%)", "hsl(196 48% 11%)"],
+    body: (u, s) => base(u < 0.64 ? "float" : settle(u, "guard", 0.8), {
+      alpha: seg(u, 0.4, 0.66),
+      dy: (1 - easeOut(seg(u, 0.4, 0.7))) * 50 * s,
+      solid: "hsl(196 60% 6%)", solidA: 1 - seg(u, 0.6, 0.88),
+    }),
+    bursts: [
+      { at: 0.64, n: 30, spd: 420, shape: "dot", a: "hsl(66 100% 70%)", b: "hsl(180 80% 76%)", grav: -60, add: true, from: "body", dir: "out" },
+      { at: 0.64, n: 16, spd: 220, shape: "smoke", a: "hsl(196 50% 8%)", b: "hsl(190 40% 18%)", grav: -30, add: false, from: "body", dir: "out" },
+    ],
+    trickle: { rate: 22, until: 0.64, spd: 60, shape: "dot", a: "hsl(180 70% 76%)", b: "hsl(190 60% 60%)", grav: -120, add: true, from: "feet", dir: "out", life: 0.9 },
+    back: ({ ctx, x, y, s, u, t }) => {
+      const dark = easeOut(seg(u, 0, 0.2)) * (1 - seg(u, 0.78, 1));
+      if (dark <= 0) return;
+      ctx.save();
+      ctx.fillStyle = hsla(200, 60, 4, 0.66 * dark);
+      ctx.fillRect(-400, -400, 2000, 1200);
+      // shafts of dim light from the surface, far above
+      ctx.globalCompositeOperation = "lighter";
+      for (let i = 0; i < 4; i++) {
+        const sx = x + wob(i * 4.3) * 420;
+        ctx.fillStyle = hsla(180, 60, 60, 0.05 * dark);
+        ctx.beginPath();
+        ctx.moveTo(sx - 20 * s, y - 420 * s);
+        ctx.lineTo(sx + 20 * s, y - 420 * s);
+        ctx.lineTo(sx + 70 * s + Math.sin(t + i) * 10 * s, y + 40 * s);
+        ctx.lineTo(sx - 10 * s + Math.sin(t + i) * 10 * s, y + 40 * s);
+        ctx.fill();
+      }
+      // the lure: drifts down from above and hangs, swaying, just in front of where the boss will be
+      const fall = easeOut(seg(u, 0.04, 0.42));
+      const lx = x + 24 * s + Math.sin(t * 2.2) * 14 * s * (1 - seg(u, 0.5, 0.7));
+      const ly = lerp(y - 320 * s, y - 112 * s, fall);
+      ctx.strokeStyle = hsla(186, 40, 40, 0.6 * dark);
+      ctx.lineWidth = 2 * s;
+      ctx.beginPath();
+      ctx.moveTo(lx, ly - 400 * s * (1 - seg(u, 0.4, 0.64)));
+      ctx.lineTo(lx, ly);
+      ctx.stroke();
+      glow(ctx, lx, ly, 40 * s, 40 * s, hsla(66, 100, 66, 0.75 * dark), hsla(66, 100, 60, 0));
+      ctx.fillStyle = hsla(66, 100, 92, dark);
+      ctx.beginPath();
+      ctx.arc(lx, ly, 5 * s, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalCompositeOperation = "source-over";
+      // the shape behind the light: a pale eye opening in the dark just before the boss arrives
+      const eye = seg(u, 0.3, 0.5) * (1 - seg(u, 0.6, 0.7));
+      if (eye > 0) {
+        ctx.fillStyle = hsla(60, 30, 85, 0.85 * eye);
+        ctx.beginPath();
+        ctx.ellipse(x, y - 150 * s, 46 * s, 16 * s * eye, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = hsla(64, 100, 50, eye);
+        ctx.beginPath();
+        ctx.arc(x + 6 * s, y - 150 * s, 13 * s * eye, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = hsla(200, 60, 3, eye);
+        ctx.beginPath();
+        ctx.ellipse(x + 6 * s, y - 150 * s, 3 * s, 12 * s * eye, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    },
+  },
 };
 
 // ---------- hybrids ----------

@@ -368,7 +368,7 @@ export default function Roster() {
                     <PanelBody className="flex flex-col gap-3">
                       <Text id="roster.card.boss" className="text-xs uppercase tracking-widest text-muted-foreground" />
                       <Text id="roster.bossLocked.title" as="h3" className="font-display text-xl text-foreground" />
-                      <Text id="roster.bossLocked.body" vars={{ name: b.name, chapter: bossChapter(id) }} as="p" className="text-sm text-foreground-secondary" />
+                      <Text id={bossChapter(id).book > 1 ? "roster.bossLocked.bodyBook" : "roster.bossLocked.body"} vars={{ name: b.name, book: bossChapter(id).book, chapter: bossChapter(id).chapter }} as="p" className="text-sm text-foreground-secondary" />
                       <Button asChild variant="outline" size="sm" className="self-start">
                         <Link to="/"><Text id="roster.cta" /></Link>
                       </Button>

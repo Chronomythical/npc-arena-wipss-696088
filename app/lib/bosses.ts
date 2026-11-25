@@ -4,7 +4,7 @@
 import type { BossDesign, FighterDef, Move } from "./fighters";
 import type { Form } from "./forms";
 
-export type BossId = "nullshade" | "maelstrom" | "magmaw" | "everwinter" | "riftmaker" | "hollowking" | "blacksun" | "axiom";
+export type BossId = "nullshade" | "maelstrom" | "magmaw" | "everwinter" | "riftmaker" | "hollowking" | "blacksun" | "axiom" | "lanternmaw";
 
 const M = (m: Omit<Move, "wind" | "act" | "rec"> & Partial<Pick<Move, "wind" | "act" | "rec">>): Move => ({
   wind: 0.2,
@@ -124,6 +124,21 @@ export const BOSSES: Record<BossId, FighterDef> = {
       M({ id: "star-shower", name: "Star Shower", kind: "rain", anim: "raise", range: 560, cd: 5.5, dmg: 8, count: 8, radius: 180, size: 11, shape: "shard", wind: 0.35, rec: 0.3 }),
       M({ id: "event-horizon", name: "Event Horizon", kind: "zone", anim: "slam", range: 400, cd: 9, dmg: 6, radius: 140, dur: 4.5, pullIn: 160, erase: true, status: "slow", statusDur: 0.6, wind: 0.35 }),
       M({ id: "wormhole-step", name: "Wormhole Step", kind: "blink", anim: "kick", range: 540, minRange: 130, cd: 4, dmg: 12, kb: 300, lift: -320 }),
+    ],
+  },
+  // Book 2, chapter 1. The first herald of the Elder Dark: a deep-sea thing in a robe, a lure of sickly light
+  // hanging over its face. Its light reels enemies in and blinds them, and tentacles rise out of the floor.
+  lanternmaw: {
+    id: "psy", boss: "lanternmaw", name: "The Lanternmaw", power: "Abyssal Lure", role: "control",
+    ability: "A herald of the Elder Dark that swam up from below the sea. Its lure reels enemies in and blinds them, and the deep answers its call with tentacles and crushing pressure.",
+    color: "hsl(196 48% 11%)", glow: "hsl(66 100% 64%)", hp: 470, speed: 90,
+    moves: [
+      M({ id: "hook-rake", name: "Hook Rake", kind: "melee", anim: "lunge", range: 92, cd: 1, dmg: 10, kb: 240, status: "stun", statusDur: 0.2 }),
+      M({ id: "lure-light", name: "Lure Light", kind: "pull", anim: "cast", range: 460, minRange: 110, cd: 4.5, dmg: 8, status: "blind", statusDur: 0.8, wind: 0.26 }),
+      M({ id: "abyssal-coil", name: "Abyssal Coil", kind: "eruption", anim: "slam", range: 560, minRange: 40, cd: 5.5, dmg: 11, radius: 44, count: 3, lift: -560, status: "slow", statusDur: 1.2, wind: 0.36 }),
+      M({ id: "drowned-whispers", name: "Drowned Whispers", kind: "projectile", anim: "cast", range: 560, minRange: 80, cd: 2.8, dmg: 6, speed: 420, size: 11, count: 3, spread: 0.24, shape: "orb", status: "blind", statusDur: 0.8 }),
+      M({ id: "lantern-gaze", name: "Lantern Gaze", kind: "beam", anim: "thrust", range: 500, minRange: 70, cd: 3.4, dmg: 14, act: 0.34, status: "blind", statusDur: 1, wind: 0.32 }),
+      M({ id: "crushing-deep", name: "Crushing Deep", kind: "zone", anim: "slam", range: 400, cd: 9, dmg: 6, radius: 140, dur: 4.5, pullIn: 140, status: "slow", statusDur: 0.6, wind: 0.36 }),
     ],
   },
 };
@@ -367,6 +382,35 @@ export const BOSS_PHASES: Partial<Record<BossDesign, Form[]>> = {
       moves: [
         M({ id: "big-bang", name: "Big Bang", kind: "burst", anim: "raise", range: 480, cd: 12, dmg: 16, radius: 440, kb: 440, lift: -460, wind: 0.55, rec: 0.35 }),
         M({ id: "heat-death", name: "Heat Death", kind: "burst", anim: "raise", range: 2000, cd: 15, dmg: 8, eclipse: true, status: "blind", statusDur: 4, wind: 0.55, rec: 0.3 }),
+      ],
+    },
+  ],
+  lanternmaw: [
+    {
+      ...P2, power: "psy", title: "THE LAMP OPENS", dodge: 0.12,
+      blurb: "Two more lures uncurl from its shoulders and its robe splits into tentacles. Its lights fly in swarms, and ink spills across the floor.",
+      body: "hsl(192 50% 13%)", glow: "hsl(66 100% 68%)", a: "hsl(180 60% 24%)", b: "hsl(66 100% 70%)",
+      moves: [
+        M({ id: "thousand-lures", name: "Thousand Lures", kind: "projectile", anim: "cast", range: 600, minRange: 80, cd: 3.2, dmg: 5, speed: 600, size: 9, count: 5, spread: 0.28, shape: "orb", status: "blind", statusDur: 0.5 }),
+        M({ id: "ink-cloud", name: "Ink Cloud", kind: "zone", anim: "raise", range: 380, cd: 8.5, dmg: 6, radius: 150, dur: 4.5, status: "blind", statusDur: 0.6, wind: 0.35 }),
+      ],
+    },
+    {
+      ...P3, power: "psy", title: "UNBLINKING", drain: 0.12,
+      blurb: "Eyes open all down its body, and none of them ever close. Light rains from the dark above it, and every hit it lands takes a little health back.",
+      body: "hsl(200 46% 9%)", glow: "hsl(60 100% 74%)", a: "hsl(64 90% 56%)", b: "hsl(0 0% 100%)",
+      moves: [
+        M({ id: "many-eyes", name: "Many Eyes", kind: "rain", anim: "raise", range: 540, cd: 6, dmg: 8, count: 8, radius: 180, size: 10, status: "blind", statusDur: 0.6, wind: 0.36, rec: 0.3 }),
+        M({ id: "hadal-crush", name: "Hadal Crush", kind: "burst", anim: "slam", range: 150, cd: 7, dmg: 18, radius: 180, kb: 480, lift: -320, status: "slow", statusDur: 1.5, wind: 0.34, rec: 0.36 }),
+      ],
+    },
+    {
+      ...P4, power: "psy", title: "HERALD OF THE ELDER DARK", guard: 0.8, regen: 1.2,
+      blurb: "A vast eye opens in the dark behind it and a crown of tentacles rises over its head. Call of the Deep drags everyone toward it, and The Elder Gaze blasts most of the arena.",
+      body: "hsl(210 50% 5%)", glow: "hsl(66 100% 76%)", a: "hsl(170 70% 18%)", b: "hsl(66 100% 74%)", dark: "hsl(210 60% 3%)",
+      moves: [
+        M({ id: "call-of-the-deep", name: "Call of the Deep", kind: "zone", anim: "raise", range: 440, cd: 10, dmg: 7, radius: 200, dur: 5, pullIn: 240, status: "slow", statusDur: 0.6, wind: 0.4 }),
+        M({ id: "elder-gaze", name: "The Elder Gaze", kind: "burst", anim: "raise", range: 480, cd: 12, dmg: 15, radius: 430, kb: 400, lift: -380, status: "blind", statusDur: 1.5, wind: 0.55, rec: 0.35 }),
       ],
     },
   ],

@@ -492,6 +492,19 @@ const QUEST_LOOKS: Record<string, Look> = {
   "gravity-well": F("gravity-pull", "hsl(240 80% 30%)", "hsl(48 100% 82%)", "star", true, 0, "implode"),
   "big-bang": F("rift-burst", "hsl(0 0% 100%)", "hsl(272 100% 76%)", "star", true, 0, "starburst"),
   "heat-death": F("total-eclipse", "hsl(250 60% 4%)", "hsl(272 100% 80%)", "star", true, 0, "starburst"),
+  // The Lanternmaw (Book 2): deep water and a lure's sickly light
+  "hook-rake": F("shade-slash", "hsl(190 50% 16%)", "hsl(66 100% 66%)", "bubble", false, -60, "slash"),
+  "lure-light": F("gravity-pull", "hsl(186 50% 14%)", "hsl(66 100% 72%)", "dot", true, 0, "implode"),
+  "abyssal-coil": F("grave-hands", "hsl(186 44% 16%)", "hsl(66 100% 64%)", "drop", false, 600, "crater"),
+  "drowned-whispers": F("wailing-souls", "hsl(180 60% 40%)", "hsl(66 100% 80%)", "bubble", false, -80, "implode"),
+  "lantern-gaze": F("prism-beam", "hsl(66 100% 58%)", "hsl(60 100% 92%)", "dot", true, 0, "starburst"),
+  "crushing-deep": F("null-field", "hsl(200 60% 8%)", "hsl(180 70% 60%)", "bubble", false, -40),
+  "thousand-lures": F("wailing-souls", "hsl(66 100% 60%)", "hsl(60 100% 90%)", "dot", true, -40, "starburst"),
+  "ink-cloud": F("night-veil", "hsl(210 60% 6%)", "hsl(180 60% 50%)", "smoke", false, -30),
+  "many-eyes": F("light-lances", "hsl(64 100% 56%)", "hsl(60 40% 92%)", "dot", true, 200, "starburst"),
+  "hadal-crush": F("mind-crush", "hsl(200 60% 10%)", "hsl(180 80% 66%)", "bubble", false, -60, "ripple"),
+  "call-of-the-deep": F("null-field", "hsl(200 70% 4%)", "hsl(66 100% 66%)", "bubble", false, -60, "implode"),
+  "elder-gaze": F("rift-burst", "hsl(64 100% 60%)", "hsl(0 0% 100%)", "dot", true, 0, "starburst"),
 };
 for (const [id, lk] of Object.entries(QUEST_LOOKS)) FORM_LOOKS[id] = lk;
 for (const [id, lk] of Object.entries(FORM_LOOKS)) {

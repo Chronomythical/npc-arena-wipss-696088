@@ -3,6 +3,7 @@
 // and each chapter's threat grows stage by stage: the rift widens, the storm thickens, the sun goes out.
 // Painted once per stage onto an offscreen canvas, then drawn behind the fight like the home arena.
 import { W, H } from "./arena-engine";
+import { lairOf } from "./story";
 
 const INK = "hsl(250 32% 14%)";
 const FLOOR = 440;
@@ -26,7 +27,8 @@ type Look = {
   front?: (ctx: Ctx, stage: number, phase: number, rnd: Rnd) => void;
 };
 
-const phaseOf = (stage: number) => (stage >= 9 ? 3 : stage >= 7 ? 2 : stage >= 4 ? 1 : 0);
+/** Which part of its chapter a stage is in: 0 dawn, 1 day, 2 dusk, 3 the boss's lair (the last stage). */
+const phaseOf = (stage: number, lair: number) => (stage >= lair ? 3 : stage >= lair - 2 ? 2 : stage >= 4 ? 1 : 0);
 
 function hills(ctx: Ctx, y: number, amp: number, col: string, seed: number, step = 20) {
   ctx.fillStyle = col;
@@ -414,6 +416,95 @@ const LOOKS: Look[] = [
       ctx.fill();
     },
   },
+  // Book 2, 1. Lights Under the Sea: a drowned harbour at night. Lure lights glow under the black water, more
+  // every stage, tentacles rise out of the sea, and at the lair a huge eye looks up from below.
+  {
+    sky: [["hsl(214 40% 18%)", "hsl(204 34% 28%)", "hsl(190 30% 40%)"], ["hsl(216 44% 12%)", "hsl(206 36% 20%)", "hsl(190 34% 30%)"], ["hsl(220 50% 8%)", "hsl(206 44% 14%)", "hsl(180 40% 22%)"], ["hsl(210 60% 4%)", "hsl(196 56% 8%)", "hsl(170 50% 16%)"]],
+    far: "hsl(200 30% 14%)", near: "hsl(200 30% 10%)", floor: ["hsl(196 20% 26%)", "hsl(200 24% 16%)"], line: "hsl(66 60% 60% / 0.25)", starsFrom: 0, flat: true,
+    scene(ctx, stage, phase, rnd) {
+      // a sick moon behind thin cloud
+      glow(ctx, 760, 90, 90, "hsl(66 60% 70%)", 0.35);
+      ctx.fillStyle = "hsl(66 30% 82%)";
+      ctx.beginPath();
+      ctx.arc(760, 90, 26, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = `hsl(206 30% 20% / ${0.4 + phase * 0.12})`;
+      for (let i = 0; i < 3 + stage; i++) {
+        const cx = rnd() * W, cy = 50 + rnd() * 110, r = 40 + rnd() * 50;
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, r * 1.8, r * 0.35, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      // the old crack the Reign 8 left behind, glowing green from the lair on
+      if (phase >= 2) crack(ctx, 200 + rnd() * 400, 150, 160 + phase * 40, rnd, "hsl(66 100% 86%)", "hsl(170 100% 50% / 0.4)", 2.5);
+      // the sea
+      const sea = ctx.createLinearGradient(0, 300, 0, FLOOR);
+      sea.addColorStop(0, `hsl(196 40% ${22 - phase * 4}%)`);
+      sea.addColorStop(1, `hsl(206 50% ${10 - phase * 2}%)`);
+      ctx.fillStyle = sea;
+      ctx.fillRect(0, 300, W, FLOOR - 300);
+      // the lair: a vast eye looking up from under the water
+      if (phase === 3) {
+        ctx.fillStyle = "hsl(60 30% 70% / 0.35)";
+        ctx.beginPath();
+        ctx.ellipse(W / 2, 380, 220, 40, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "hsl(64 100% 50% / 0.55)";
+        ctx.beginPath();
+        ctx.arc(W / 2 + 20, 380, 34, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "hsl(200 60% 4% / 0.8)";
+        ctx.beginPath();
+        ctx.ellipse(W / 2 + 20, 380, 7, 30, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      // lure lights under the water, more of them every stage
+      for (let i = 0; i < 3 + stage * 3; i++) {
+        const lx = rnd() * W, ly = 320 + rnd() * (FLOOR - 330);
+        glow(ctx, lx, ly, 10 + rnd() * 14, "hsl(66 100% 64%)", 0.55);
+        ctx.fillStyle = "hsl(66 100% 88%)";
+        ctx.fillRect(lx - 1, ly - 1, 2, 2);
+      }
+      ctx.strokeStyle = "hsl(180 40% 70% / 0.25)";
+      ctx.lineWidth = 2;
+      for (let y = 312; y < FLOOR; y += 18) {
+        ctx.beginPath();
+        for (let x = 0; x <= W; x += 12) ctx.lineTo(x, y + Math.sin(x * 0.03 + y) * 2);
+        ctx.stroke();
+      }
+      // tentacles rising out of the sea from stage 3 on
+      for (let i = 0; i < Math.max(0, stage - 1); i++) {
+        const tx = 60 + ((i * 263 + stage * 71) % (W - 120)), base = 312 + rnd() * 30, h = 70 + rnd() * 60 + phase * 20;
+        ctx.strokeStyle = "hsl(190 40% 8%)";
+        ctx.lineCap = "round";
+        let px = tx, py = base;
+        for (let k = 1; k <= 10; k++) {
+          const u = k / 10;
+          const nx = tx + Math.sin(u * 3.2 + i) * 18 * u, ny = base - h * u;
+          ctx.lineWidth = 12 * (1 - u * 0.85);
+          ctx.beginPath();
+          ctx.moveTo(px, py);
+          ctx.lineTo(nx, ny);
+          ctx.stroke();
+          px = nx;
+          py = ny;
+        }
+      }
+    },
+    front(ctx, stage, phase) {
+      // the pier and its lamp posts; one more lamp has gone out every stage
+      ctx.fillStyle = "hsl(30 20% 12%)";
+      ctx.fillRect(0, FLOOR - 34, W, 10);
+      for (let x = 20; x < W; x += 90) ctx.fillRect(x, FLOOR - 26, 8, 26);
+      for (let i = 0; i < 5; i++) {
+        const x = 90 + i * 200;
+        ctx.fillStyle = INK;
+        ctx.fillRect(x - 2, FLOOR - 120, 4, 88);
+        ctx.fillRect(x - 8, FLOOR - 128, 16, 10);
+        if (i >= Math.floor(stage / 2) && phase < 3) glow(ctx, x, FLOOR - 123, 40, "hsl(44 100% 70%)", 0.6);
+      }
+    },
+  },
 ];
 
 function paint(ch: number, stage: number): HTMLCanvasElement {
@@ -422,7 +513,7 @@ function paint(ch: number, stage: number): HTMLCanvasElement {
   c.height = H;
   const ctx = c.getContext("2d")!;
   const look = LOOKS[ch] ?? LOOKS[0];
-  const phase = phaseOf(stage);
+  const phase = phaseOf(stage, lairOf(ch));
   let seed = 101 + ch * 37 + stage * 11;
   const rnd = () => {
     seed = (seed * 9301 + 49297) % 233280;

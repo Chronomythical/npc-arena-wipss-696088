@@ -34,6 +34,75 @@ function jagLine(ctx: CanvasRenderingContext2D, pts: Pt[], amp: number, seed: nu
 }
 
 /** What the boss is doing this frame, so its weapon and body can follow the move. */
+/** A tapering, swaying tentacle from (x, y) heading at angle `ang`: thick at the root, thin at the tip. */
+function tentacle(ctx: CanvasRenderingContext2D, x: number, y: number, ang: number, len: number, w: number, t: number, seed: number, col: string, tip?: string) {
+  const n = 9;
+  let px = x, py = y;
+  ctx.strokeStyle = col;
+  for (let i = 1; i <= n; i++) {
+    const k = i / n;
+    const a = ang + Math.sin(t * 2.2 + seed + k * 4) * 0.55 * k;
+    const nx = px + Math.cos(a) * (len / n), ny = py + Math.sin(a) * (len / n);
+    ctx.lineWidth = Math.max(0.8, w * (1 - k * 0.85));
+    if (tip && i === n) ctx.strokeStyle = tip;
+    ctx.beginPath();
+    ctx.moveTo(px, py);
+    ctx.lineTo(nx, ny);
+    ctx.stroke();
+    px = nx;
+    py = ny;
+  }
+  return { x: px, y: py };
+}
+
+/** An angler's lure: a stalk from (x, y) arching up and over to a glowing bulb. Returns where the bulb hangs. */
+function lure(ctx: CanvasRenderingContext2D, x: number, y: number, dx: number, rise: number, s: number, t: number, seed: number, alive: boolean, col: string, light: string) {
+  const bx = x + dx, by = y - rise * 0.35 + Math.sin(t * 2.4 + seed) * 3 * s;
+  const cx = x + dx * 0.35, cy = y - rise;
+  ctx.strokeStyle = INK;
+  ctx.lineWidth = 4 * s;
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  ctx.quadraticCurveTo(cx, cy, bx, by);
+  ctx.stroke();
+  ctx.strokeStyle = col;
+  ctx.lineWidth = 2.2 * s;
+  ctx.stroke();
+  if (alive) {
+    ctx.globalCompositeOperation = "lighter";
+    glow(ctx, bx, by, (16 + Math.sin(t * 5 + seed) * 2.5) * s, light.replace(")", " / 0.8)"), light.replace(")", " / 0)"));
+    ctx.globalCompositeOperation = "source-over";
+  }
+  ctx.fillStyle = alive ? "hsl(66 100% 92%)" : "hsl(196 10% 40%)";
+  ctx.strokeStyle = INK;
+  ctx.lineWidth = 1.4 * s;
+  ctx.beginPath();
+  ctx.arc(bx, by, 4.2 * s, 0, TAU);
+  ctx.fill();
+  ctx.stroke();
+  return { x: bx, y: by };
+}
+
+/** One eye that never blinks: a pale white, a glowing iris and a slit pupil turned toward `face`. */
+function deepEye(ctx: CanvasRenderingContext2D, x: number, y: number, r: number, face: number, t: number, seed: number) {
+  ctx.fillStyle = "hsl(60 40% 90%)";
+  ctx.strokeStyle = INK;
+  ctx.lineWidth = Math.max(1, r * 0.22);
+  ctx.beginPath();
+  ctx.ellipse(x, y, r * 1.35, r, 0, 0, TAU);
+  ctx.fill();
+  ctx.stroke();
+  const ix = x + face * r * 0.3 + Math.sin(t * 0.9 + seed) * r * 0.15;
+  ctx.fillStyle = "hsl(64 100% 52%)";
+  ctx.beginPath();
+  ctx.arc(ix, y, r * 0.72, 0, TAU);
+  ctx.fill();
+  ctx.fillStyle = "hsl(200 60% 4%)";
+  ctx.beginPath();
+  ctx.ellipse(ix, y, r * 0.16, r * 0.62, 0, 0, TAU);
+  ctx.fill();
+}
+
 export type BossAct = { kind: string; id: string; phase: "wind" | "strike" | "after"; u: number };
 
 const ease = (u: number) => 1 - Math.pow(1 - u, 3);
@@ -836,6 +905,73 @@ export function drawBossDesign(
       }
       break;
     }
+    // ----- The Lanternmaw: a robed deep-sea herald, tentacles under the robe, a lure hanging over its maw -----
+    case "lanternmaw": {
+      const back = -face;
+      if (layer === "back") {
+        if (alive) {
+          // the dark of the deep sea gathered round it
+          glow(ctx, mid.x, mid.y, 84 * s, "hsl(196 70% 6% / 0.5)", "hsl(196 70% 6% / 0)");
+        }
+        // tentacles spilling out from under the robe behind it
+        ctx.lineCap = "round";
+        for (let i = 0; i < 5; i++) {
+          const a = Math.PI / 2 + back * (0.25 + i * 0.22);
+          tentacle(ctx, hip.x + back * (4 + i * 4) * s, hip.y + 6 * s, a, (44 + (i % 2) * 14) * s, 7 * s, alive ? t : 0, i * 1.7, "hsl(188 40% 18%)", alive ? "hsl(66 100% 62%)" : undefined);
+        }
+      } else {
+        // a deep hood over the head
+        ctx.fillStyle = "hsl(196 50% 9%)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.8 * s;
+        ctx.beginPath();
+        ctx.moveTo(head.x + back * 14 * s, head.y + 10 * s);
+        ctx.quadraticCurveTo(head.x + back * 18 * s, head.y - 16 * s, head.x + back * 4 * s, head.y - 17 * s);
+        ctx.quadraticCurveTo(head.x + face * 14 * s, head.y - 14 * s, head.x + face * 15 * s, head.y + 2 * s);
+        ctx.lineTo(head.x + face * 10 * s, head.y + 11 * s);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        // inside the hood: no face, only a wide maw of needle teeth and two pinprick eyes
+        ctx.fillStyle = "hsl(200 60% 3%)";
+        ctx.beginPath();
+        ctx.ellipse(head.x + face * 4 * s, head.y + 1 * s, 9 * s, 8.5 * s, 0, 0, TAU);
+        ctx.fill();
+        ctx.fillStyle = "hsl(60 30% 88%)";
+        for (let i = 0; i < 5; i++) {
+          const tx = head.x + face * (-2 + i * 3) * s;
+          ctx.beginPath();
+          ctx.moveTo(tx - 1.3 * s, head.y + 4 * s);
+          ctx.lineTo(tx + 1.3 * s, head.y + 4 * s);
+          ctx.lineTo(tx, head.y + (i % 2 ? 0.5 : 1.5) * s);
+          ctx.closePath();
+          ctx.fill();
+          ctx.beginPath();
+          ctx.moveTo(tx - 1.1 * s + face * 1.5 * s, head.y + 7.5 * s);
+          ctx.lineTo(tx + 1.1 * s + face * 1.5 * s, head.y + 7.5 * s);
+          ctx.lineTo(tx + face * 1.5 * s, head.y + 4.6 * s);
+          ctx.closePath();
+          ctx.fill();
+        }
+        if (alive) {
+          ctx.globalCompositeOperation = "lighter";
+          for (const dx of [1, 6]) glow(ctx, head.x + face * dx * s, head.y - 3.5 * s, 2.6 * s, "hsl(66 100% 80%)", "hsl(66 100% 60% / 0)");
+          ctx.globalCompositeOperation = "source-over";
+        }
+        // the lure: a stalk off the crown of the hood, its light hanging just in front of the maw
+        const charge = !!act && act.phase === "wind" && (act.kind === "pull" || act.kind === "beam") ? 1 : 0;
+        lure(ctx, head.x + back * 2 * s, head.y - 15 * s, face * (24 + charge * 8) * s, (26 + charge * 6) * s, s, t, 0, alive, "hsl(186 40% 30%)", charge ? "hsl(66 100% 84%)" : "hsl(66 100% 66%)");
+        // pale, glowing veins of light down the robe
+        if (alive) {
+          ctx.globalCompositeOperation = "lighter";
+          ctx.strokeStyle = "hsl(66 100% 64% / 0.55)";
+          ctx.lineWidth = 1.3 * s;
+          jagLine(ctx, [neck, mid, hip], 18, 4);
+          ctx.globalCompositeOperation = "source-over";
+        }
+      }
+      break;
+    }
   }
   ctx.restore();
   if (layer === "front") drawBossExtras(ctx, design, layer, p, s, face, t, alive, vx, act);
@@ -1499,6 +1635,77 @@ function drawBossPhase(
       }
       break;
     }
+    case "lanternmaw": {
+      // 2: two more lures uncurl from its shoulders
+      if (front) {
+        for (const [k, side] of [[1, face], [2, back]] as const) {
+          lure(ctx, shoulder.x + side * 4 * s, shoulder.y - 2 * s, side * 30 * s, 34 * s, s, t, k * 2.3, true, "hsl(186 40% 30%)", "hsl(66 100% 66%)");
+        }
+      } else {
+        // and its robe hem splits into more tentacles
+        ctx.lineCap = "round";
+        for (let i = 0; i < 4; i++) {
+          tentacle(ctx, hip.x + (i - 1.5) * 8 * s, hip.y + 14 * s, Math.PI / 2 + (i - 1.5) * 0.35, 40 * s, 6 * s, t, 3 + i * 1.3, "hsl(184 44% 16%)", "hsl(66 100% 60%)");
+        }
+      }
+      if (phase >= 3 && front) {
+        // 3: eyes all down its body, none of them ever closing
+        const spots: [number, number, number][] = [
+          [mid.x + face * 3 * s, mid.y - 6 * s, 3.4],
+          [mid.x - face * 4 * s, mid.y + 8 * s, 2.8],
+          [neck.x + face * 2 * s, neck.y + 6 * s, 2.4],
+          [(shoulder.x + p.eF.x) / 2, (shoulder.y + p.eF.y) / 2, 2.4],
+          [(shoulder.x + p.eB.x) / 2, (shoulder.y + p.eB.y) / 2, 2.2],
+          [hip.x + face * 5 * s, hip.y - 4 * s, 2.6],
+        ];
+        spots.forEach(([x, y, r], i) => deepEye(ctx, x, y, r * s, face, t, i * 1.9));
+      }
+      if (phase >= 4 && !front) {
+        // 4: a vast eye opening in the dark behind it, and a crown of tentacles over its head
+        const ex = head.x + back * 12 * s, ey = mid.y - 46 * s;
+        glow(ctx, ex, ey, 110 * s, "hsl(200 70% 4% / 0.85)", "hsl(200 70% 4% / 0)");
+        ctx.globalCompositeOperation = "lighter";
+        glow(ctx, ex, ey, (80 + Math.sin(t * 2) * 5) * s, "hsl(66 100% 60% / 0.35)", "hsl(66 100% 50% / 0)");
+        ctx.globalCompositeOperation = "source-over";
+        const open = 0.75 + 0.25 * Math.sin(t * 0.7);
+        ctx.fillStyle = "hsl(60 30% 82%)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 3 * s;
+        ctx.beginPath();
+        ctx.ellipse(ex, ey, 62 * s, 30 * s * open, 0, 0, TAU);
+        ctx.fill();
+        ctx.stroke();
+        ctx.save();
+        ctx.beginPath();
+        ctx.ellipse(ex, ey, 62 * s, 30 * s * open, 0, 0, TAU);
+        ctx.clip();
+        const ix = ex + face * 14 * s + Math.sin(t * 0.6) * 6 * s;
+        ctx.fillStyle = "hsl(64 100% 50%)";
+        ctx.beginPath();
+        ctx.arc(ix, ey, 26 * s, 0, TAU);
+        ctx.fill();
+        ctx.strokeStyle = "hsl(40 100% 40% / 0.7)";
+        ctx.lineWidth = 1.2 * s;
+        for (let i = 0; i < 14; i++) {
+          const a = (i / 14) * TAU;
+          ctx.beginPath();
+          ctx.moveTo(ix + Math.cos(a) * 9 * s, ey + Math.sin(a) * 9 * s);
+          ctx.lineTo(ix + Math.cos(a) * 24 * s, ey + Math.sin(a) * 24 * s);
+          ctx.stroke();
+        }
+        ctx.fillStyle = "hsl(200 60% 3%)";
+        ctx.beginPath();
+        ctx.ellipse(ix, ey, 5 * s, 22 * s, 0, 0, TAU);
+        ctx.fill();
+        ctx.restore();
+        ctx.lineCap = "round";
+        for (let i = 0; i < 7; i++) {
+          const a = -Math.PI / 2 + (i - 3) * 0.32;
+          tentacle(ctx, head.x + Math.cos(a) * 12 * s, head.y + Math.sin(a) * 12 * s, a, (34 + (i % 2) * 12) * s, 5 * s, t, 9 + i, "hsl(180 50% 14%)", "hsl(66 100% 66%)");
+        }
+      }
+      break;
+    }
   }
   ctx.restore();
 }
@@ -1696,6 +1903,20 @@ function drawBossExtras(
       } else {
         pauldron(ctx, shoulder, face, s, "hsl(240 50% 16%)", "hsl(48 100% 76%)", 0);
         fists("hsl(272 100% 88%)", "hsl(240 100% 60% / 0)");
+      }
+      break;
+    case "lanternmaw":
+      if (layer === "back") {
+        // a ragged robe the colour of deep water, bubbles rising off it
+        robe(ctx, hip, p.fF, p.fB, s, t, "hsl(194 46% 12% / 0.95)", "hsl(66 100% 58%)");
+        if (alive) {
+          ctx.globalCompositeOperation = "lighter";
+          motes(ctx, mid.x, hip.y, 70 * s, 130 * s, t * 0.6, 9, "hsl(180 70% 70%)", 1.6 * s);
+          ctx.globalCompositeOperation = "source-over";
+        }
+      } else {
+        pauldron(ctx, shoulder, face, s, "hsl(186 30% 20%)", "hsl(66 100% 60%)", 2);
+        fists("hsl(66 100% 80%)", "hsl(170 100% 40% / 0)");
       }
       break;
   }

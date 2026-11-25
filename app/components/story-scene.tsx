@@ -10,15 +10,13 @@ import { W, H, GROUND, drawScene, newGame, step } from "~/lib/arena-engine";
 import { arenaSound } from "~/lib/arena-sound";
 import { BOSSES } from "~/lib/bosses";
 import type { FighterDef } from "~/lib/fighters";
-import { CHAPTERS, STAGES_PER_CHAPTER, enemySide, playerSide, stageLineup, type Pair } from "~/lib/story";
+import { CHAPTERS, enemySide, lairOf, playerSide, stageLineup, type Pair } from "~/lib/story";
 import { storyBackdrop } from "~/lib/story-backdrops";
 import { sceneLines, type Scene } from "~/lib/story-script";
 
-export const CHAPTER_TITLES: StringKey[] = ["story.chapterTitle", "story.ch2.title", "story.ch3.title", "story.ch4.title", "story.ch5.title", "story.ch6.title", "story.ch7.title", "story.ch8.title"];
-const STAGE_PREFIX = ["story.stages", "story.ch2.stages", "story.ch3.stages", "story.ch4.stages", "story.ch5.stages", "story.ch6.stages", "story.ch7.stages", "story.ch8.stages"];
+export const CHAPTER_TITLES: StringKey[] = ["story.chapterTitle", "story.ch2.title", "story.ch3.title", "story.ch4.title", "story.ch5.title", "story.ch6.title", "story.ch7.title", "story.ch8.title", "story.ch9.title"];
+const STAGE_PREFIX = ["story.stages", "story.ch2.stages", "story.ch3.stages", "story.ch4.stages", "story.ch5.stages", "story.ch6.stages", "story.ch7.stages", "story.ch8.stages", "story.ch9.stages"];
 export const stageNameKey = (ch: number, i: number) => `${STAGE_PREFIX[ch]}.s${i + 1}` as StringKey;
-
-const LAIR = STAGES_PER_CHAPTER - 1;
 
 export function StoryScene({ scene, pair, onDone }: { scene: Scene; pair: Pair; onDone: () => void }) {
   const lines = useMemo(() => sceneLines(scene), [scene]);
@@ -28,6 +26,7 @@ export function StoryScene({ scene, pair, onDone }: { scene: Scene; pair: Pair; 
   const text = useString(line.key);
   const aria = useString("story.scene.aria");
 
+  const LAIR = lairOf(scene.ch);
   const boss = BOSSES[CHAPTERS[scene.ch].stages[LAIR].boss!];
   const stage = scene.kind === "stage" ? scene.stage : LAIR;
   const mine = playerSide(pair);

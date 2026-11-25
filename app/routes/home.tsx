@@ -33,7 +33,7 @@ import { BracketView, type TeamEntry } from "~/components/bracket-view";
 import { TitleScreen, type TitleMode } from "~/components/title-screen";
 import { FreeWorld } from "~/components/free-world";
 import { StoryPanel } from "~/components/story-panel";
-import { CHAPTERS, STAGES_PER_CHAPTER, bossesBeaten, canTeam, chapterOpen, fusionOrder, loadProgress, loadSeenIntros, markIntroSeen, saveProgress, stageLineup, type Pair } from "~/lib/story";
+import { CHAPTERS, bossesBeaten, chapterInBook, endsBook, lairOf, stagesIn, canTeam, chapterOpen, fusionOrder, loadProgress, loadSeenIntros, markIntroSeen, saveProgress, stageLineup, type Pair } from "~/lib/story";
 import { StoryScene } from "~/components/story-scene";
 import { storyBackdrop } from "~/lib/story-backdrops";
 import type { Scene } from "~/lib/story-script";
@@ -156,12 +156,12 @@ export default function Home() {
     let ch = 0;
     while (ch + 1 < CHAPTERS.length && chapterOpen(all, ch + 1)) ch++;
     setChapter(ch);
-    setStage(Math.min(all[ch] ?? 0, STAGES_PER_CHAPTER - 1));
+    setStage(Math.min(all[ch] ?? 0, lairOf(ch)));
   }, []);
   const chooseChapter = (ch: number) => {
     if (!chapterOpen(clearedAll, ch)) return;
     setChapter(ch);
-    setStage(Math.min(clearedAll[ch] ?? 0, STAGES_PER_CHAPTER - 1));
+    setStage(Math.min(clearedAll[ch] ?? 0, lairOf(ch)));
   };
   // Sound: saved volume and mute are read from this browser after the first render.
   const [volume, setVolume] = useState(60);
@@ -305,7 +305,7 @@ export default function Home() {
     recordFight({
       kos: g.fighters.filter((f) => !f.alive).length,
       forms: g.fighters.filter((f) => f.form && f.form.kind !== "phase").length,
-      boss: mode === "story" && stageRef.current?.i === STAGES_PER_CHAPTER - 1 && g.winnerTeam === 0,
+      boss: mode === "story" && stageRef.current != null && stageRef.current.i === lairOf(stageRef.current.ch) && g.winnerTeam === 0,
     });
     matchRef.current = null;
     const at0 = stageRef.current;
@@ -313,7 +313,7 @@ export default function Home() {
       // the first win over a chapter's boss adds it to the roster
       const beaten = CHAPTERS[at0.ch]?.stages[at0.i]?.boss;
       const queued: Unlock[] = [];
-      if (beaten && (clearedAll[at0.ch] ?? 0) < STAGES_PER_CHAPTER) {
+      if (beaten && (clearedAll[at0.ch] ?? 0) < stagesIn(at0.ch)) {
         queued.push({ def: BOSSES[beaten], eyebrow: "arena.bosses.unlockEyebrow", joined: "arena.bosses.unlockJoined" });
       }
       // every boss win, first or replayed, is a chance for a new-generation fighter to join
@@ -683,9 +683,9 @@ export default function Home() {
                           stage={stageRef.current?.i ?? stage}
                           won={result?.team === 0}
                           onRetry={() => startStage(stageRef.current?.i ?? stage, stageRef.current?.ch ?? chapter)}
-                          onNext={() => { const ch = stageRef.current?.ch ?? chapter; restart(); playStage(Math.min((stageRef.current?.i ?? stage) + 1, STAGES_PER_CHAPTER - 1), ch); }}
+                          onNext={() => { const ch = stageRef.current?.ch ?? chapter; restart(); playStage(Math.min((stageRef.current?.i ?? stage) + 1, lairOf(ch)), ch); }}
                           onNextChapter={() => { const ch = Math.min((stageRef.current?.ch ?? chapter) + 1, CHAPTERS.length - 1); setChapter(ch); setStage(0); restart(); }}
-                          onBack={() => { setStage(Math.min((stageRef.current?.i ?? stage) + 1, STAGES_PER_CHAPTER - 1)); restart(); }}
+                          onBack={() => { setStage(Math.min((stageRef.current?.i ?? stage) + 1, lairOf(stageRef.current?.ch ?? chapter))); restart(); }}
                         />
                       ) : (
                       <WinnerBanner
@@ -952,8 +952,10 @@ export default function Home() {
 
 function StoryBanner({ chapter, stage, won, onRetry, onNext, onNextChapter, onBack }: { chapter: number; stage: number; won: boolean; onRetry: () => void; onNext: () => void; onNextChapter: () => void; onBack: () => void }) {
   const title = "font-display text-3xl text-foreground";
-  const last = stage >= STAGES_PER_CHAPTER - 1;
-  const finale = last && chapter >= CHAPTERS.length - 1;
+  const last = stage >= lairOf(chapter);
+  // the last boss of a whole book; the next book opens after it
+  const finale = last && endsBook(chapter);
+  const hasNext = chapter + 1 < CHAPTERS.length;
   if (!won) {
     return (
       <>
@@ -969,11 +971,11 @@ function StoryBanner({ chapter, stage, won, onRetry, onNext, onNextChapter, onBa
       {finale ? (
         <Text id="arena.winner.storyComplete" as="p" className={cn(title, "max-w-sm text-balance")} />
       ) : (
-        <Text id={last ? "arena.winner.chapterCleared" : "arena.winner.stageCleared"} vars={{ n: last ? chapter + 1 : stage + 1 }} as="p" className={title} />
+        <Text id={last ? "arena.winner.chapterCleared" : "arena.winner.stageCleared"} vars={{ n: last ? chapterInBook(chapter) : stage + 1 }} as="p" className={title} />
       )}
       <div className="mt-4 flex flex-wrap justify-center gap-2">
         {!last && <Button onClick={onNext}><Text id="arena.winner.nextStage" /></Button>}
-        {last && !finale && <Button onClick={onNextChapter}><Text id="arena.winner.nextChapter" /></Button>}
+        {last && hasNext && <Button onClick={onNextChapter}><Text id={finale ? "arena.winner.nextBook" : "arena.winner.nextChapter"} /></Button>}
         <Button variant="outline" onClick={last ? onRetry : onBack}><Text id={last ? "arena.winner.again" : "arena.winner.changePair"} /></Button>
       </div>
     </>

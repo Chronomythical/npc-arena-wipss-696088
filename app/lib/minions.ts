@@ -311,4 +311,31 @@ export const MINIONS: Crew[] = [
       surge: { from: "wormhole-step", name: "Wormhole Lunge" },
     }),
   },
+  // Book 2, chapter 1: the Lanternmaw's drowned congregation
+  {
+    grunt: minion("grunt", "lanternmaw", {
+      base: "hydro", name: "Deepling", color: "hsl(190 40% 20%)", mark: "hsl(66 100% 64%)",
+      power: "Brine Claws", ability: "Crawled up out of the black water with claws that never dry.",
+      tone: ["hsl(184 60% 30%)", "hsl(170 80% 72%)"], moves: ["Brine Claw", "Kelp Lash", "Black Tide"],
+      surge: { from: "hook-rake", name: "Little Hook" },
+    }),
+    caster: minion("caster", "lanternmaw", {
+      base: "psy", name: "Tide Whisperer", color: "hsl(200 30% 22%)", mark: "hsl(66 100% 64%)",
+      power: "Undersong", ability: "Sings the song it hears from under the sea, and the song lifts whoever hears it.",
+      tone: ["hsl(160 50% 38%)", "hsl(150 90% 80%)"], moves: ["Hymn Strike", "Rising Hymn", "Drowned Verse", "Last Chorus"],
+      surge: { from: "drowned-whispers", name: "Whisper Swarm" },
+    }),
+    brute: minion("brute", "lanternmaw", {
+      base: "toxi", name: "Hullbreaker", color: "hsl(170 25% 16%)", mark: "hsl(66 100% 64%)",
+      power: "Rot Tide", ability: "A shipwreck that walked out of the sea, dripping a rot that eats through armour.",
+      tone: ["hsl(96 40% 30%)", "hsl(80 80% 64%)"], moves: ["Barnacle Fist", "Bilge Burst", "Rot Spit"],
+      surge: { from: "abyssal-coil", name: "Coil Snap" },
+    }),
+    elite: minion("elite", "lanternmaw", {
+      base: "umbra", name: "The Lamplighter", color: "hsl(196 50% 10%)", mark: "hsl(64 100% 70%)",
+      power: "Drowned Lamp", ability: "Lights the way down for the Lanternmaw. Wherever its lamp points, the dark follows.",
+      tone: ["hsl(210 50% 22%)", "hsl(64 100% 72%)"], moves: ["Lamp Hook", "Wick Step", "Drowned Flame", "Lights Out"],
+      surge: { from: "lantern-gaze", name: "Lamp Gaze" },
+    }),
+  },
 ];

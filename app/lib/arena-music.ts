@@ -370,6 +370,37 @@ const CHAPTER_SONGS: Song[] = [
     fill: { kick: "x.....x.x.......", snare: "....x...x.x.xxxx" },
     drums: 1,
   }),
+  // Book 2, 1. The Lanternmaw: a drowned hymn. Slow, organ-like C minor chords with a flattened second that
+  // never resolves, a bell lead high above, and a heartbeat kick far below the water.
+  song({
+    bpm: 84,
+    pad: ["C3 Eb3 G3", "Db3 F3 Ab3", "C3 Eb3 G3", "Bb2 D3 F3", "Ab2 C3 Eb3", "Db3 F3 Ab3", "G2 B2 D3", "C3 Eb3 G3"],
+    padWave: "triangle",
+    padCut: 900,
+    padAttack: 0.8,
+    bass: ["C2", "Db2", "C2", "Bb1", "Ab1", "Db2", "G1", "C2"],
+    bassPat: "x.......x.....o.",
+    bassMax: 2,
+    bassCut: 380,
+    lead: [
+      "G5 - - - Eb5 - - .",
+      "F5 - Ab5 - Db6 - - .",
+      "C6 - - Bb5 G5 - - .",
+      "F5 - - D5 Bb4 - - .",
+      "Eb5 - - - C5 - Ab4 -",
+      "Db5 - F5 - Ab5 - Db6 -",
+      "B5 - - - D5 - G5 -",
+      "C5 - - - . . . .",
+    ],
+    leadWave: "sine",
+    leadVol: 0.12,
+    arp: "0...1...2...1...",
+    kick: "x..x............",
+    snare: "............x...",
+    hat: "......x.......x.",
+    fill: { kick: "x..x......x..x..", snare: "............x.x." },
+    drums: 0.6,
+  }),
 ];
 
 /** The theme for a Story chapter (0-based). */

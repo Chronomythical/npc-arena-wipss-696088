@@ -5,8 +5,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~
 import { cn } from "~/lib/utils";
 import { DEF_BY_ID, FIGHTERS, type Power } from "~/lib/fighters";
 import { unlockedOf, useQuests } from "~/lib/quests";
-import { PiFilmSlateBold, PiSwordFill } from "react-icons/pi";
-import { CHAPTERS, STAGES_PER_CHAPTER, canTeam, chapterOpen, enemySide, playerSide, type Pair } from "~/lib/story";
+import { PiBookOpenTextFill, PiFilmSlateBold, PiSwordFill } from "react-icons/pi";
+import { BOOKS, CHAPTERS, bookOf, canTeam, chapterInBook, chapterOpen, chaptersOf, enemySide, playerSide, stagesIn, type Pair } from "~/lib/story";
 import { FighterDot } from "~/components/fighter-dot";
 import { StoryMap } from "~/components/story-map";
 import { CHAPTER_TITLES, stageNameKey } from "~/components/story-scene";
@@ -28,7 +28,15 @@ export function StoryPanel({ cleared, chapter, onChapter, stage, onStage, pair, 
   const firstAria = useString("story.first");
   const secondAria = useString("story.second");
   const chaptersAria = useString("story.chaptersAria");
+  const booksAria = useString("story.books.aria");
+  const book = bookOf(chapter);
   const stages = CHAPTERS[chapter].stages;
+  const total = stagesIn(chapter);
+  /** Opens a book on its furthest open chapter. */
+  const openBook = (b: number) => {
+    const chs = chaptersOf(b).filter((ch) => chapterOpen(cleared, ch));
+    if (chs.length) onChapter(chs[chs.length - 1]);
+  };
   const done = cleared[chapter] ?? 0;
   const foes = enemySide(chapter, stages[stage] ?? stages[0]);
   const side = playerSide(pair);
@@ -37,8 +45,30 @@ export function StoryPanel({ cleared, chapter, onChapter, stage, onStage, pair, 
 
   return (
     <div className="flex flex-col gap-6" data-story-panel>
+      <div className="flex flex-col gap-2" data-story-books>
+        <div className="-my-1.5 flex gap-2 overflow-x-auto py-1.5" role="group" aria-label={booksAria}>
+          {BOOKS.map((b, i) => {
+            const open = chapterOpen(cleared, b.first);
+            return (
+              <Button
+                key={i}
+                variant={i === book ? "default" : "outline"}
+                disabled={!open || locked}
+                aria-pressed={i === book}
+                onClick={() => openBook(i)}
+                className="shrink-0"
+              >
+                <PiBookOpenTextFill className="size-5" aria-hidden />
+                <Text id={`story.books.b${i + 1}` as StringKey} className="whitespace-nowrap" />
+                {!open && <Text id="story.locked" className="text-xs" />}
+              </Button>
+            );
+          })}
+        </div>
+        {!chapterOpen(cleared, BOOKS[1].first) && <Text id="story.books.b2Locked" as="p" className="text-sm text-muted-foreground" />}
+      </div>
       <div className="-my-1.5 flex gap-2 overflow-x-auto py-1.5" role="group" aria-label={chaptersAria} data-story-chapters>
-        {CHAPTERS.map((_, ch) => {
+        {chaptersOf(book).map((ch) => {
           const open = chapterOpen(cleared, ch);
           return (
             <Button
@@ -50,8 +80,8 @@ export function StoryPanel({ cleared, chapter, onChapter, stage, onStage, pair, 
               onClick={() => onChapter(ch)}
               className="shrink-0"
             >
-              <Text id="story.chapterLabel" vars={{ n: ch + 1 }} />
-              {(cleared[ch] ?? 0) >= STAGES_PER_CHAPTER ? <Text id="story.cleared" className="text-xs font-extrabold" /> : !open ? <Text id="story.locked" className="text-xs" /> : null}
+              <Text id="story.chapterLabel" vars={{ n: chapterInBook(ch) }} />
+              {(cleared[ch] ?? 0) >= stagesIn(ch) ? <Text id="story.cleared" className="text-xs font-extrabold" /> : !open ? <Text id="story.locked" className="text-xs" /> : null}
             </Button>
           );
         })}
@@ -61,7 +91,7 @@ export function StoryPanel({ cleared, chapter, onChapter, stage, onStage, pair, 
         <div className="flex min-w-0 flex-1 flex-col gap-1">
           <Text id={CHAPTER_TITLES[chapter]} as="h3" className="font-display text-xl text-foreground" />
           <Text id="story.chapterIntro" as="p" className="max-w-prose text-sm text-muted-foreground" />
-          <Text id="story.progress" vars={{ count: done, total: STAGES_PER_CHAPTER }} as="p" className="text-sm font-semibold text-foreground tabular-nums" />
+          <Text id="story.progress" vars={{ count: done, total }} as="p" className="text-sm font-semibold text-foreground tabular-nums" />
         </div>
         <Button size="sm" variant="outline" disabled={locked} onClick={onIntro}>
           <PiFilmSlateBold className="size-5" aria-hidden />

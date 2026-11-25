@@ -20,7 +20,11 @@ const KIND: Record<string, MinionKind> = { g: "grunt", c: "caster", b: "brute", 
 /** A stage of minions written as letters: g grunt, c caster, b brute, e the lieutenant. */
 const st = (code: string, enemyHp?: number): Stage => ({ foes: [...code].map((k) => KIND[k]), ...(enemyHp ? { enemyHp } : {}) });
 
-/** The chapters, each nine stages of the boss's minions, then the boss. A chapter opens once the one before it is cleared. */
+/**
+ * The chapters of every book in one list. Book 1's chapters are nine stages of the boss's minions, then the boss;
+ * Book 2's are eight, then the boss. A chapter opens once the one before it is cleared, so Book 2 opens once the
+ * Reign 8 (Book 1's eight bosses) have all fallen.
+ */
 export const CHAPTERS: Chapter[] = [
   {
     // Chapter 1: The Rift Opens
@@ -142,9 +146,49 @@ export const CHAPTERS: Chapter[] = [
       { foes: [], boss: "axiom" },
     ],
   },
+  // ---------- Book 2: The Elder Dark. Nine stages a chapter: eight of minions, then the boss. ----------
+  {
+    // Book 2, chapter 1: Lights Under the Sea
+    stages: [
+      st("g"),
+      st("c"),
+      st("gb", 0.8),
+      st("cc", 0.8),
+      st("bgc", 0.48),
+      st("ggc", 0.46),
+      st("bbcg", 0.26),
+      st("egcb", 0.24),
+      { foes: [], boss: "lanternmaw" },
+    ],
+  },
 ];
 
-export const STAGES_PER_CHAPTER = 10;
+/** The books of Story mode: where each starts in CHAPTERS and how many chapters it will have once it is all written. */
+export const BOOKS = [
+  { first: 0, planned: 8 },
+  { first: 8, planned: 7 },
+] as const;
+
+/** Which book (0-based) a chapter belongs to. */
+export const bookOf = (ch: number) => {
+  let b = 0;
+  while (b + 1 < BOOKS.length && ch >= BOOKS[b + 1].first) b++;
+  return b;
+};
+/** The chapters of one book that exist so far, as indexes into CHAPTERS. */
+export const chaptersOf = (book: number) => {
+  const end = BOOKS[book + 1]?.first ?? CHAPTERS.length;
+  return Array.from({ length: Math.max(0, Math.min(end, CHAPTERS.length) - BOOKS[book].first) }, (_, i) => BOOKS[book].first + i);
+};
+/** A chapter's number inside its own book, from 1. */
+export const chapterInBook = (ch: number) => ch - BOOKS[bookOf(ch)].first + 1;
+/** The last chapter of a whole book: beating its boss finishes the book. */
+export const endsBook = (ch: number) => chapterInBook(ch) === BOOKS[bookOf(ch)].planned;
+
+/** How many stages a chapter has (Book 1 has ten, Book 2 nine). */
+export const stagesIn = (ch: number) => CHAPTERS[ch]?.stages.length ?? 10;
+/** The boss's stage, the last of the chapter. */
+export const lairOf = (ch: number) => stagesIn(ch) - 1;
 
 export type Pair = { a: Power; b: Power; fuse: boolean };
 
@@ -190,7 +234,7 @@ export function loadProgress(): Progress {
   try {
     const raw = JSON.parse(localStorage.getItem(PROGRESS_KEY) ?? "null");
     if (raw && Array.isArray(raw.cleared)) {
-      return { cleared: CHAPTERS.map((_, i) => Math.max(0, Math.min(STAGES_PER_CHAPTER, Number(raw.cleared[i]) || 0))) };
+      return { cleared: CHAPTERS.map((_, i) => Math.max(0, Math.min(stagesIn(i), Number(raw.cleared[i]) || 0))) };
     }
   } catch {
     // unreadable storage starts fresh
@@ -199,7 +243,7 @@ export function loadProgress(): Progress {
 }
 
 /** A chapter opens once every stage of the one before it is cleared. */
-export const chapterOpen = (cleared: number[], ch: number) => ch === 0 || (cleared[ch - 1] ?? 0) >= STAGES_PER_CHAPTER;
+export const chapterOpen = (cleared: number[], ch: number) => ch === 0 || (cleared[ch - 1] ?? 0) >= stagesIn(ch - 1);
 
 export function saveProgress(p: Progress) {
   try {
@@ -235,9 +279,12 @@ export function markIntroSeen(ch: number) {
 /** The Story bosses this browser has beaten, in chapter order. Each one is a fighter you can pick outside Story. */
 export const bossesBeaten = (cleared: number[]): BossId[] =>
   CHAPTERS.flatMap((ch, i) => {
-    const boss = ch.stages[STAGES_PER_CHAPTER - 1]?.boss;
-    return boss && (cleared[i] ?? 0) >= STAGES_PER_CHAPTER ? [boss] : [];
+    const boss = ch.stages[lairOf(i)]?.boss;
+    return boss && (cleared[i] ?? 0) >= stagesIn(i) ? [boss] : [];
   });
 
-/** The chapter (1 to 8) each boss closes. */
-export const bossChapter = (id: BossId): number => CHAPTERS.findIndex((ch) => ch.stages.some((s) => s.boss === id)) + 1;
+/** The book and chapter (both from 1) each boss closes. */
+export const bossChapter = (id: BossId): { book: number; chapter: number } => {
+  const ch = Math.max(0, CHAPTERS.findIndex((c) => c.stages.some((s) => s.boss === id)));
+  return { book: bookOf(ch) + 1, chapter: chapterInBook(ch) };
+};

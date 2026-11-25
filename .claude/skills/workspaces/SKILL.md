@@ -24,6 +24,13 @@ path (last section); tearing them out is not.
 An app-wide admin outside any workspace (the app builder's own admin side, staff,
 "view as an app user"): see `app-roles`.
 
+**Owning a workspace proves nothing about being the app builder.** Every account that
+signs up is made owner of a personal workspace (below), so "is an owner of their
+workspace" admits any stranger who registers. The workspace `role` gates that
+workspace's own pages and nothing else. A page for the whole app (the app builder's or
+their staff's, one that runs paid AI calls or sends email on the app's account) calls
+`requireRole` in every loader and action, as `app-roles` sets out.
+
 ## Non-negotiable
 
 Break one of these and the app either leaks one tenant's data into another or shows
@@ -98,7 +105,8 @@ nothing at all. Everything after this section is a recommendation.
   ```
 - Scope every read, not just list pages: counts, aggregates, search, exports.
 - Give a user a workspace on first load rather than gating them behind a "create your
-  first workspace" screen — mint a personal one and make them owner.
+  first workspace" screen — mint a personal one and make them owner. That owner role
+  is of their own workspace only; it is never a gate for an app-wide page.
 - Accept an invite only when the invitee presses a button: show a pending invite matched by
   email as a "Join <workspace>" `<form method="post">`, and do the join in its `action`.
   That needs no emailed link and no email delivery, but match only a **verified** address:

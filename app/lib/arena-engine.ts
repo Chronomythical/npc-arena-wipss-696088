@@ -79,6 +79,8 @@ const BOSS_STANCE: Record<BossDesign, Pose> = {
   blacksun: { t: -0.08, aF1: 1.15, aF2: 2.7, aB1: 1.0, aB2: 2.6, lF1: 0.22, lF2: 0.0, lB1: -0.22, lB2: -0.05 },
   // The Axiom: floating upright, both arms spread wide and low, palms open, as if holding the sky up
   axiom: { t: -0.04, aF1: 0.95, aF2: 1.25, aB1: -0.95, aB2: -1.25, lF1: 0.12, lF2: -0.08, lB1: -0.1, lB2: -0.2 },
+  // The Lanternmaw: stooped forward under its lure, one claw reaching out, the other hanging low
+  lanternmaw: { t: 0.32, aF1: 1.35, aF2: 1.7, aB1: 0.35, aB2: 0.2, lF1: 0.4, lF2: -0.1, lB1: -0.3, lB2: -0.25 },
 };
 /** How each boss breathes at rest: speed, torso sway, arm sway (front, back) and knee bob. */
 const BOSS_IDLE: Record<BossDesign, { hz: number; t: number; aF: number; aB: number; l: number }> = {
@@ -90,6 +92,7 @@ const BOSS_IDLE: Record<BossDesign, { hz: number; t: number; aF: number; aB: num
   hollow: { hz: 1.8, t: 0.05, aF: 0.05, aB: 0.05, l: 0.03 },
   blacksun: { hz: 1.4, t: 0.02, aF: 0.03, aB: 0.03, l: 0 },
   axiom: { hz: 1.1, t: 0.02, aF: 0.1, aB: -0.1, l: 0.03 },
+  lanternmaw: { hz: 1.3, t: 0.06, aF: 0.12, aB: 0.06, l: 0.03 },
 };
 /** Hybrids pick one of these by their pair, so the same pair always stands the same way: two powers held ready at once. */
 const HYBRID_STANCES: Pose[] = [

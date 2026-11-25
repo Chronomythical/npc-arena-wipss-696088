@@ -91,7 +91,8 @@
       "teamChampion": "{{team}} team wins the tournament!",
       "teamDropped": "{{name}} team drops to the losers bracket",
       "teamKnockedOut": "{{name}} team is knocked out",
-      "teamResetNeeded": "{{name}} team forces a reset match!"
+      "teamResetNeeded": "{{name}} team forces a reset match!",
+      "nextBook": "Start Book 2"
     },
     "idle": "Press Start to begin the battle",
     "teams": {
@@ -309,7 +310,8 @@
     "bossCount": "{{count}} beaten",
     "bossLocked": {
       "title": "Not beaten yet",
-      "body": "Beat {{name}} at the end of Story chapter {{chapter}} to add it to your roster."
+      "body": "Beat {{name}} at the end of Story chapter {{chapter}} to add it to your roster.",
+      "bodyBook": "Beat {{name}} at the end of Book {{book}}, chapter {{chapter}} of Story mode to add it to your roster."
     },
     "sectionQuest": "Quest fighters",
     "questCount": "{{count}} earned",
@@ -886,6 +888,55 @@
           "l2": "We were never good at following rules.",
           "l3": "The edge of everything holds. The rift is gone for good, and every fighter who came this far has a story worth telling."
         }
+      },
+      "c9": {
+        "intro": {
+          "l1": "The Reign 8 are gone. For a while the sky stayed quiet, and the fighters went home.",
+          "l2": "But the cracks they tore in reality never fully closed, and something older than the stars has been listening at them.",
+          "l3": "Now lights rise out of the sea at night. The first herald of the Elder Dark has come to fish."
+        },
+        "s1": {
+          "l1": "The water is warm tonight. Something big is turning over down there.",
+          "l2": "Then it can stay down there."
+        },
+        "s2": {
+          "l1": "Can you hear it? Under the waves, it is singing your names.",
+          "l2": "It can sing all it likes."
+        },
+        "s3": {
+          "l1": "Every street in this town runs downhill to the sea. You'll see why.",
+          "l2": "We'll take the long way back up."
+        },
+        "s4": {
+          "l1": "The bell in this chapel rang for the drowned. Today it rings for you.",
+          "l2": "Then we'll ring it louder."
+        },
+        "s5": {
+          "l1": "The tide bell rang thirteen times. The sea only counts that high for a herald.",
+          "l2": "Let it count. We'll still be standing."
+        },
+        "s6": {
+          "l1": "Each step down this stair takes you closer to the light that eats.",
+          "l2": "We stopped being scared of the dark eight bosses ago."
+        },
+        "s7": {
+          "l1": "Pray here, little heroes. Everyone does, near the end.",
+          "l2": "We'd rather fight."
+        },
+        "s8": {
+          "l1": "I light the way down. Follow my lamp and you will never be cold again.",
+          "l2": "We're putting the lamp out."
+        },
+        "s9": {
+          "l1": "You beat eight tyrants and thought the story was over. They were only loud. We are old.",
+          "l2": "Old things break too.",
+          "l3": "Look at my light. Keep looking. You'll want to come closer."
+        },
+        "outro": {
+          "l1": "My light goes out, but the dark behind it is wide awake. It saw you.",
+          "l2": "Good. Let it come up and take a proper look.",
+          "l3": "The sea goes still. Far above, a second crack opens in the sky, and through it something enormous turns one eye toward the world."
+        }
       }
     },
     "map": {
@@ -907,6 +958,26 @@
       "skip": "Skip",
       "fight": "Fight",
       "continue": "Continue"
+    },
+    "books": {
+      "aria": "Story books",
+      "b1": "Book 1: The Reign 8",
+      "b2": "Book 2: The Elder Dark",
+      "b2Locked": "Defeat all of the Reign 8 in Book 1 to open Book 2."
+    },
+    "ch9": {
+      "title": "Chapter 1: Lights Under the Sea",
+      "stages": {
+        "s1": "The Quiet Pier",
+        "s2": "Lamplit Docks",
+        "s3": "Fog Market",
+        "s4": "Sunken Chapel",
+        "s5": "Tide Bell Tower",
+        "s6": "The Drowned Stair",
+        "s7": "Kelp Cathedral",
+        "s8": "The Hadal Gate",
+        "s9": "The Lanternmaw's Deep"
+      }
     }
   },
   "fusion": {
