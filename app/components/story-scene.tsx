@@ -124,10 +124,7 @@ export function StoryScene({ scene, pair, onDone }: { scene: Scene; pair: Pair; 
                 <Text id={stageNameKey(scene.ch, scene.stage)} as="h2" className="font-display text-xl text-white text-balance sm:text-3xl" />
               </>
             ) : (
-              <>
-                <Text id="story.chapterLabel" vars={{ n: scene.ch + 1 }} className="text-xs font-extrabold uppercase tracking-[0.15em] text-white/80" />
-                <Text id={CHAPTER_TITLES[scene.ch]} as="h2" className="font-display text-xl text-white text-balance sm:text-3xl" />
-              </>
+              <Text id={CHAPTER_TITLES[scene.ch]} as="h2" className="font-display text-xl text-white text-balance sm:text-3xl" />
             )}
           </div>
           <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
@@ -146,9 +143,7 @@ export function StoryScene({ scene, pair, onDone }: { scene: Scene; pair: Pair; 
                 <span className="size-3 shrink-0 rounded-full border-2 border-foreground" style={{ background: speaker.minion?.mark ?? speaker.glow }} aria-hidden />
                 {speakerName}
               </p>
-            ) : (
-              <Text id={CHAPTER_TITLES[scene.ch]} as="p" className="font-display text-lg text-foreground" />
-            )}
+            ) : null}
             <p className="min-h-[3em] max-w-prose text-base text-foreground-secondary">
               {text.slice(0, shown)}
               <span className="invisible">{text.slice(shown)}</span>
