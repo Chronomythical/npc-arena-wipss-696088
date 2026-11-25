@@ -427,6 +427,451 @@
         "s9": "The Last Star",
         "s10": "Where Reality Ends"
       }
+    },
+    "script": {
+      "c1": {
+        "intro": {
+          "l1": "A crack opened in the sky above the arena last night. Nobody saw what came out of it.",
+          "l2": "By morning, shadows were walking on their own. They call themselves Voidlings, and they answer to one name: Nullshade.",
+          "l3": "Nullshade erases whatever it touches. If the rift stays open, there will be nothing left to fight for."
+        },
+        "s1": {
+          "l1": "Training is over. The Voidlings are here to stay.",
+          "l2": "Then you can stay down. Let's go."
+        },
+        "s2": {
+          "l1": "Every clock in this tower stopped when the rift opened. Yours stops next.",
+          "l2": "Funny. We were about to say the same thing."
+        },
+        "s3": {
+          "l1": "Which one of you is real? It doesn't matter. Both of you vanish.",
+          "l2": "Break the mirrors, then break the acolyte."
+        },
+        "s4": {
+          "l1": "Up here, one push and you're gone.",
+          "l2": "Good thing there are two of us."
+        },
+        "s5": {
+          "l1": "Nullshade turns everything into scrap. You're next on the pile.",
+          "l2": "Not today. Not us."
+        },
+        "s6": {
+          "l1": "The ice is thin. Fight carefully. Or don't.",
+          "l2": "Stay on your feet and hit hard."
+        },
+        "s7": {
+          "l1": "These ruins were a city once. Nullshade was hungry.",
+          "l2": "Then we end this before it eats another one."
+        },
+        "s8": {
+          "l1": "The storm is ours now. So is the quarry.",
+          "l2": "Clear them out. The Rift Gate is right behind them."
+        },
+        "s9": {
+          "l1": "I am the Herald. Past this gate, there is only Nullshade.",
+          "l2": "Then step aside, or get moved."
+        },
+        "s10": {
+          "l1": "You came all this way to be erased.",
+          "l2": "We came to close your rift.",
+          "l3": "Matter meets antimatter. Only one of us is left standing."
+        },
+        "outro": {
+          "l1": "Impossible. You should have cancelled out.",
+          "l2": "Turns out two is more than nothing.",
+          "l3": "The rift shrinks to a thin line of light. Out past the coast, a storm is already gathering over the sea."
+        }
+      },
+      "c2": {
+        "intro": {
+          "l1": "The last of the rift's light fell into the sea, and the sea woke up angry.",
+          "l2": "Ships stopped coming home. The lighthouse went dark. Past the breakwater, a whirlpool has been turning for nine days without stopping.",
+          "l3": "Its name is Maelstrom, and every wave on this coast answers to it now."
+        },
+        "s1": {
+          "l1": "The tide pools belong to the Brine Imps now. Splash off.",
+          "l2": "Small fish first. Then the big one."
+        },
+        "s2": {
+          "l1": "I put the lighthouse out myself. Ships crash better in the dark.",
+          "l2": "Then let's light the place up."
+        },
+        "s3": {
+          "l1": "This ship sank in one wave. Want to see how?",
+          "l2": "We'd rather see you sink."
+        },
+        "s4": {
+          "l1": "One slip on the cliff and the sea takes you. Maelstrom always wins.",
+          "l2": "Not if we never slip."
+        },
+        "s5": {
+          "l1": "The caves echo. Every scream comes back twice as loud.",
+          "l2": "Then they'll hear yours twice."
+        },
+        "s6": {
+          "l1": "You can't hit what you can't see.",
+          "l2": "Stay close. Swing at the thunder."
+        },
+        "s7": {
+          "l1": "The market's closed. Storm tax, paid in full.",
+          "l2": "We're paying you back, with interest."
+        },
+        "s8": {
+          "l1": "Past this wall is open water. Nobody swims home from the whirlpool.",
+          "l2": "We're not swimming. We're winning."
+        },
+        "s9": {
+          "l1": "Captain of the tide, at your service. The eye of the storm is the calmest place to lose.",
+          "l2": "Calm is good. We'll hear you fall."
+        },
+        "s10": {
+          "l1": "I am the sea that does not stop. Every storm you have seen was only me breathing.",
+          "l2": "Then hold your breath.",
+          "l3": "Come into the whirlpool. Everyone does, eventually."
+        },
+        "outro": {
+          "l1": "The tide is turning away from me.",
+          "l2": "That's what tides do.",
+          "l3": "The whirlpool slows, then stills. The lighthouse flickers back on, and its beam points inland, toward a column of black smoke rising over the wastes."
+        }
+      },
+      "c3": {
+        "intro": {
+          "l1": "Inland, the ground is cracking open. Rivers of lava are carving new roads through the desert.",
+          "l2": "Something under the wastes is walking. With every step it takes, a mountain splits.",
+          "l3": "The Cinder Imps call it Magmaw. They say it will swallow the world one bite at a time."
+        },
+        "s1": {
+          "l1": "The ash road only goes one way: down into the furnace.",
+          "l2": "Then we'll take it, and you're coming with us."
+        },
+        "s2": {
+          "l1": "Magmaw melted this sand into glass. You're next.",
+          "l2": "Glass breaks. So will you."
+        },
+        "s3": {
+          "l1": "The ground here eats people. I just help.",
+          "l2": "Watch your footing and keep moving."
+        },
+        "s4": {
+          "l1": "Every bone in this canyon belonged to someone brave.",
+          "l2": "We're not here to add to the pile."
+        },
+        "s5": {
+          "l1": "The water isn't real. Neither are your chances.",
+          "l2": "We'll check that for ourselves."
+        },
+        "s6": {
+          "l1": "Inside the tubes, the walls never cool down.",
+          "l2": "Then let's make this quick."
+        },
+        "s7": {
+          "l1": "This orchard burned in a minute. I'll take longer with you.",
+          "l2": "You won't get the chance."
+        },
+        "s8": {
+          "l1": "Every step up these stairs is sharper than the last.",
+          "l2": "Good. We like a climb."
+        },
+        "s9": {
+          "l1": "I keep the rim. Nobody looks into the caldera and walks away.",
+          "l2": "We're not looking. We're going in."
+        },
+        "s10": {
+          "l1": "Little sparks. I have eaten mountains bigger than you.",
+          "l2": "Then you've never tasted anything like us.",
+          "l3": "The furnace is hungry. Feed it."
+        },
+        "outro": {
+          "l1": "My fire is going out.",
+          "l2": "Rest, Magmaw. The ground needs to cool.",
+          "l3": "The lava hardens into black glass. Far to the north, every clock in the world stops at the same second."
+        }
+      },
+      "c4": {
+        "intro": {
+          "l1": "Snow is falling in the north, and it isn't moving. Each flake hangs in the air where it stopped.",
+          "l2": "Time is freezing over. Birds hang mid-flight. Rivers stand still in their beds.",
+          "l3": "At the centre of it all is Everwinter, the winter that stopped the clocks, and it does not want them to start again."
+        },
+        "s1": {
+          "l1": "Out here, nothing moves unless Everwinter allows it.",
+          "l2": "We're moving. Try and stop us."
+        },
+        "s2": {
+          "l1": "Every book in this library ends on the same page. So does your story.",
+          "l2": "We'll write a new one."
+        },
+        "s3": {
+          "l1": "The gears have stopped. I can see your future, and it's frozen too.",
+          "l2": "Then you didn't look closely."
+        },
+        "s4": {
+          "l1": "The bridge holds one at a time. I'm heavier.",
+          "l2": "Then we'll knock you off it."
+        },
+        "s5": {
+          "l1": "Quiet. The chapel has not heard a sound in a hundred years.",
+          "l2": "It's about to."
+        },
+        "s6": {
+          "l1": "The vault keeps every lost second. You'll stay in here with them.",
+          "l2": "We're on a schedule."
+        },
+        "s7": {
+          "l1": "The lights in the sky froze too. Beautiful, isn't it?",
+          "l2": "They'll look better moving."
+        },
+        "s8": {
+          "l1": "The throne waits for its ruler. You will kneel in front of it.",
+          "l2": "We don't kneel."
+        },
+        "s9": {
+          "l1": "This is the stopped hour. Nothing that enters it ever leaves.",
+          "l2": "Then we'll be the first."
+        },
+        "s10": {
+          "l1": "Why fight? In my winter, nothing ever ends. Nothing ever hurts.",
+          "l2": "Nothing ever happens, either.",
+          "l3": "Then stand still forever."
+        },
+        "outro": {
+          "l1": "The ice is ticking.",
+          "l2": "Time's up, Everwinter.",
+          "l3": "The snowflakes finally fall. In the thaw, something strange shows in the meltwater: the reflection of a sky that isn't this one."
+        }
+      },
+      "c5": {
+        "intro": {
+          "l1": "The rift Nullshade came through never really closed. Someone has been holding it open from the other side.",
+          "l2": "Through the crack lies a world of floating stone and folded space, where up and down take turns.",
+          "l3": "Its maker rewrites reality on a whim. The Riftmaker has been watching every fight you've won."
+        },
+        "s1": {
+          "l1": "Step over the edge. The fall is the fun part.",
+          "l2": "We'll take the fight right here."
+        },
+        "s2": {
+          "l1": "In the void, you fight your own reflection.",
+          "l2": "Then we already know all your moves."
+        },
+        "s3": {
+          "l1": "Down is wherever I say it is.",
+          "l2": "Plant your feet and hit it anyway."
+        },
+        "s4": {
+          "l1": "The sky broke the last time the Riftmaker got bored.",
+          "l2": "Let's not give it another reason."
+        },
+        "s5": {
+          "l1": "Every flower here is poison. So am I.",
+          "l2": "Keep your distance and keep swinging."
+        },
+        "s6": {
+          "l1": "Round and round. You'll forget why you came.",
+          "l2": "We came to win. Easy to remember."
+        },
+        "s7": {
+          "l1": "Fire, water, earth and air. The court plays them all against you.",
+          "l2": "We brought our own."
+        },
+        "s8": {
+          "l1": "Every word you say comes back twice.",
+          "l2": "Then listen closely. We win. We win."
+        },
+        "s9": {
+          "l1": "One gate left. I fold space, and you fold in half.",
+          "l2": "Last guard. Let's finish it."
+        },
+        "s10": {
+          "l1": "Welcome to the core. Shall we fight on the Moon? In a nebula? I can make anywhere the arena.",
+          "l2": "Pick anywhere you like. We'll still beat you there.",
+          "l3": "Then let's see how you fall without gravity."
+        },
+        "outro": {
+          "l1": "Reality is refusing to bend.",
+          "l2": "Some things stay put.",
+          "l3": "The floating stones settle. Through the last crack in the rift, a cold bell rings from a kingdom where nobody has lived for a very long time."
+        }
+      },
+      "c6": {
+        "intro": {
+          "l1": "A kingdom that died long ago has started to stir. Its bells ring at midnight with no one to pull the ropes.",
+          "l2": "Lanterns float over the marsh. Armour walks the roads with nobody inside it.",
+          "l3": "On a throne of ash sits the Hollow King, gathering an army that can't be killed, because it was never alive."
+        },
+        "s1": {
+          "l1": "The road is paved with old knights. Lie down and join them.",
+          "l2": "We'll walk over them instead."
+        },
+        "s2": {
+          "l1": "Follow the lanterns. They always lead somewhere worse.",
+          "l2": "We'll follow them straight to the King."
+        },
+        "s3": {
+          "l1": "The crypt is locked from the inside.",
+          "l2": "Then we'll knock."
+        },
+        "s4": {
+          "l1": "The river under this bridge is made of tears. Add yours.",
+          "l2": "Not a chance."
+        },
+        "s5": {
+          "l1": "Every skull in the ossuary was a hero once.",
+          "l2": "And none of them gave up. Neither do we."
+        },
+        "s6": {
+          "l1": "Everything here is for sale. Souls go for two coins each.",
+          "l2": "Ours aren't for sale."
+        },
+        "s7": {
+          "l1": "Every chain in this hall holds someone who said no to the King.",
+          "l2": "Then let's break a few."
+        },
+        "s8": {
+          "l1": "The cathedral burned a thousand years ago. It's still warm.",
+          "l2": "Stay sharp. We're close."
+        },
+        "s9": {
+          "l1": "I have kept vigil at the King's door since before your world began.",
+          "l2": "Your watch is over."
+        },
+        "s10": {
+          "l1": "Kneel. Everyone kneels, in the end.",
+          "l2": "Your kingdom is empty. There's nobody left to kneel to you.",
+          "l3": "Then you will be my first new subjects."
+        },
+        "outro": {
+          "l1": "My crown is so heavy.",
+          "l2": "Put it down. Rest.",
+          "l3": "The bells fall silent. The sky over the kingdom brightens for a moment, then goes strangely dim. Far above, the sun is starting to go out."
+        }
+      },
+      "c7": {
+        "intro": {
+          "l1": "The days are getting shorter, and not because of the season. The sun is burning black from the inside.",
+          "l2": "Every hour, the sky gets a little darker. Shadows stretch longer than the things that cast them.",
+          "l3": "Something has made its home in the heart of the sun. It calls itself the Black Sun, and it is eating the light."
+        },
+        "s1": {
+          "l1": "It's always dusk now. Soon it will always be night.",
+          "l2": "Not if we have anything to say about it."
+        },
+        "s2": {
+          "l1": "The sundial has no shadow left to tell the time with.",
+          "l2": "We'll give it a long one. Yours."
+        },
+        "s3": {
+          "l1": "This forge made the sun's crown. It'll make your grave too.",
+          "l2": "Hit hard, hit fast."
+        },
+        "s4": {
+          "l1": "Every step closer to the sun, the hotter it gets.",
+          "l2": "We can take the heat."
+        },
+        "s5": {
+          "l1": "The trees here grow toward the dark.",
+          "l2": "Then let's bring a little light."
+        },
+        "s6": {
+          "l1": "The astronomers saw the Black Sun coming. Nobody believed them.",
+          "l2": "We believe them. That's why we're here."
+        },
+        "s7": {
+          "l1": "The halo is the last ring of light. I'll snuff it out with you.",
+          "l2": "Two of us, one of you. Do the maths."
+        },
+        "s8": {
+          "l1": "Past this gate, the sun is black all the way down.",
+          "l2": "Then we'll bring our own light."
+        },
+        "s9": {
+          "l1": "I am the last paladin of the dusk. When I fall, nothing stands between you and the crown.",
+          "l2": "That's the plan."
+        },
+        "s10": {
+          "l1": "Look up. Every star you have ever seen, I will swallow.",
+          "l2": "Then you'll have to start with us.",
+          "l3": "Burn, then. Burn black."
+        },
+        "outro": {
+          "l1": "The light is coming back.",
+          "l2": "It never really left.",
+          "l3": "Gold floods the sky again. When night finally falls, there is one star too many, and it is falling toward the edge of the world."
+        }
+      },
+      "c8": {
+        "intro": {
+          "l1": "Every enemy you have beaten came through a crack in reality. Every crack leads back to one place.",
+          "l2": "Past the last star, at the edge of everything, the cosmos has woken up and given itself a will.",
+          "l3": "It calls itself the Axiom. It folds galaxies in its fists, and it has decided the universe would be tidier without you."
+        },
+        "s1": {
+          "l1": "The stars led you here. They were never guiding you. They were herding you.",
+          "l2": "Then we'll follow them all the way to the end."
+        },
+        "s2": {
+          "l1": "Each step up is one more proof that you can't win.",
+          "l2": "We've heard that seven times already."
+        },
+        "s3": {
+          "l1": "In the slow orbit, every punch takes a year to land.",
+          "l2": "Then let's start swinging now."
+        },
+        "s4": {
+          "l1": "Two stars, two of you. One of each pair burns out.",
+          "l2": "Not this pair."
+        },
+        "s5": {
+          "l1": "The nebula shows you what you'll become: dust.",
+          "l2": "Dust that hits back."
+        },
+        "s6": {
+          "l1": "A billion rocks, and every one of them is aimed at you.",
+          "l2": "Dodge left, hit right."
+        },
+        "s7": {
+          "l1": "This comet stopped in its tracks the day the Axiom woke up.",
+          "l2": "We'll get it moving again."
+        },
+        "s8": {
+          "l1": "Past the horizon, not even light comes back. You won't either.",
+          "l2": "We always come back."
+        },
+        "s9": {
+          "l1": "I am the paradox that guards the end. You can't beat me, because you have already lost.",
+          "l2": "We'll take our chances."
+        },
+        "s10": {
+          "l1": "Everything you fought was a rough draft. I am the final version.",
+          "l2": "Then we're the edit you didn't see coming.",
+          "l3": "Reality ends here. Let me show you how."
+        },
+        "outro": {
+          "l1": "Impossible. That outcome was not in the equations.",
+          "l2": "We were never good at following rules.",
+          "l3": "The edge of everything holds. The rift is gone for good, and every fighter who came this far has a story worth telling."
+        }
+      }
+    },
+    "map": {
+      "aria": "Stages on the chapter map",
+      "watchIntro": "Watch the intro",
+      "play": "Fight this stage",
+      "enemies": "Who you'll face"
+    },
+    "minion": {
+      "grunt": "Grunt",
+      "caster": "Caster",
+      "brute": "Brute",
+      "elite": "Lieutenant"
+    },
+    "scene": {
+      "aria": "Story scene",
+      "next": "Next",
+      "skip": "Skip",
+      "fight": "Fight",
+      "continue": "Continue"
     }
   },
   "fusion": {

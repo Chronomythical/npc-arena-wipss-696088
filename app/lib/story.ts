@@ -1,139 +1,145 @@
 // Story mode: chapters of stages. The player brings two fighters into each stage and either fuses
 // them into one hybrid or sends them in side by side with team attacks. Progress lives in the browser.
-import { DEF_BY_ID, fusionOrder, hybridOf, withTeamAttack, type FighterDef, type Power } from "./fighters";
+import { fusionOrder, hybridOf, withTeamAttack, type FighterDef, type MinionKind, type Power } from "./fighters";
 import { BOSSES, type BossId } from "./bosses";
+import { MINIONS } from "./minions";
 
 export { fusionOrder };
 
 export type Stage = {
-  /** Enemies on the other side. A boss is its own fighter from bosses.ts, with its own moves and design. */
-  enemies: Power[];
-  /** Share of their normal health the enemies bring, so a crowd stays beatable for a pair. */
+  /** The boss's minions on the other side, by kind (see minions.ts). */
+  foes: MinionKind[];
+  /** Share of their normal health the minions bring, so a crowd stays beatable for a pair. */
   enemyHp?: number;
   boss?: BossId;
 };
 
 export type Chapter = { stages: Stage[] };
 
-/** The chapters, each ten stages ending on a boss. A chapter opens once the one before it is cleared. */
+const KIND: Record<string, MinionKind> = { g: "grunt", c: "caster", b: "brute", e: "elite" };
+/** A stage of minions written as letters: g grunt, c caster, b brute, e the lieutenant. */
+const st = (code: string, enemyHp?: number): Stage => ({ foes: [...code].map((k) => KIND[k]), ...(enemyHp ? { enemyHp } : {}) });
+
+/** The chapters, each nine stages of the boss's minions, then the boss. A chapter opens once the one before it is cleared. */
 export const CHAPTERS: Chapter[] = [
   {
+    // Chapter 1: The Rift Opens
     stages: [
-      { enemies: ["toxi"] },
-      { enemies: ["chrono"] },
-      { enemies: ["shift"] },
-      { enemies: ["aero", "tele"], enemyHp: 0.8 },
-      { enemies: ["magneto", "gravi"], enemyHp: 0.68 },
-      { enemies: ["cryo", "psy"], enemyHp: 0.75 },
-      { enemies: ["vita", "toxi", "umbra"], enemyHp: 0.4 },
-      { enemies: ["terra", "electro", "lux"], enemyHp: 0.42 },
-      { enemies: ["pyro", "hydro", "aero"], enemyHp: 0.48 },
-      { enemies: [], boss: "nullshade" },
+      st("g"),
+      st("c"),
+      st("b"),
+      st("gc", 0.8),
+      st("bg", 0.68),
+      st("cc", 0.75),
+      st("ggc", 0.4),
+      st("bcg", 0.42),
+      st("egc", 0.48),
+      { foes: [], boss: "nullshade" },
     ],
   },
   {
     // Chapter 2: The Storm Coast
     stages: [
-      { enemies: ["hydro"] },
-      { enemies: ["electro"] },
-      { enemies: ["magneto"] },
-      { enemies: ["aero", "terra"], enemyHp: 0.8 },
-      { enemies: ["umbra", "hydro"], enemyHp: 0.75 },
-      { enemies: ["psy", "tele"], enemyHp: 0.75 },
-      { enemies: ["toxi", "shift", "vita"], enemyHp: 0.45 },
-      { enemies: ["cryo", "hydro", "electro"], enemyHp: 0.48 },
-      { enemies: ["aero", "electro", "lux"], enemyHp: 0.5 },
-      { enemies: [], boss: "maelstrom" },
+      st("g"),
+      st("c"),
+      st("b"),
+      st("gc", 0.8),
+      st("bc", 0.75),
+      st("gg", 0.75),
+      st("cgb", 0.45),
+      st("bgc", 0.48),
+      st("egg", 0.5),
+      { foes: [], boss: "maelstrom" },
     ],
   },
   {
     // Chapter 3: The Ember Wastes
     stages: [
-      { enemies: ["pyro"] },
-      { enemies: ["lux"] },
-      { enemies: ["gravi"] },
-      { enemies: ["terra", "toxi"], enemyHp: 0.82 },
-      { enemies: ["shift", "psy"], enemyHp: 0.8 },
-      { enemies: ["pyro", "magneto"], enemyHp: 0.7 },
-      { enemies: ["vita", "pyro", "aero"], enemyHp: 0.45 },
-      { enemies: ["terra", "gravi", "chrono"], enemyHp: 0.34 },
-      { enemies: ["pyro", "terra", "lux", "electro"], enemyHp: 0.3 },
-      { enemies: [], boss: "magmaw" },
+      st("g"),
+      st("c"),
+      st("b"),
+      st("gb", 0.82),
+      st("cc", 0.8),
+      st("bg", 0.7),
+      st("ggc", 0.45),
+      st("bbc", 0.34),
+      st("egcb", 0.3),
+      { foes: [], boss: "magmaw" },
     ],
   },
   {
     // Chapter 4: The Frozen Clock
     stages: [
-      { enemies: ["cryo"] },
-      { enemies: ["psy"] },
-      { enemies: ["chrono"] },
-      { enemies: ["cryo", "aero"], enemyHp: 0.85 },
-      { enemies: ["lux", "umbra"], enemyHp: 0.75 },
-      { enemies: ["chrono", "magneto"], enemyHp: 0.65 },
-      { enemies: ["cryo", "lux", "tele"], enemyHp: 0.34 },
-      { enemies: ["gravi", "cryo", "psy"], enemyHp: 0.45 },
-      { enemies: ["chrono", "tele", "shift", "umbra"], enemyHp: 0.23 },
-      { enemies: [], boss: "everwinter" },
+      st("c"),
+      st("g"),
+      st("b"),
+      st("cg", 0.85),
+      st("gc", 0.75),
+      st("bb", 0.65),
+      st("ccg", 0.34),
+      st("bgc", 0.45),
+      st("egcb", 0.23),
+      { foes: [], boss: "everwinter" },
     ],
   },
   {
     // Chapter 5: The Heart of the Rift
     stages: [
-      { enemies: ["shift"] },
-      { enemies: ["tele"] },
-      { enemies: ["gravi", "umbra"], enemyHp: 0.8 },
-      { enemies: ["electro", "aero", "lux"], enemyHp: 0.46 },
-      { enemies: ["toxi", "vita", "terra"], enemyHp: 0.46 },
-      { enemies: ["psy", "chrono", "shift"], enemyHp: 0.4 },
-      { enemies: ["pyro", "cryo", "hydro", "terra"], enemyHp: 0.27 },
-      { enemies: ["magneto", "gravi", "tele", "umbra"], enemyHp: 0.19 },
-      { enemies: ["pyro", "electro", "aero", "lux", "umbra"], enemyHp: 0.16 },
-      { enemies: [], boss: "riftmaker" },
+      st("g"),
+      st("c"),
+      st("bg", 0.8),
+      st("gcc", 0.46),
+      st("bgg", 0.46),
+      st("ccb", 0.4),
+      st("ggcb", 0.27),
+      st("bbcc", 0.19),
+      st("egcbg", 0.16),
+      { foes: [], boss: "riftmaker" },
     ],
   },
   {
     // Chapter 6: The Hollow Kingdom
     stages: [
-      { enemies: ["umbra"] },
-      { enemies: ["toxi", "vita"], enemyHp: 0.85 },
-      { enemies: ["chrono", "psy"], enemyHp: 0.8 },
-      { enemies: ["umbra", "magneto"], enemyHp: 0.7 },
-      { enemies: ["toxi", "umbra", "shift"], enemyHp: 0.45 },
-      { enemies: ["psy", "tele", "vita"], enemyHp: 0.45 },
-      { enemies: ["gravi", "umbra", "cryo"], enemyHp: 0.38 },
-      { enemies: ["pyro", "toxi", "terra", "umbra"], enemyHp: 0.22 },
-      { enemies: ["chrono", "psy", "tele", "shift", "umbra"], enemyHp: 0.13 },
-      { enemies: [], boss: "hollowking" },
+      st("g"),
+      st("gc", 0.85),
+      st("cc", 0.8),
+      st("bg", 0.7),
+      st("ggc", 0.45),
+      st("ccb", 0.45),
+      st("bbg", 0.38),
+      st("ggcb", 0.22),
+      st("egcbc", 0.13),
+      { foes: [], boss: "hollowking" },
     ],
   },
   {
     // Chapter 7: The Dying Sun
     stages: [
-      { enemies: ["lux"] },
-      { enemies: ["pyro", "lux"], enemyHp: 0.85 },
-      { enemies: ["electro", "magneto"], enemyHp: 0.65 },
-      { enemies: ["umbra", "lux"], enemyHp: 0.8 },
-      { enemies: ["pyro", "aero", "gravi"], enemyHp: 0.46 },
-      { enemies: ["lux", "chrono", "psy"], enemyHp: 0.46 },
-      { enemies: ["electro", "pyro", "terra"], enemyHp: 0.44 },
-      { enemies: ["gravi", "umbra", "lux", "tele"], enemyHp: 0.2 },
-      { enemies: ["pyro", "lux", "electro", "umbra", "gravi"], enemyHp: 0.14 },
-      { enemies: [], boss: "blacksun" },
+      st("c"),
+      st("gc", 0.85),
+      st("bb", 0.65),
+      st("gc", 0.8),
+      st("bcg", 0.46),
+      st("ccg", 0.46),
+      st("bgc", 0.44),
+      st("ggcb", 0.2),
+      st("ebgcc", 0.14),
+      { foes: [], boss: "blacksun" },
     ],
   },
   {
     // Chapter 8: The Edge of Everything
     stages: [
-      { enemies: ["gravi"] },
-      { enemies: ["tele", "psy"], enemyHp: 0.85 },
-      { enemies: ["gravi", "chrono"], enemyHp: 0.7 },
-      { enemies: ["lux", "umbra"], enemyHp: 0.8 },
-      { enemies: ["psy", "tele", "shift"], enemyHp: 0.45 },
-      { enemies: ["gravi", "magneto", "terra"], enemyHp: 0.44 },
-      { enemies: ["chrono", "cryo", "lux"], enemyHp: 0.44 },
-      { enemies: ["gravi", "psy", "tele", "umbra"], enemyHp: 0.2 },
-      { enemies: ["pyro", "lux", "gravi", "chrono", "psy"], enemyHp: 0.13 },
-      { enemies: [], boss: "axiom" },
+      st("b"),
+      st("cc", 0.85),
+      st("bg", 0.7),
+      st("gc", 0.8),
+      st("ccg", 0.45),
+      st("bbg", 0.44),
+      st("gcb", 0.44),
+      st("ggcc", 0.2),
+      st("ebcgc", 0.13),
+      { foes: [], boss: "axiom" },
     ],
   },
 ];
@@ -154,19 +160,22 @@ export function playerSide(p: Pair): FighterDef[] {
   return [withTeamAttack(p.a, p.b), withTeamAttack(p.b, p.a)];
 }
 
-export function enemySide(stage: Stage): FighterDef[] {
+export function enemySide(ch: number, stage: Stage): FighterDef[] {
   if (stage.boss) return [BOSSES[stage.boss]];
   const share = stage.enemyHp ?? 1;
-  return stage.enemies.map((id) => {
-    const d = DEF_BY_ID[id];
-    return share === 1 ? d : { ...d, hp: Math.round(d.hp * share) };
+  const crew = MINIONS[ch] ?? MINIONS[0];
+  return stage.foes.map((kind) => {
+    const d = crew[kind];
+    // the lieutenant leads the crowd, so it keeps more of its health than the minions beside it
+    const k = kind === "elite" ? Math.max(0.35, Math.min(1, share * 1.6)) : share;
+    return k === 1 ? d : { ...d, hp: Math.round(d.hp * k) };
   });
 }
 
 /** Everyone in the fight, with the player on team 0 and the stage on team 1. */
-export function stageLineup(p: Pair, stage: Stage): { defs: FighterDef[]; teams: number[] } {
+export function stageLineup(p: Pair, ch: number, stage: Stage): { defs: FighterDef[]; teams: number[] } {
   const mine = playerSide(p);
-  const theirs = enemySide(stage);
+  const theirs = enemySide(ch, stage);
   return { defs: [...mine, ...theirs], teams: [...mine.map(() => 0), ...theirs.map(() => 1)] };
 }
 
@@ -200,6 +209,28 @@ export function saveProgress(p: Progress) {
   }
 }
 
+
+const SEEN_KEY = "npc-arena-story-intros";
+
+/** The chapters whose opening scene this browser has already watched. */
+export function loadSeenIntros(): number[] {
+  try {
+    const raw = JSON.parse(localStorage.getItem(SEEN_KEY) ?? "[]");
+    return Array.isArray(raw) ? raw.filter((n): n is number => Number.isInteger(n) && n >= 0 && n < CHAPTERS.length) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function markIntroSeen(ch: number) {
+  try {
+    const seen = new Set(loadSeenIntros());
+    seen.add(ch);
+    localStorage.setItem(SEEN_KEY, JSON.stringify([...seen]));
+  } catch {
+    // storage blocked: the intro just plays again next time
+  }
+}
 
 /** The Story bosses this browser has beaten, in chapter order. Each one is a fighter you can pick outside Story. */
 export const bossesBeaten = (cleared: number[]): BossId[] =>

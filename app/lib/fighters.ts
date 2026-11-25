@@ -110,7 +110,12 @@ export type FighterDef = {
   boss?: BossDesign;
   /** Set on the fighter you made in Free World: its name, powers and look. */
   custom?: CustomSpec;
+  /** Set on a Story minion: which kind it is, and the glowing colour of the boss it serves. `id` is only the power it fights with. */
+  minion?: { kind: MinionKind; mark: string };
 };
+
+/** The kinds of minion each Story boss sends: small grunts, hooded casters, big brutes and one crowned lieutenant. */
+export type MinionKind = "grunt" | "caster" | "brute" | "elite";
 
 /** What you wear on the stick figure you made. */
 export type Gear = "scarf" | "cape" | "headband" | "mask" | "none";

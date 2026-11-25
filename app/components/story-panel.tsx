@@ -5,13 +5,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~
 import { cn } from "~/lib/utils";
 import { DEF_BY_ID, FIGHTERS, type Power } from "~/lib/fighters";
 import { unlockedOf, useQuests } from "~/lib/quests";
+import { PiFilmSlateBold, PiSwordFill } from "react-icons/pi";
 import { CHAPTERS, STAGES_PER_CHAPTER, canTeam, chapterOpen, enemySide, playerSide, type Pair } from "~/lib/story";
+import { FighterDot } from "~/components/fighter-dot";
+import { StoryMap } from "~/components/story-map";
+import { CHAPTER_TITLES, stageNameKey } from "~/components/story-scene";
 
-const TITLE_KEYS: StringKey[] = ["story.chapterTitle", "story.ch2.title", "story.ch3.title", "story.ch4.title", "story.ch5.title", "story.ch6.title", "story.ch7.title", "story.ch8.title"];
-const STAGE_PREFIX = ["story.stages", "story.ch2.stages", "story.ch3.stages", "story.ch4.stages", "story.ch5.stages", "story.ch6.stages", "story.ch7.stages", "story.ch8.stages"];
-const stageKey = (ch: number, i: number) => `${STAGE_PREFIX[ch]}.s${i + 1}` as StringKey;
-
-export function StoryPanel({ cleared, chapter, onChapter, stage, onStage, pair, onPair, locked }: {
+export function StoryPanel({ cleared, chapter, onChapter, stage, onStage, pair, onPair, locked, onPlay, onIntro }: {
   cleared: number[];
   chapter: number;
   onChapter: (ch: number) => void;
@@ -20,12 +20,17 @@ export function StoryPanel({ cleared, chapter, onChapter, stage, onStage, pair, 
   pair: Pair;
   onPair: (p: Pair) => void;
   locked: boolean;
+  /** Plays the selected stage: its scene, then the fight. */
+  onPlay: () => void;
+  /** Replays the chapter's opening scene. */
+  onIntro: () => void;
 }) {
   const firstAria = useString("story.first");
   const secondAria = useString("story.second");
   const chaptersAria = useString("story.chaptersAria");
   const stages = CHAPTERS[chapter].stages;
   const done = cleared[chapter] ?? 0;
+  const foes = enemySide(chapter, stages[stage] ?? stages[0]);
   const side = playerSide(pair);
   const teamOk = canTeam(pair);
   const fused = pair.fuse || !teamOk;
@@ -52,55 +57,51 @@ export function StoryPanel({ cleared, chapter, onChapter, stage, onStage, pair, 
         })}
       </div>
 
-      <div className="flex flex-col gap-1">
-        <Text id={TITLE_KEYS[chapter]} as="h3" className="font-display text-xl text-foreground" />
-        <Text id="story.chapterIntro" as="p" className="max-w-prose text-sm text-muted-foreground" />
-        <Text id="story.progress" vars={{ count: done, total: STAGES_PER_CHAPTER }} as="p" className="text-sm font-semibold text-foreground tabular-nums" />
+      <div className="flex flex-wrap items-start gap-3">
+        <div className="flex min-w-0 flex-1 flex-col gap-1">
+          <Text id={CHAPTER_TITLES[chapter]} as="h3" className="font-display text-xl text-foreground" />
+          <Text id="story.chapterIntro" as="p" className="max-w-prose text-sm text-muted-foreground" />
+          <Text id="story.progress" vars={{ count: done, total: STAGES_PER_CHAPTER }} as="p" className="text-sm font-semibold text-foreground tabular-nums" />
+        </div>
+        <Button size="sm" variant="outline" disabled={locked} onClick={onIntro}>
+          <PiFilmSlateBold className="size-5" aria-hidden />
+          <Text id="story.map.watchIntro" />
+        </Button>
       </div>
 
-      <ol className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5" data-story-stages>
-        {stages.map((s, i) => {
-          const open = i <= done;
-          const beaten = i < done;
-          const on = i === stage;
-          const foes = enemySide(s);
-          return (
-            <li key={i}>
-              <button
-                type="button"
-                disabled={!open || locked}
-                onClick={() => onStage(i)}
-                aria-pressed={on}
-                className={cn(
-                  "flex h-full w-full flex-col items-start gap-2 rounded-xl border-2 px-3 py-3 text-left transition-colors duration-150 hover:bg-surface-hover active:bg-surface-active disabled:cursor-not-allowed",
-                  on ? "border-foreground bg-card" : "border-border bg-background",
-                  !open && "opacity-60",
+      <StoryMap chapter={chapter} done={done} stage={stage} onStage={onStage} locked={locked} />
+
+      <div className="flex flex-col gap-4 rounded-xl border-2 border-border bg-background-secondary px-4 py-4 sm:flex-row sm:items-end" data-story-stage>
+        <div className="flex min-w-0 flex-1 flex-col gap-2">
+          <span className="flex items-center gap-2">
+            <Text id="story.stageNumber" vars={{ n: stage + 1 }} className="text-xs font-extrabold uppercase tracking-[0.08em] text-muted-foreground" />
+            {stage < done ? (
+              <Text id="story.cleared" className="text-xs font-extrabold text-success" />
+            ) : stages[stage]?.boss ? (
+              <Text id="story.boss" className="text-xs font-extrabold text-error" />
+            ) : null}
+          </span>
+          <Text id={stageNameKey(chapter, stage)} as="h4" className="font-display text-xl text-foreground" />
+          <Text id="story.map.enemies" as="p" className="text-sm text-muted-foreground" />
+          <ul className="flex flex-wrap gap-x-4 gap-y-2">
+            {foes.map((f, k) => (
+              <li key={k} className="flex items-center gap-2 text-sm text-foreground">
+                <FighterDot def={f} className="size-4" />
+                <span className="font-semibold">{f.name}</span>
+                {f.minion ? (
+                  <Text id={`story.minion.${f.minion.kind}` as StringKey} className="text-muted-foreground" />
+                ) : (
+                  <Text id="story.boss" className="text-error" />
                 )}
-              >
-                <span className="flex w-full items-center gap-2">
-                  <Text id="story.stageNumber" vars={{ n: i + 1 }} className="text-xs font-extrabold uppercase tracking-[0.08em] text-muted-foreground" />
-                  {beaten ? (
-                    <Text id="story.cleared" className="ml-auto text-xs font-extrabold text-success" />
-                  ) : !open ? (
-                    <Text id="story.locked" className="ml-auto text-xs font-semibold text-muted-foreground" />
-                  ) : s.boss ? (
-                    <Text id="story.boss" className="ml-auto text-xs font-extrabold text-error" />
-                  ) : null}
-                </span>
-                <Text id={stageKey(chapter, i)} className="font-display text-base leading-[1.2] text-foreground" />
-                <span className="flex flex-wrap gap-1">
-                  {foes.map((f, k) => (
-                    <span key={k} className="flex items-center gap-1 text-xs text-muted-foreground">
-                      <span className="size-2.5 rounded-full border border-foreground" style={{ background: f.color }} aria-hidden />
-                      {f.name}
-                    </span>
-                  ))}
-                </span>
-              </button>
-            </li>
-          );
-        })}
-      </ol>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <Button className="shrink-0" disabled={locked || stage > done} onClick={onPlay}>
+          <PiSwordFill className="size-5" aria-hidden />
+          <Text id="story.map.play" />
+        </Button>
+      </div>
 
       <div className="flex flex-col gap-3">
         <Text id="story.pairTitle" as="h3" className="font-display text-xl text-foreground" />

@@ -146,6 +146,8 @@ const CUSTOM_STANCE: Record<FighterDef["role"], Pose> = {
 const CUSTOM_IDLE_HZ: Record<FighterDef["role"], number> = { attacker: 6, control: 2.4, tank: 2, support: 3, trickster: 7.5 };
 /** Small, regular or tall. */
 const CUSTOM_SCALE = { small: 0.92, regular: 1, tall: 1.1 } as const;
+/** A Story minion's size: the grunts and casters a little smaller than a fighter, the brutes and lieutenants bigger. */
+const MINION_SCALE = { grunt: 0.88, caster: 0.94, brute: 1.14, elite: 1.08 } as const;
 const pairHash = (a: Power, b: Power) => [a, b].sort().join("+").split("").reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
 /** The rest stance this fighter stands in. */
 function stanceOf(def: FighterDef): Pose {
@@ -313,7 +315,7 @@ const isDarkForm = (k?: FormKind) => k === "nightmare" || k === "surge";
 /** The form a fighter breaks into now, if any. Forms only belong to the pure fighters, not to a hybrid or a boss carrying their power.
  * A Story boss has its own phases instead (BOSS_PHASES in bosses.ts), taken one at a time as its health runs down. */
 function nextForm(f: Fighter): Form | null {
-  if (f.def.parents || f.def.custom) return null;
+  if (f.def.parents || f.def.custom || f.def.minion) return null;
   const share = f.hp / f.maxHp;
   if (f.def.boss) {
     const phases = BOSS_PHASES[f.def.boss];
@@ -518,7 +520,7 @@ export function newGame(ids: (Power | FighterDef)[], preview = false, teams?: nu
     const slot = slotOf.get(i) ?? i;
     const x = n === 2 ? (slot === 0 ? 270 : W - 270) : 70 + ((W - 140) * (slot + 0.5)) / n;
     // a hybrid stands a little taller than a pure-blooded fighter; the young new-generation fighters a little shorter
-    const sc = isJugg ? scale * 1.25 : def.custom ? scale * CUSTOM_SCALE[def.custom.build] : def.boss ? scale * 1.22 : def.parents ? scale * 1.12 : isNewGen(def.id) ? scale * 0.94 : isQuester(def.id) ? scale * 1.1 : scale;
+    const sc = isJugg ? scale * 1.25 : def.custom ? scale * CUSTOM_SCALE[def.custom.build] : def.boss ? scale * 1.22 : def.minion ? scale * MINION_SCALE[def.minion.kind] : def.parents ? scale * 1.12 : isNewGen(def.id) ? scale * 0.94 : isQuester(def.id) ? scale * 1.1 : scale;
     const hoverY = GROUND - HOVER_HIGH * sc;
     return {
       key: i, def,
@@ -3143,6 +3145,104 @@ function drawHeadGear(ctx: CanvasRenderingContext2D, gear: "headband" | "mask", 
   }
 }
 
+/** A Story minion's gear: the grunt's horns, the caster's hood, the brute's spiked pauldron, the lieutenant's crown and cape,
+ * and on every one of them its boss's sigil glowing on the chest. */
+function drawMinionGear(ctx: CanvasRenderingContext2D, m: NonNullable<FighterDef["minion"]>, layer: "back" | "front", p: { head: Pt; neck: Pt; hip: Pt; shoulder: Pt }, s: number, face: number, wave: number, vx: number, ink: string, body: string) {
+  const { head, neck, hip, shoulder } = p;
+  const r = HEAD * s;
+  ctx.lineJoin = "round";
+  if (layer === "back") {
+    if (m.kind === "caster") {
+      // a pointed hood framing the face, its tip trailing behind
+      ctx.beginPath();
+      ctx.moveTo(head.x + face * r * 0.95, head.y + r * 0.85);
+      ctx.quadraticCurveTo(head.x + face * r * 1.55, head.y - r * 1.35, head.x - face * r * 0.3, head.y - r * 1.55);
+      ctx.quadraticCurveTo(head.x - face * r * 1.5, head.y - r * 1.9 + wave * 0.3, head.x - face * r * 2.5, head.y - r * 0.1 + wave * 0.6);
+      ctx.quadraticCurveTo(head.x - face * r * 1.4, head.y + r * 0.7, head.x - face * r * 0.5, head.y + r * 1.25);
+      ctx.closePath();
+      ctx.fillStyle = shade(body, -14);
+      ctx.fill();
+      ctx.strokeStyle = ink;
+      ctx.lineWidth = 3 * s;
+      ctx.stroke();
+    }
+    if (m.kind === "elite") drawCape(ctx, neck, hip, face, wave, vx, s, m.mark, ink);
+    return;
+  }
+  // the boss's sigil, glowing on the chest
+  const cx = neck.x + (hip.x - neck.x) * 0.36, cy = neck.y + (hip.y - neck.y) * 0.36, d = 5.5 * s;
+  ctx.save();
+  ctx.shadowColor = m.mark;
+  ctx.shadowBlur = 10 * s;
+  ctx.beginPath();
+  ctx.moveTo(cx, cy - d);
+  ctx.lineTo(cx + d * 0.75, cy);
+  ctx.lineTo(cx, cy + d);
+  ctx.lineTo(cx - d * 0.75, cy);
+  ctx.closePath();
+  ctx.fillStyle = m.mark;
+  ctx.fill();
+  ctx.restore();
+  ctx.strokeStyle = ink;
+  ctx.lineWidth = 2 * s;
+  ctx.stroke();
+  if (m.kind === "grunt") {
+    // two little horns
+    for (const k of [-1, 1]) {
+      const bx = head.x + k * r * 0.5, by = head.y - r * 0.75;
+      ctx.beginPath();
+      ctx.moveTo(bx - 3.2 * s, by + 1.5 * s);
+      ctx.quadraticCurveTo(bx + k * 1.5 * s, by - 9 * s, bx + k * 6 * s, by - 12 * s);
+      ctx.quadraticCurveTo(bx + k * 3 * s, by - 3 * s, bx + 3.2 * s, by + 1.5 * s);
+      ctx.closePath();
+      ctx.fillStyle = shade(body, -22);
+      ctx.fill();
+      ctx.strokeStyle = ink;
+      ctx.lineWidth = 2.2 * s;
+      ctx.stroke();
+    }
+  } else if (m.kind === "brute") {
+    // a spiked pauldron on the front shoulder
+    const px = shoulder.x + face * 2 * s, py = shoulder.y - 2 * s;
+    for (const a of [-0.5, 0.35]) {
+      ctx.beginPath();
+      ctx.moveTo(px + Math.cos(a - 1.9) * 7 * s, py + Math.sin(a - 1.9) * 7 * s);
+      ctx.lineTo(px + Math.cos(a - Math.PI / 2) * 16 * s, py + Math.sin(a - Math.PI / 2) * 16 * s);
+      ctx.lineTo(px + Math.cos(a - 1.2) * 7 * s, py + Math.sin(a - 1.2) * 7 * s);
+      ctx.closePath();
+      ctx.fillStyle = m.mark;
+      ctx.fill();
+      ctx.strokeStyle = ink;
+      ctx.lineWidth = 2 * s;
+      ctx.stroke();
+    }
+    ctx.beginPath();
+    ctx.arc(px, py, 8.5 * s, 0, Math.PI * 2);
+    ctx.fillStyle = shade(body, -10);
+    ctx.fill();
+    ctx.strokeStyle = ink;
+    ctx.lineWidth = 2.6 * s;
+    ctx.stroke();
+  } else if (m.kind === "elite") {
+    // a crown of three spikes
+    const top = head.y - r * 0.8;
+    ctx.beginPath();
+    ctx.moveTo(head.x - r * 0.85, top + 2 * s);
+    ctx.lineTo(head.x - r * 0.75, top - 8 * s);
+    ctx.lineTo(head.x - r * 0.35, top - 2 * s);
+    ctx.lineTo(head.x, top - 12 * s);
+    ctx.lineTo(head.x + r * 0.35, top - 2 * s);
+    ctx.lineTo(head.x + r * 0.75, top - 8 * s);
+    ctx.lineTo(head.x + r * 0.85, top + 2 * s);
+    ctx.closePath();
+    ctx.fillStyle = m.mark;
+    ctx.fill();
+    ctx.strokeStyle = ink;
+    ctx.lineWidth = 2.2 * s;
+    ctx.stroke();
+  }
+}
+
 /** `alpha` fades the whole body, `solid` paints it one flat colour (used by the entrances), `shadow: false` skips the floor shadow. */
 function drawFighterBody(ctx: CanvasRenderingContext2D, g: Game, f: Fighter, o: { alpha?: number; solid?: string; shadow?: boolean } = {}) {
   const s = f.scale;
@@ -3203,7 +3303,8 @@ function drawFighterBody(ctx: CanvasRenderingContext2D, g: Game, f: Fighter, o: 
   const wave = Math.sin((g.t + (g.intro?.t ?? 0)) * 12 + f.key) * 4 * s;
   const gear = f.def.custom?.gear;
   if (gear === "cape") drawCape(ctx, neck, hip, face, wave, f.vx, s, o.solid ?? rg?.glow ?? f.def.glow, ink);
-  if (!f.def.boss && !quest && (!gear || gear === "scarf")) {
+  if (f.def.minion && !o.solid) drawMinionGear(ctx, f.def.minion, "back", { head, neck, hip, shoulder }, s, face, wave, f.vx, ink, col);
+  if (!f.def.boss && !quest && !f.def.minion && (!gear || gear === "scarf")) {
   const sx = -face * (16 + Math.abs(f.vx) * 0.03) * s;
   ctx.beginPath();
   ctx.moveTo(neck.x, neck.y + 2 * s);
@@ -3273,7 +3374,8 @@ function drawFighterBody(ctx: CanvasRenderingContext2D, g: Game, f: Fighter, o: 
     ctx.moveTo(ex - 3.5 * s, ey); ctx.lineTo(ex + 3.5 * s, ey);
     ctx.stroke();
   } else if (!quest) {
-    ctx.fillStyle = "white";
+    // a minion's eye glows in its boss's colour
+    ctx.fillStyle = f.def.minion && !o.solid ? f.def.minion.mark : "white";
     ctx.beginPath();
     ctx.ellipse(ex, ey, 3.6 * s, 4.4 * s, 0, 0, Math.PI * 2);
     ctx.fill();
@@ -3283,6 +3385,7 @@ function drawFighterBody(ctx: CanvasRenderingContext2D, g: Game, f: Fighter, o: 
     ctx.fill();
   }
   if ((gear === "headband" || gear === "mask") && !o.solid) drawHeadGear(ctx, gear, head, face, wave, f.vx, s, rg?.glow ?? f.def.glow, ink, f.alive && !blind);
+  if (f.def.minion && !o.solid) drawMinionGear(ctx, f.def.minion, "front", { head, neck, hip, shoulder }, s, face, wave, f.vx, ink, col);
   if (f.def.boss && !o.solid) drawBossDesign(ctx, f.def.boss, "front", bossPts, s, face, bt, f.alive, f.vx, bossAct, bossPhase);
   if (quest) drawQuestDesign(ctx, f.def.id, "front", bossPts, s, face, bt, f.alive, questAct, questPaint, f.vx);
   ctx.globalAlpha = 1;

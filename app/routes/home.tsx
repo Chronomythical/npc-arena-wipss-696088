@@ -33,7 +33,10 @@ import { BracketView, type TeamEntry } from "~/components/bracket-view";
 import { TitleScreen, type TitleMode } from "~/components/title-screen";
 import { FreeWorld } from "~/components/free-world";
 import { StoryPanel } from "~/components/story-panel";
-import { CHAPTERS, STAGES_PER_CHAPTER, bossesBeaten, canTeam, chapterOpen, fusionOrder, loadProgress, saveProgress, stageLineup, type Pair } from "~/lib/story";
+import { CHAPTERS, STAGES_PER_CHAPTER, bossesBeaten, canTeam, chapterOpen, fusionOrder, loadProgress, loadSeenIntros, markIntroSeen, saveProgress, stageLineup, type Pair } from "~/lib/story";
+import { StoryScene } from "~/components/story-scene";
+import { storyBackdrop } from "~/lib/story-backdrops";
+import type { Scene } from "~/lib/story-script";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -141,6 +144,10 @@ export default function Home() {
   type Unlock = { def: FighterDef; eyebrow: StringKey; joined: StringKey };
   const [unlocks, setUnlocks] = useState<Unlock[]>([]);
   const closeUnlock = useCallback(() => setUnlocks((q) => q.slice(1)), []);
+  // Story scenes: a chapter's opening, the words before a stage, the boss's last words.
+  // Unlocks earned by a boss win wait until its closing scene is over.
+  const [scene, setScene] = useState<Scene | null>(null);
+  const afterOutro = useRef<Unlock[]>([]);
   useEffect(() => {
     const all = loadProgress().cleared;
     setClearedAll(all);
@@ -310,7 +317,10 @@ export default function Home() {
       // every boss win, first or replayed, is a chance for a new-generation fighter to join
       const young = beaten ? rollNewGen() : null;
       if (young) queued.push({ def: DEF_BY_ID[young], eyebrow: "arena.newgen.unlockEyebrow", joined: "arena.newgen.unlockJoined" });
-      if (queued.length) window.setTimeout(() => setUnlocks((q) => [...q, ...queued]), 1600);
+      if (beaten) {
+        afterOutro.current = queued;
+        window.setTimeout(() => setScene({ kind: "outro", ch: at0.ch, stage: at0.i }), 1600);
+      } else if (queued.length) window.setTimeout(() => setUnlocks((q) => [...q, ...queued]), 1600);
       setClearedAll((all) => {
         const next = [...all];
         next[at0.ch] = Math.max(next[at0.ch] ?? 0, at0.i + 1);
@@ -319,6 +329,38 @@ export default function Home() {
       });
     }
     setStatus("finished");
+  };
+
+  // Story stages each have their own painting; every other mode fights in the home arena.
+  const backdropRef = useRef<HTMLCanvasElement | null>(null);
+  useEffect(() => {
+    backdropRef.current = mode === "story" ? storyBackdrop(chapter, stage) : null;
+  }, [mode, chapter, stage, screen]);
+
+  // A chapter's opening scene plays the first time it is opened in this browser.
+  useEffect(() => {
+    if (screen !== "arena" || mode !== "story" || scene || status === "running" || status === "paused") return;
+    if (!loadSeenIntros().includes(chapter)) setScene({ kind: "intro", ch: chapter, stage: 0 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [screen, mode, chapter]);
+
+  const closeScene = () => {
+    const done = scene;
+    setScene(null);
+    if (!done) return;
+    if (done.kind === "intro") markIntroSeen(done.ch);
+    else if (done.kind === "stage") startStage(done.stage, done.ch);
+    else if (afterOutro.current.length) {
+      const queued = afterOutro.current;
+      afterOutro.current = [];
+      setUnlocks((q) => [...q, ...queued]);
+    }
+  };
+  /** A Story stage starts with its scene; the fight begins when the scene ends. */
+  const playStage = (i: number, ch = chapter) => {
+    setChapter(ch);
+    setStage(i);
+    setScene({ kind: "stage", ch, stage: i });
   };
 
   const readSnap = useCallback((g: Game): Snapshot => ({
@@ -334,7 +376,7 @@ export default function Home() {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    const backdrop = buildBackdrop();
+    const home = buildBackdrop();
     let raf = 0;
     let last = performance.now();
     let snapTimer = 0;
@@ -355,6 +397,7 @@ export default function Home() {
         }
         if (g.over) finishRef.current(g);
       }
+      const backdrop = backdropRef.current ?? home;
       if (g) drawScene(ctx, g, backdrop);
       else {
         const p = previewRef.current ?? newGame([], true);
@@ -389,7 +432,7 @@ export default function Home() {
       previewRef.current = newGame(defsOf(ids), true, ids.length ? teams : undefined);
     }
     else if (mode === "story") {
-      const { defs, teams } = stageLineup(pair, CHAPTERS[chapter].stages[stage]);
+      const { defs, teams } = stageLineup(pair, chapter, CHAPTERS[chapter].stages[stage]);
       previewRef.current = newGame(defs, true, teams);
     } else if (mode === "juggernaut") {
       const ids = [...picked.filter((id) => id !== jugg), jugg];
@@ -406,7 +449,7 @@ export default function Home() {
   };
 
   const startStage = (i: number, ch = chapter) => {
-    const { defs, teams } = stageLineup(pair, CHAPTERS[ch].stages[i]);
+    const { defs, teams } = stageLineup(pair, ch, CHAPTERS[ch].stages[i]);
     if (pair.fuse || !canTeam(pair)) rememberHybrid(...fusionOrder(pair.a, pair.b));
     stageRef.current = { ch, i };
     setChapter(ch);
@@ -416,7 +459,8 @@ export default function Home() {
 
   const start = () => {
     if (mode === "story") {
-      if (stage <= cleared) startStage(stage);
+      // a stage opens with its scene; the fight starts when the scene ends
+      if (stage <= cleared) playStage(stage);
       return;
     }
     if (tourMode) {
@@ -636,7 +680,7 @@ export default function Home() {
                           stage={stageRef.current?.i ?? stage}
                           won={result?.team === 0}
                           onRetry={() => startStage(stageRef.current?.i ?? stage, stageRef.current?.ch ?? chapter)}
-                          onNext={() => startStage(Math.min((stageRef.current?.i ?? stage) + 1, STAGES_PER_CHAPTER - 1), stageRef.current?.ch ?? chapter)}
+                          onNext={() => { const ch = stageRef.current?.ch ?? chapter; restart(); playStage(Math.min((stageRef.current?.i ?? stage) + 1, STAGES_PER_CHAPTER - 1), ch); }}
                           onNextChapter={() => { const ch = Math.min((stageRef.current?.ch ?? chapter) + 1, CHAPTERS.length - 1); setChapter(ch); setStage(0); restart(); }}
                           onBack={() => { setStage(Math.min((stageRef.current?.i ?? stage) + 1, STAGES_PER_CHAPTER - 1)); restart(); }}
                         />
@@ -760,7 +804,7 @@ export default function Home() {
             )}
             {mode === "story" ? (
               <div className="mt-6">
-                <StoryPanel cleared={clearedAll} chapter={chapter} onChapter={chooseChapter} stage={stage} onStage={setStage} pair={pair} onPair={setPair} locked={fighting} />
+                <StoryPanel cleared={clearedAll} chapter={chapter} onChapter={chooseChapter} stage={stage} onStage={(i) => { if (status === "finished") restart(); setStage(i); }} pair={pair} onPair={setPair} locked={fighting} onPlay={() => { restart(); if (stage <= cleared) playStage(stage); }} onIntro={() => setScene({ kind: "intro", ch: chapter, stage: 0 })} />
               </div>
             ) : (
             <>
@@ -897,7 +941,8 @@ export default function Home() {
           </div>
         </>
       )}
-      {unlocks[0] && <UnlockCutscene key={unlocks[0].def.id} def={unlocks[0].def} eyebrow={unlocks[0].eyebrow} joined={unlocks[0].joined} onClose={closeUnlock} />}
+      {scene && <StoryScene key={`${scene.kind}-${scene.ch}-${scene.stage}`} scene={scene} pair={pair} onDone={closeScene} />}
+      {unlocks[0] && !scene && <UnlockCutscene key={unlocks[0].def.id} def={unlocks[0].def} eyebrow={unlocks[0].eyebrow} joined={unlocks[0].joined} onClose={closeUnlock} />}
     </PageContainer>
   );
 }
