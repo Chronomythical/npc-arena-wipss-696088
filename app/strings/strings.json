@@ -898,7 +898,8 @@
       "grunt": "Grunt",
       "caster": "Caster",
       "brute": "Brute",
-      "elite": "Lieutenant"
+      "elite": "Lieutenant",
+      "power": "· {{power}}"
     },
     "scene": {
       "aria": "Story scene",

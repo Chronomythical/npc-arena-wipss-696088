@@ -26,7 +26,7 @@ import { FusionSheet } from "~/components/fusion-sheet";
 import { FighterDot } from "~/components/fighter-dot";
 import { W, H, TEAM_COLORS, newGame, step, drawScene, buildBackdrop, type Game, type FeedItem } from "~/lib/arena-engine";
 import { arenaSound } from "~/lib/arena-sound";
-import { arenaMusic } from "~/lib/arena-music";
+import { arenaMusic, chapterTheme } from "~/lib/arena-music";
 import { MusicControl } from "~/components/music-control";
 import { drawBracket, recordWinner, nextMatch, champion, progress, started, entrants, type Bracket, type Format, type MatchRef } from "~/lib/bracket";
 import { BracketView, type TeamEntry } from "~/components/bracket-view";
@@ -210,11 +210,12 @@ export default function Home() {
     setMusicMuted(!musicMuted);
     arenaMusic.set({ muted: !musicMuted });
   };
-  // The title theme on the title screen, the battle theme in the arena; leaving the page stops it.
+  // The title theme on the title screen, the battle theme in the arena, and in Story the chapter's own theme
+  // (on its map and in its fights); leaving the page stops it.
   // Free World picks its own theme: calm while exploring, the battle theme in a fight.
   useEffect(() => {
-    if (screen !== "free") arenaMusic.play(screen === "title" ? "title" : "battle");
-  }, [screen]);
+    if (screen !== "free") arenaMusic.play(screen === "title" ? "title" : mode === "story" ? chapterTheme(chapter) : "battle");
+  }, [screen, mode, chapter]);
   useEffect(() => () => arenaMusic.play(null), []);
   const musicControl = <MusicControl volume={musicVolume} muted={musicMuted} onVolume={changeMusicVolume} onToggle={toggleMusic} />;
   const muteAria = useString(muted ? "arena.controls.unmute" : "arena.controls.mute");

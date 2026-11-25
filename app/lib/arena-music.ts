@@ -1,9 +1,10 @@
-// Looping theme music, synthesised live with Web Audio like the sound effects (no audio files).
+// Looping theme music, synthesised live with Web Audio like the sound effects (no audio files):
+// a title theme, a battle theme and one theme per Story chapter.
 // It plays through the sound effects' audio graph (`arenaSound.output`) on a bus of its own,
 // so music has its own volume and mute, saved in localStorage under `npc-arena-music`.
 import { arenaSound } from "./arena-sound";
 
-export type MusicTheme = "title" | "battle";
+export type MusicTheme = "title" | "battle" | `chapter${number}`;
 export type MusicPrefs = { volume: number; muted: boolean };
 
 const STORE = "npc-arena-music";
@@ -64,7 +65,7 @@ function song(d: SongDef): Song {
   return { ...d, pad: d.pad.map((c) => c.split(" ").map(midi)), bass: d.bass.map(midi), lead };
 }
 
-const SONGS: Record<MusicTheme, Song> = {
+const SONGS: Record<"title" | "battle", Song> = {
   // Title: a slow, wide D minor theme with a rolling arpeggio, built to sit behind the mode cards.
   title: song({
     bpm: 96,
@@ -125,6 +126,257 @@ const SONGS: Record<MusicTheme, Song> = {
     fill: { kick: "x.....x.x.......", snare: "....x...x.x.xxxx" },
     drums: 1,
   }),
+};
+
+/** One theme per Story chapter, played on the chapter's map and in its fights. Each fits its boss. */
+const CHAPTER_SONGS: Song[] = [
+  // 1. Nullshade: an eerie E Phrygian pulse, hollow and cold like the rift.
+  song({
+    bpm: 124,
+    pad: ["E3 G3 B3", "F3 A3 C4", "E3 G3 B3", "D3 F#3 A3", "C3 E3 G3", "F3 A3 C4", "D3 F#3 A3", "B2 D#3 F#3"],
+    padWave: "sawtooth",
+    padCut: 760,
+    padAttack: 0.5,
+    bass: ["E2", "F2", "E2", "D2", "C2", "F2", "D2", "B1"],
+    bassPat: "x..x..x.x..x..x.",
+    bassMax: 3,
+    bassCut: 500,
+    lead: [
+      "E5 - - G5 F5 - E5 -",
+      "F5 - A5 - C6 - B5 A5",
+      "G5 - - E5 B4 - E5 -",
+      "F#5 - E5 D5 - A4 D5 -",
+      "E5 - G5 - C6 - B5 G5",
+      "A5 - F5 - C5 - F5 A5",
+      "F#5 - - A5 D6 - C6 A5",
+      "B5 - - - D#5 - F#5 -",
+    ],
+    leadWave: "triangle",
+    leadVol: 0.1,
+    arp: "0.1.2.3.0.1.2.3.",
+    kick: "x.......x..x....",
+    snare: "....x.......x...",
+    hat: "..x...x...x...x.",
+    fill: { kick: "x.......x..x....", snare: "....x.......x.xx" },
+    drums: 0.7,
+  }),
+  // 2. Maelstrom: a rolling D minor sea shanty in a storm, rocking bass and a sawtooth lead.
+  song({
+    bpm: 140,
+    pad: ["D3 F3 A3", "C3 E3 G3", "Bb2 D3 F3", "A2 C#3 E3", "D3 F3 A3", "G2 Bb2 D3", "Bb2 D3 F3", "A2 C#3 E3"],
+    padWave: "sawtooth",
+    padCut: 1000,
+    padAttack: 0.12,
+    bass: ["D2", "C2", "Bb1", "A1", "D2", "G1", "Bb1", "A1"],
+    bassPat: "x.x.o.x.x.x.o.x.",
+    bassMax: 2,
+    bassCut: 600,
+    lead: [
+      "D5 - A4 - D5 E5 F5 -",
+      "E5 - C5 - G4 - C5 E5",
+      "F5 - D5 - Bb4 - D5 F5",
+      "E5 - - C#5 A4 - - -",
+      "A5 - F5 - D5 - A5 -",
+      "G5 - Bb5 - A5 G5 F5 D5",
+      "F5 - D5 - Bb4 - F5 G5",
+      "E5 - C#5 - A4 - E5 -",
+    ],
+    leadWave: "sawtooth",
+    leadVol: 0.05,
+    arp: null,
+    kick: "x.....x...x.....",
+    snare: "....x.......x...",
+    hat: "x.x.x.x.x.x.x.o.",
+    fill: { kick: "x.....x...x.....", snare: "....x...x.x.xxxx" },
+    drums: 0.9,
+  }),
+  // 3. Magmaw: a slow, heavy C minor stomp, low bass and big drums like a volcano walking.
+  song({
+    bpm: 104,
+    pad: ["C3 Eb3 G3", "C3 Eb3 G3", "Ab2 C3 Eb3", "G2 B2 D3", "C3 Eb3 G3", "F2 Ab2 C3", "Ab2 C3 Eb3", "G2 B2 D3"],
+    padWave: "sawtooth",
+    padCut: 700,
+    padAttack: 0.2,
+    bass: ["C2", "C2", "Ab1", "G1", "C2", "F1", "Ab1", "G1"],
+    bassPat: "x.x.....x.x.....",
+    bassMax: 4,
+    bassCut: 380,
+    lead: [
+      "C5 - - - G4 - C5 Eb5",
+      "D5 - C5 - G4 - - -",
+      "Eb5 - - - Ab4 - C5 Eb5",
+      "D5 - - - B4 - G4 -",
+      "G5 - - - Eb5 - C5 -",
+      "F5 - Eb5 - C5 - Ab4 -",
+      "Eb5 - F5 - G5 - Ab5 -",
+      "G5 - - - B4 - D5 -",
+    ],
+    leadWave: "square",
+    leadVol: 0.055,
+    arp: null,
+    kick: "x.x.....x.x.....",
+    snare: "....x.......x...",
+    hat: "....x...x...x...",
+    fill: { kick: "x.x.....x.x.x.x.", snare: "....x.......xxxx" },
+    drums: 1.1,
+  }),
+  // 4. Everwinter: a slow music box in A minor over a ticking clock, as if time has frozen.
+  song({
+    bpm: 84,
+    pad: ["A3 C4 E4", "F3 A3 C4", "C3 E3 G3", "G3 B3 D4", "A3 C4 E4", "D3 F3 A3", "E3 G#3 B3", "E3 G#3 B3"],
+    padWave: "triangle",
+    padCut: 1400,
+    padAttack: 1.2,
+    bass: ["A1", "F1", "C2", "G1", "A1", "D2", "E1", "E1"],
+    bassPat: "x...............",
+    bassMax: 16,
+    bassCut: 350,
+    lead: [
+      "E5 - - - A5 - - -",
+      "C6 - - - A5 - F5 -",
+      "G5 - - - E5 - C5 -",
+      "D5 - - - B4 - G4 -",
+      "A4 - C5 - E5 - A5 -",
+      "F5 - - - D5 - A4 -",
+      "B4 - - - G#4 - B4 -",
+      "E5 - - - - - - -",
+    ],
+    leadWave: "sine",
+    leadVol: 0.12,
+    arp: "0123321001233210",
+    kick: "x...............",
+    snare: "........x.......",
+    hat: "x...x...x...x...",
+    fill: { kick: "x.......x.......", snare: "........x......." },
+    drums: 0.45,
+  }),
+  // 5. The Riftmaker: chords that slide to places they should not go, with a spinning arpeggio.
+  song({
+    bpm: 120,
+    pad: ["F#3 A3 C#4", "G3 B3 D4", "F#3 A3 C#4", "Eb3 G3 Bb3", "D3 F#3 A3", "E3 G#3 B3", "C3 E3 G3", "C#3 F3 G#3"],
+    padWave: "sawtooth",
+    padCut: 1200,
+    padAttack: 0.4,
+    bass: ["F#1", "G1", "F#1", "Eb2", "D2", "E2", "C2", "C#2"],
+    bassPat: "x...x.o.x...x.o.",
+    bassMax: 3,
+    bassCut: 520,
+    lead: [
+      "F#5 - A5 - C#6 - A5 F#5",
+      "G5 - - B5 D6 - B5 -",
+      "C#6 - A5 - F#5 - C#5 -",
+      "Bb5 - G5 - Eb5 - Bb4 -",
+      "A5 - F#5 - D5 - A5 -",
+      "G#5 - B5 - E6 - B5 G#5",
+      "G5 - E5 - C5 - E5 G5",
+      "G#5 - F5 - C#5 - - -",
+    ],
+    leadWave: "triangle",
+    leadVol: 0.11,
+    arp: "0213021302130213",
+    kick: "x.......x...x...",
+    snare: "....x.......x...",
+    hat: "..x.x...x.x...x.",
+    fill: { kick: "x.......x...x...", snare: "....x.......x.xx" },
+    drums: 0.8,
+  }),
+  // 6. The Hollow King: a funeral march in D harmonic minor with an organ-like lead.
+  song({
+    bpm: 92,
+    pad: ["D3 F3 A3", "D3 F3 A3", "G3 Bb3 D4", "A3 C#4 E4", "D3 F3 A3", "Bb2 D3 F3", "G2 Bb2 D3", "A2 C#3 E3"],
+    padWave: "sawtooth",
+    padCut: 800,
+    padAttack: 0.6,
+    bass: ["D2", "D2", "G1", "A1", "D2", "Bb1", "G1", "A1"],
+    bassPat: "x.......x.......",
+    bassMax: 8,
+    bassCut: 400,
+    lead: [
+      "A4 - - - D5 - F5 -",
+      "E5 - D5 - C#5 - D5 -",
+      "Bb4 - - - D5 - G5 -",
+      "F5 - E5 - C#5 - A4 -",
+      "D6 - - - C6 - A5 -",
+      "Bb5 - A5 - F5 - D5 -",
+      "G5 - F5 - E5 - D5 -",
+      "C#5 - - - A4 - - -",
+    ],
+    leadWave: "sawtooth",
+    leadVol: 0.05,
+    arp: null,
+    kick: "x.......x.......",
+    snare: "........x.......",
+    hat: "....x.......x...",
+    fill: { kick: "x.......x...x...", snare: "........x...x.x." },
+    drums: 0.7,
+  }),
+  // 7. The Black Sun: a grand B minor march for the eclipse cult, drums on every beat.
+  song({
+    bpm: 136,
+    pad: ["B2 D3 F#3", "G2 B2 D3", "A2 C#3 E3", "F#2 A#2 C#3", "B2 D3 F#3", "E3 G3 B3", "G2 B2 D3", "F#2 A#2 C#3"],
+    padWave: "sawtooth",
+    padCut: 1100,
+    padAttack: 0.15,
+    bass: ["B1", "G1", "A1", "F#1", "B1", "E2", "G1", "F#1"],
+    bassPat: "x.x.x.x.x.x.x.x.",
+    bassMax: 2,
+    bassCut: 560,
+    lead: [
+      "F#5 - - B5 A5 - F#5 -",
+      "G5 - - D5 B4 - D5 -",
+      "E5 - - A5 C#6 - A5 -",
+      "A#5 - - F#5 C#5 - F#5 -",
+      "B5 - D6 - C#6 - B5 A5",
+      "G5 - B5 - E5 - G5 -",
+      "D6 - B5 - G5 - D5 -",
+      "C#5 - F#5 - A#5 - C#6 -",
+    ],
+    leadWave: "square",
+    leadVol: 0.055,
+    arp: null,
+    kick: "x...x...x...x.x.",
+    snare: "....x.......x...",
+    hat: "x.x.x.x.x.x.x.o.",
+    fill: { kick: "x...x...x.x.x.x.", snare: "....x...x.x.xxxx" },
+    drums: 1,
+  }),
+  // 8. The Axiom: the fastest theme, an E minor finale with a racing arpeggio across the stars.
+  song({
+    bpm: 152,
+    pad: ["E3 G3 B3", "C3 E3 G3", "G3 B3 D4", "D3 F#3 A3", "E3 G3 B3", "C3 E3 G3", "A2 C3 E3", "B2 D#3 F#3"],
+    padWave: "sawtooth",
+    padCut: 1300,
+    padAttack: 0.1,
+    bass: ["E2", "C2", "G1", "D2", "E2", "C2", "A1", "B1"],
+    bassPat: "x.xox.xox.xox.xo",
+    bassMax: 2,
+    bassCut: 700,
+    lead: [
+      "B4 - E5 - G5 - B5 -",
+      "C6 - B5 - G5 - E5 -",
+      "D6 - - B5 G5 - D5 -",
+      "F#5 - A5 - D6 - C6 A5",
+      "B5 - G5 - E5 - G5 B5",
+      "C6 - - E6 D6 - C6 B5",
+      "A5 - E5 - C6 - B5 A5",
+      "D#6 - - - B5 - F#5 -",
+    ],
+    leadWave: "square",
+    leadVol: 0.055,
+    arp: "0123012301230123",
+    kick: "x.....x.x.x...x.",
+    snare: "....x.......x...",
+    hat: "x.x.x.x.x.x.x.x.",
+    fill: { kick: "x.....x.x.......", snare: "....x...x.x.xxxx" },
+    drums: 1,
+  }),
+];
+
+/** The theme for a Story chapter (0-based). */
+export const chapterTheme = (ch: number): MusicTheme => `chapter${Math.max(0, Math.min(CHAPTER_SONGS.length - 1, ch)) + 1}`;
+const songFor = (theme: MusicTheme): Song => {
+  const m = /^chapter(\d+)$/.exec(theme);
+  return m ? CHAPTER_SONGS[Number(m[1]) - 1] ?? SONGS.battle : SONGS[theme as "title" | "battle"];
 };
 
 type Playing = { theme: MusicTheme; song: Song; out: GainNode; step: number; next: number };
@@ -215,7 +467,7 @@ export class ArenaMusic {
     out.gain.setValueAtTime(0, now);
     out.gain.linearRampToValueAtTime(1, now + 0.6);
     out.connect(this.bus!);
-    this.cur = { theme, song: SONGS[theme], out, step: 0, next: now + 0.08 };
+    this.cur = { theme, song: songFor(theme), out, step: 0, next: now + 0.08 };
     if (!this.timer) this.timer = setInterval(() => this.tick(), 25);
   }
 

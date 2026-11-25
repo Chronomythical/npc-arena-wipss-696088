@@ -89,7 +89,12 @@ export function StoryPanel({ cleared, chapter, onChapter, stage, onStage, pair, 
                 <FighterDot def={f} className="size-4" />
                 <span className="font-semibold">{f.name}</span>
                 {f.minion ? (
-                  <Text id={`story.minion.${f.minion.kind}` as StringKey} className="text-muted-foreground" />
+                  <>
+                    <Text id={`story.minion.${f.minion.kind}` as StringKey} className="text-muted-foreground" />
+                    <span className="text-muted-foreground" data-minion-power>
+                      <Text id="story.minion.power" vars={{ power: f.power }} />
+                    </span>
+                  </>
                 ) : (
                   <Text id="story.boss" className="text-error" />
                 )}
