@@ -2308,6 +2308,168 @@ export const BOSS_INTROS: Record<BossDesign, IntroSpec> = {
       ctx.restore();
     },
   },
+  // The Somnarch: the light goes soft and gold, closed eyes open one by one in the dark all round the arena, a
+  // slow spiral of dream dust turns on the floor, and the boss rises out of it as if waking from the ground.
+  somnarch: {
+    len: BOSS_LEN, hit: 0.64, shake: 10, wave: ["hsl(46 100% 74%)", "hsl(250 34% 18%)"],
+    body: (u, s) => base(u < 0.64 ? "rise" : settle(u, "flex", 0.8), {
+      alpha: seg(u, 0.4, 0.64),
+      dy: (1 - easeOut(seg(u, 0.4, 0.66))) * 60 * s,
+      sy: 0.5 + 0.5 * easeOut(seg(u, 0.4, 0.66)), clip: true,
+      solid: "hsl(250 34% 20%)", solidA: 1 - seg(u, 0.6, 0.88),
+    }),
+    bursts: [
+      { at: 0.64, n: 34, spd: 380, shape: "star", a: "hsl(46 100% 76%)", b: "hsl(260 80% 88%)", grav: -30, add: true, from: "body", dir: "out" },
+      { at: 0.64, n: 16, spd: 220, shape: "bubble", a: "hsl(256 60% 80%)", b: "hsl(46 100% 84%)", grav: -80, add: true, from: "feet", dir: "up" },
+    ],
+    trickle: { rate: 24, until: 0.64, spd: 60, shape: "star", a: "hsl(46 100% 80%)", b: "hsl(256 80% 86%)", grav: -70, add: true, from: "feet", dir: "out", life: 1 },
+    back: ({ ctx, x, y, s, u, t }) => {
+      const on = seg(u, 0, 0.18) * (1 - seg(u, 0.82, 1));
+      if (on <= 0) return;
+      ctx.save();
+      ctx.fillStyle = hsla(250, 40, 8, 0.45 * on);
+      ctx.fillRect(-400, -400, 2000, 1200);
+      // eyes opening in the dark, one after another
+      for (let i = 0; i < 10; i++) {
+        const open = easeOut(seg(u, 0.06 + i * 0.04, 0.16 + i * 0.04));
+        if (open <= 0) continue;
+        const ex = x + wob(i * 3.1) * 320 * s, ey = y - (90 + Math.abs(wob(i * 1.7)) * 180) * s;
+        ctx.fillStyle = hsla(46, 100, 74, 0.85 * on);
+        ctx.beginPath();
+        ctx.ellipse(ex, ey, 9 * s, 5 * s * open, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = hsla(250, 50, 8, on);
+        ctx.beginPath();
+        ctx.arc(ex, ey, 2.2 * s * open, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      // a slow spiral of dream dust turning on the floor
+      const turn = easeOut(seg(u, 0.1, 0.6));
+      ctx.strokeStyle = hsla(46, 100, 76, 0.7 * on);
+      ctx.lineWidth = 2 * s;
+      ctx.beginPath();
+      for (let i = 0; i <= 80; i++) {
+        const a = i * 0.22 + t * 1.5, r = i * 1.6 * s * turn;
+        const px = x + Math.cos(a) * r, py = y + Math.sin(a) * r * 0.22;
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+      ctx.restore();
+    },
+  },
+  // The Hush: every sound in the arena stops, red rings spread across the floor without a sound, a great
+  // cracked bell drops out of the dark on a black rope, and the boss is standing where it lands.
+  hush: {
+    len: BOSS_LEN, hit: 0.62, shake: 16, wave: ["hsl(354 100% 66%)", "hsl(350 14% 10%)"],
+    body: (u, s) => base(u < 0.62 ? "air" : settle(u, "land", 0.8), {
+      alpha: seg(u, 0.5, 0.62),
+      dy: -(1 - easeIn(seg(u, 0.36, 0.62))) * 240 * s,
+      solid: "hsl(350 14% 10%)", solidA: 1 - seg(u, 0.6, 0.86),
+    }),
+    bursts: [
+      { at: 0.62, n: 30, spd: 520, shape: "ring", a: "hsl(354 100% 70%)", b: "hsl(36 70% 70%)", grav: 0, add: true, from: "feet", dir: "out" },
+      { at: 0.62, n: 18, spd: 300, shape: "dust", a: "hsl(350 10% 30%)", b: "hsl(30 20% 50%)", grav: 400, add: false, from: "feet", dir: "up" },
+    ],
+    back: ({ ctx, x, y, s, u }) => {
+      const on = seg(u, 0, 0.14) * (1 - seg(u, 0.84, 1));
+      if (on <= 0) return;
+      ctx.save();
+      ctx.fillStyle = hsla(350, 30, 4, 0.5 * on);
+      ctx.fillRect(-400, -400, 2000, 1200);
+      // red rings, spreading in total silence
+      for (let i = 0; i < 4; i++) {
+        const k = seg(u, 0.04 + i * 0.1, 0.4 + i * 0.1);
+        if (k <= 0 || k >= 1) continue;
+        ctx.strokeStyle = hsla(354, 100, 66, (1 - k) * 0.8 * on);
+        ctx.lineWidth = 3 * s;
+        ctx.beginPath();
+        ctx.ellipse(x, y, k * 340 * s, k * 60 * s, 0, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+      // the bell dropping out of the dark on its rope
+      const drop = easeIn(seg(u, 0.3, 0.62));
+      const by = y - 420 * s + drop * 320 * s;
+      if (u < 0.7) {
+        ctx.strokeStyle = hsla(350, 10, 6, on);
+        ctx.lineWidth = 4 * s;
+        ctx.beginPath();
+        ctx.moveTo(x, -400);
+        ctx.lineTo(x, by - 40 * s);
+        ctx.stroke();
+        ctx.fillStyle = hsla(32, 40, 34, on * (1 - seg(u, 0.6, 0.7)));
+        ctx.beginPath();
+        ctx.moveTo(x - 14 * s, by - 40 * s);
+        ctx.quadraticCurveTo(x - 22 * s, by, x - 40 * s, by + 20 * s);
+        ctx.lineTo(x + 40 * s, by + 20 * s);
+        ctx.quadraticCurveTo(x + 22 * s, by, x + 14 * s, by - 40 * s);
+        ctx.closePath();
+        ctx.fill();
+      }
+      ctx.restore();
+    },
+  },
+  // The Elder Dark: the stars go out one by one, the floor turns to night sky, arms of the dark reach up out of
+  // it from every side, and an eye the size of the arena opens behind them as the boss climbs up through the floor.
+  elderdark: {
+    len: BOSS_LEN, hit: 0.7, shake: 20, wave: ["hsl(268 100% 78%)", "hsl(150 100% 60%)"],
+    body: (u, s) => base(u < 0.7 ? "rise" : settle(u, "flex", 0.86), {
+      alpha: seg(u, 0.46, 0.7),
+      dy: (1 - easeOut(seg(u, 0.46, 0.72))) * 90 * s,
+      sy: 0.3 + 0.7 * easeOut(seg(u, 0.46, 0.72)), clip: true,
+      solid: "hsl(262 50% 6%)", solidA: 1 - seg(u, 0.66, 0.9),
+    }),
+    bursts: [
+      { at: 0.7, n: 44, spd: 560, shape: "star", a: "hsl(268 100% 82%)", b: "hsl(0 0% 100%)", grav: -20, add: true, from: "body", dir: "out" },
+      { at: 0.7, n: 24, spd: 340, shape: "dust", a: "hsl(150 100% 60%)", b: "hsl(262 60% 20%)", grav: 160, add: true, from: "feet", dir: "up" },
+    ],
+    trickle: { rate: 30, until: 0.7, spd: 90, shape: "star", a: "hsl(268 100% 84%)", b: "hsl(150 100% 70%)", grav: -100, add: true, from: "feet", dir: "out", life: 1.1 },
+    back: ({ ctx, x, y, s, u, t }) => {
+      const on = seg(u, 0, 0.2) * (1 - seg(u, 0.86, 1));
+      if (on <= 0) return;
+      ctx.save();
+      ctx.fillStyle = hsla(262, 60, 3, 0.7 * on);
+      ctx.fillRect(-400, -400, 2000, 1200);
+      // the eye behind everything, opening slowly
+      const open = easeInOut(seg(u, 0.3, 0.72));
+      if (open > 0) {
+        const ey = y - 200 * s;
+        glow(ctx, x, ey, 260 * s, 160 * s * open, hsla(150, 100, 50, 0.3 * on), hsla(150, 100, 50, 0));
+        ctx.fillStyle = hsla(262, 60, 2, on);
+        ctx.strokeStyle = hsla(268, 100, 80, on);
+        ctx.lineWidth = 3 * s;
+        ctx.beginPath();
+        ctx.ellipse(x, ey, 230 * s, 110 * s * open, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = hsla(150, 100, 56, on * open);
+        ctx.beginPath();
+        ctx.arc(x, ey, 70 * s * open, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = hsla(262, 60, 2, on);
+        ctx.beginPath();
+        ctx.ellipse(x, ey, 12 * s, 62 * s * open, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      // arms of the dark reaching up from the floor on every side
+      const reach = easeOut(seg(u, 0.12, 0.6));
+      for (let i = 0; i < 8; i++) {
+        const side = i % 2 ? 1 : -1, bx = x + side * (80 + (i >> 1) * 70) * s;
+        const h = (180 + Math.abs(wob(i * 2.3)) * 120) * s * reach, sw = Math.sin(t * 2 + i) * 20 * s;
+        ctx.strokeStyle = hsla(262, 50, 6, on);
+        ctx.lineWidth = (14 - (i >> 1) * 2) * s;
+        ctx.lineCap = "round";
+        ctx.beginPath();
+        ctx.moveTo(bx, y + 10 * s);
+        ctx.quadraticCurveTo(bx - side * 40 * s + sw, y - h * 0.6, bx + side * 10 * s + sw, y - h);
+        ctx.stroke();
+        ctx.strokeStyle = hsla(268, 100, 74, 0.5 * on);
+        ctx.lineWidth = 1.4 * s;
+        ctx.stroke();
+      }
+      ctx.restore();
+    },
+  },
 };
 
 // ---------- hybrids ----------

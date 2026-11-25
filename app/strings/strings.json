@@ -92,7 +92,8 @@
       "teamDropped": "{{name}} team drops to the losers bracket",
       "teamKnockedOut": "{{name}} team is knocked out",
       "teamResetNeeded": "{{name}} team forces a reset match!",
-      "nextBook": "Start Book 2"
+      "nextBook": "Start Book 2",
+      "book2Complete": "Book 2 complete! The Elder Dark is sealed beyond the stars."
     },
     "idle": "Press Start to begin the battle",
     "teams": {
@@ -1084,6 +1085,153 @@
           "l2": "Open for what?",
           "l3": "The moon comes back, pale and scarred. But behind it the stars have moved, and they trace a shape that was never there before: something vast, waiting at the edge of the sky."
         }
+      },
+      "c13": {
+        "intro": {
+          "l1": "The night the moon went dark, the valley of Hollowmere went to sleep, and in the morning nobody woke up.",
+          "l2": "The farmers sleepwalk through their fields. The children all dream the same dream. Under the hills, something enormous is breathing in time with every one of them.",
+          "l3": "The fifth herald of the Elder Dark has slept beneath the valley since before the first dawn. Now it is dreaming the door open."
+        },
+        "s1": {
+          "l1": "Shh. Lie down. The ground is soft and the night is long.",
+          "l2": "We've only just got up."
+        },
+        "s2": {
+          "l1": "We all dream the same dream now. You'd like it. It's very dark and very quiet.",
+          "l2": "Sounds like a nightmare."
+        },
+        "s3": {
+          "l1": "Hush now, little ones. I sang a whole village to sleep. Two more won't take long.",
+          "l2": "Save your voice."
+        },
+        "s4": {
+          "l1": "Ninety-nine. A hundred. A hundred and one. I'm the one they never stopped counting.",
+          "l2": "Then let's count you out."
+        },
+        "s5": {
+          "l1": "Mother put the kettle on a week ago. It's still on. We're all still dreaming.",
+          "l2": "Then it's time somebody woke you."
+        },
+        "s6": {
+          "l1": "The cradle rocks, the windmills stop, and the whole valley breathes as one.",
+          "l2": "We're not breathing with it."
+        },
+        "s7": {
+          "l1": "Every dream in the valley ends at the same black hill. You'll see it soon.",
+          "l2": "We'll see it on our own two feet."
+        },
+        "s8": {
+          "l1": "Every lamp in Hollowmere is out. Yours are the last two still burning.",
+          "l2": "And they're staying lit."
+        },
+        "s9": {
+          "l1": "Small waking things. You are a dream I had once, a long time ago, and did not like.",
+          "l2": "We're the alarm clock.",
+          "l3": "Then lie down beside me. When my eye opens, the whole world will sleep, and the Elder Dark will walk in through its dreams."
+        },
+        "outro": {
+          "l1": "You woke me. For the first time in all the ages, I am awake, and I remember what I was dreaming of. A bell. A great bell, ringing the last hour.",
+          "l2": "What happens at the last hour?",
+          "l3": "Hollowmere wakes to a bright, cold morning, and the kettles finally boil. But far off on the sea cliffs, the bells of Carillon stop in the middle of a peal, and do not start again."
+        }
+      },
+      "c14": {
+        "intro": {
+          "l1": "Carillon is a city of a thousand bells, built on the cliffs where the sea meets the sky. In a thousand years they have never all been silent at once.",
+          "l2": "Three days ago every bell stopped mid-swing. Then the birds went quiet, then the waves, then the people. Nobody in Carillon can make a sound.",
+          "l3": "The sixth herald of the Elder Dark is eating the noise of the world, so that nothing will hear its master coming."
+        },
+        "s1": {
+          "l1": "Forty years I rang the hours. Now I ring the quiet. Listen. Can you hear it?",
+          "l2": "We can hear you fine."
+        },
+        "s2": {
+          "l1": "Shh. Every word you say is one more thing for the Hush to eat.",
+          "l2": "Then we'll give it plenty."
+        },
+        "s3": {
+          "l1": "I WAS THE VOICE OF THE GREAT BELL. NOW I AM ONLY THE WEIGHT.",
+          "l2": "Weight we can move."
+        },
+        "s4": {
+          "l1": "Pull the rope. The bell swings. Nothing. Isn't it peaceful?",
+          "l2": "It's the worst sound we've ever heard."
+        },
+        "s5": {
+          "l1": "EVERY TOWER IS QUIET NOW. ALL BUT THE LAST ONE.",
+          "l2": "Then the last one rings for us."
+        },
+        "s6": {
+          "l1": "We took a vow of silence. The Hush made sure we would keep it forever.",
+          "l2": "Vows can be broken. So can you."
+        },
+        "s7": {
+          "l1": "WHEN THE GREAT BELL CRACKS, THE LAST HOUR STRIKES. YOU WILL NOT HEAR IT.",
+          "l2": "We'll feel it, though."
+        },
+        "s8": {
+          "l1": "I sang in the cathedral every evening. Now I only remember the shape of the song. Let me show you how it ends.",
+          "l2": "We'd rather hear how it starts again."
+        },
+        "s9": {
+          "l1": "You are so loud. Your hearts, your breath, your footsteps. I will eat them all.",
+          "l2": "Come and take them, then.",
+          "l3": "When the last bell is silent, nothing in this world will hear the Elder Dark arrive. Not even you."
+        },
+        "outro": {
+          "l1": "Listen. Can you hear it now? The stars are singing. They are singing it home.",
+          "l2": "Then we'll go up there and stop the song.",
+          "l3": "The bells of Carillon ring all at once, so loud the sea answers. As the last peal fades, the sky over the cliffs splits open from one side to the other, and the Elder Dark looks down."
+        }
+      },
+      "c15": {
+        "intro": {
+          "l1": "Before the first star was lit there was only the Dark. It was not cruel and it was not kind. It simply was, and it was everything.",
+          "l2": "Then the light came and pushed it out to the edge of the sky. For all the ages since, it has waited there, sending its heralds ahead to open the door.",
+          "l3": "Now the door is open. The ground breaks loose and rises toward the crack in the sky, and the only way to stop the Elder Dark is to go up and meet it."
+        },
+        "s1": {
+          "l1": "Hungry. Hungry. You smell like light.",
+          "l2": "And you smell like the bottom of a well."
+        },
+        "s2": {
+          "l1": "Hear the hymn of the stars that went out before your world was born. Soon we will add your sun to it.",
+          "l2": "Our sun isn't finished yet."
+        },
+        "s3": {
+          "l1": "More of us coming. Always more. The Dark has no end.",
+          "l2": "Then we'll keep going until it does."
+        },
+        "s4": {
+          "l1": "Everything falls toward the Dark in the end. Rocks. Worlds. You.",
+          "l2": "Not today."
+        },
+        "s5": {
+          "l1": "Every herald you beat was only one finger of the hand. Now you stand in its palm.",
+          "l2": "Then let's see if it can make a fist."
+        },
+        "s6": {
+          "l1": "The light was the mistake. We are only putting things back the way they were.",
+          "l2": "We like things the way they are."
+        },
+        "s7": {
+          "l1": "I opened the first crack in your sky, long before your kind could look up. I have kept the door ever since.",
+          "l2": "Then it's time somebody closed it."
+        },
+        "s8": {
+          "l1": "You beat the Lanternmaw, the Sporemother, the Mnemovore, the Dustmoth, the Somnarch and the Hush. But nobody beats the door.",
+          "l2": "Then we'll walk through it."
+        },
+        "s9": {
+          "l1": "SMALL LIGHT. I WAS HERE BEFORE YOUR STARS, AND I WILL BE HERE AFTER THEM.",
+          "l2": "Then you'll have a long time to remember losing.",
+          "l3": "COME, THEN. COME INTO THE DARK BEFORE THE FIRST LIGHT, AND BE NOTHING WITH ME."
+        },
+        "outro": {
+          "l1": "HOW? THE LIGHT WAS SO SMALL. HOW CAN SOMETHING SO SMALL PUSH BACK THE DARK?",
+          "l2": "Small lights are still lights.",
+          "l3": "The Elder Dark folds in on itself like a closing eye and falls back past the edge of the sky. Behind it the crack seals shut, and one by one the stars come back on."
+        }
       }
     },
     "map": {
@@ -1167,6 +1315,57 @@
         "s8": "The Dark Side",
         "s9": "The Dustmoth's Eclipse"
       }
+    },
+    "ch13": {
+      "title": "Chapter 5: The Sleeping Valley",
+      "stages": {
+        "s1": "Hollowmere Road",
+        "s2": "The Drowsy Fields",
+        "s3": "Cradle Lane",
+        "s4": "The Counting Fold",
+        "s5": "Windmill Hill",
+        "s6": "The Nursery Lights",
+        "s7": "The Black Hill",
+        "s8": "The Snuffer's Walk",
+        "s9": "The Somnarch's Dream"
+      }
+    },
+    "ch14": {
+      "title": "Chapter 6: The Silent Bells",
+      "stages": {
+        "s1": "Carillon Steps",
+        "s2": "The Mute Cloister",
+        "s3": "Ringers' Row",
+        "s4": "The Rope Loft",
+        "s5": "Cliffside Belfry",
+        "s6": "The Quiet Market",
+        "s7": "The Fallen Peal",
+        "s8": "The Cathedral Choir",
+        "s9": "The Great Bell"
+      }
+    },
+    "ch15": {
+      "title": "Chapter 7: The Elder Dark",
+      "stages": {
+        "s1": "The Rising Ground",
+        "s2": "The Broken Stair",
+        "s3": "Island of Rubble",
+        "s4": "The Fallen Temple",
+        "s5": "The Starless Reach",
+        "s6": "The Edge of the Sky",
+        "s7": "The Door",
+        "s8": "The Threshold",
+        "s9": "The Dark Before the Stars"
+      }
+    },
+    "ending": {
+      "title": "Epilogue: First Light",
+      "l1": "The ground the Elder Dark tore loose settles back into place, softly, like a sleeper turning over.",
+      "l2": "In the drowned harbour the lighthouse is lit again. The Mirewood stops singing, Greyhaven remembers its own name, and the moon comes up whole over the Starward Peaks.",
+      "l3": "In Hollowmere the kettles boil, and in Carillon the bells ring every hour, a little louder than they need to.",
+      "l4": "Somewhere past the edge of the sky the Dark is still waiting. It always will be. But now it knows something it never knew before: the light fights back.",
+      "l5": "Come on. Let's go home.",
+      "l6": "The end of Book 2: The Elder Dark."
     }
   },
   "fusion": {

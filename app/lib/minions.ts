@@ -419,4 +419,85 @@ export const MINIONS: Crew[] = [
       surge: { from: "dust-fall", name: "Ash Fall" },
     }),
   },
+  // Book 2, chapter 5: the Somnarch's dreamers, the valley's people and the things they dream
+  {
+    grunt: minion("grunt", "somnarch", {
+      base: "gravi", name: "Sleepwalker", color: "hsl(246 18% 30%)", mark: "hsl(46 100% 74%)",
+      power: "Heavy Eyes", ability: "A villager who lay down for a nap a week ago. It walks, it fights, and it never wakes up.",
+      tone: ["hsl(250 30% 44%)", "hsl(46 90% 80%)"], moves: ["Limp Swing", "Stumble", "Heavy Lid"],
+      surge: { from: "lullaby-touch", name: "Yawn Touch" },
+    }),
+    caster: minion("caster", "somnarch", {
+      base: "sono", name: "Lullabist", color: "hsl(256 24% 26%)", mark: "hsl(46 100% 74%)",
+      power: "Hushaby", ability: "Sings the valley's children to sleep every night. Now it sings at anyone still awake, and the song hits hard.",
+      tone: ["hsl(268 50% 60%)", "hsl(46 100% 86%)"], moves: ["Soft Note", "Cradle Song", "Drowse Chord", "Lull"],
+      surge: { from: "dream-motes", name: "Dream Mote" },
+    }),
+    brute: minion("brute", "somnarch", {
+      base: "terra", name: "Counted Sheep", color: "hsl(240 14% 14%)", mark: "hsl(46 100% 74%)",
+      power: "Bad Dream", ability: "The last sheep someone counted before they fell asleep for good. It grew huge and black in the dream and walked out of it.",
+      tone: ["hsl(240 10% 30%)", "hsl(46 70% 84%)"], moves: ["Horn Butt", "Stampede", "Thunder Hoof"],
+      surge: { from: "drowse-wave", name: "Drowse Stomp" },
+    }),
+    elite: minion("elite", "somnarch", {
+      base: "pyro", name: "The Snuffer", color: "hsl(250 30% 12%)", mark: "hsl(42 100% 70%)",
+      power: "Lights Out", ability: "Walks the valley at dusk putting out every lamp, so nobody can stay awake. It keeps the flames it snuffs.",
+      tone: ["hsl(30 90% 50%)", "hsl(46 100% 80%)"], moves: ["Snuffer Strike", "Wick Snip", "Dark Lantern", "Last Lamp"],
+      surge: { from: "dream-spiral", name: "Little Spiral" },
+    }),
+  },
+  // Book 2, chapter 6: the Hush's silent order, the bell city's people with their voices taken
+  {
+    grunt: minion("grunt", "hush", {
+      base: "psy", name: "Hushed Monk", color: "hsl(350 8% 22%)", mark: "hsl(354 90% 70%)",
+      power: "Vow of Silence", ability: "Took a vow of silence long ago. The Hush made it a vow that can never be broken.",
+      tone: ["hsl(350 20% 36%)", "hsl(354 80% 84%)"], moves: ["Silent Palm", "Still Step", "Quiet Blow"],
+      surge: { from: "muffle", name: "Muffled Palm" },
+    }),
+    caster: minion("caster", "hush", {
+      base: "chrono", name: "Bell Ringer", color: "hsl(30 18% 20%)", mark: "hsl(354 90% 70%)",
+      power: "Dead Toll", ability: "Rang the city's hours for forty years. It still pulls the ropes, and the bells still hit, but they make no sound.",
+      tone: ["hsl(36 50% 46%)", "hsl(40 80% 82%)"], moves: ["Rope Lash", "Cracked Chime", "Hollow Toll", "Ring Out"],
+      surge: { from: "silent-toll", name: "Little Toll" },
+    }),
+    brute: minion("brute", "hush", {
+      base: "magneto", name: "The Clapper", color: "hsl(32 30% 24%)", mark: "hsl(354 90% 70%)",
+      power: "Iron Tongue", ability: "The iron tongue torn out of the cathedral's great bell. It got up and walked, swinging itself at anything that moves.",
+      tone: ["hsl(30 20% 40%)", "hsl(30 40% 70%)"], moves: ["Bell Swing", "Iron Pull", "Gong Slam"],
+      surge: { from: "the-quiet", name: "Quiet Slam" },
+    }),
+    elite: minion("elite", "hush", {
+      base: "sono", name: "The Unsung", color: "hsl(350 24% 10%)", mark: "hsl(356 100% 74%)",
+      power: "Stolen Voice", ability: "The city's finest singer, until the Hush took her voice. She fights with the shape of the song she can no longer sing.",
+      tone: ["hsl(350 60% 40%)", "hsl(354 100% 84%)"], moves: ["Mute Note", "Breathless", "Empty Aria", "Curtain Call"],
+      surge: { from: "cracked-peal", name: "Cracked Note" },
+    }),
+  },
+  // Book 2, chapter 7: the Elder Dark's own, things that were never born under any star
+  {
+    grunt: minion("grunt", "elderdark", {
+      base: "hydro", name: "Starspawn", color: "hsl(262 30% 16%)", mark: "hsl(150 100% 66%)",
+      power: "Formless", ability: "A small piece of the Elder Dark that broke off and learned to crawl. It is mostly mouth and mostly hungry.",
+      tone: ["hsl(262 40% 30%)", "hsl(150 90% 70%)"], moves: ["Tendril Slap", "Ooze Lunge", "Spit"],
+      surge: { from: "void-tendril", name: "Little Tendril" },
+    }),
+    caster: minion("caster", "elderdark", {
+      base: "umbra", name: "Void Cantor", color: "hsl(268 30% 12%)", mark: "hsl(268 100% 80%)",
+      power: "Unspeakable Hymn", ability: "Sings the names of stars that went out before the world began. Each name lands like a stone.",
+      tone: ["hsl(268 60% 40%)", "hsl(268 100% 86%)"], moves: ["Dark Verse", "Unnamed Star", "Hymn of Nothing", "Last Amen"],
+      surge: { from: "dead-stars", name: "Dead Star" },
+    }),
+    brute: minion("brute", "elderdark", {
+      base: "gravi", name: "Abyss Titan", color: "hsl(258 24% 10%)", mark: "hsl(150 100% 66%)",
+      power: "Crushing Void", ability: "A giant made of the dark between galaxies. Where it stands, everything falls toward it.",
+      tone: ["hsl(258 40% 22%)", "hsl(150 80% 66%)"], moves: ["Void Fist", "Black Hole Pull", "Collapse"],
+      surge: { from: "first-dark", name: "First Shadow" },
+    }),
+    elite: minion("elite", "elderdark", {
+      base: "tele", name: "The First Herald", color: "hsl(262 40% 6%)", mark: "hsl(268 100% 84%)",
+      power: "Open Door", ability: "The oldest of the heralds, the one that opened the first crack in the sky. It has waited at the door since, to welcome its master home.",
+      tone: ["hsl(268 70% 50%)", "hsl(150 100% 76%)"], moves: ["Doorkeeper's Strike", "Step Between", "Keyhole Eye", "Threshold"],
+      surge: { from: "unmaking-eye", name: "Herald's Gaze" },
+    }),
+  },
 ];

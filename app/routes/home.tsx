@@ -33,7 +33,7 @@ import { BracketView, type TeamEntry } from "~/components/bracket-view";
 import { TitleScreen, type TitleMode } from "~/components/title-screen";
 import { FreeWorld } from "~/components/free-world";
 import { StoryPanel } from "~/components/story-panel";
-import { CHAPTERS, bossesBeaten, chapterInBook, endsBook, lairOf, stagesIn, canTeam, chapterOpen, fusionOrder, loadProgress, loadSeenIntros, markIntroSeen, saveProgress, stageLineup, type Pair } from "~/lib/story";
+import { CHAPTERS, bookOf, bossesBeaten, chapterInBook, endsBook, lairOf, stagesIn, canTeam, chapterOpen, fusionOrder, loadProgress, loadSeenIntros, markIntroSeen, saveProgress, stageLineup, type Pair } from "~/lib/story";
 import { StoryScene } from "~/components/story-scene";
 import { storyBackdrop } from "~/lib/story-backdrops";
 import type { Scene } from "~/lib/story-script";
@@ -352,6 +352,8 @@ export default function Home() {
     if (!done) return;
     if (done.kind === "intro") markIntroSeen(done.ch);
     else if (done.kind === "stage") startStage(done.stage, done.ch);
+    // the last boss of Book 2 falls: its last words lead into the book's ending before any unlocks
+    else if (done.kind === "outro" && endsBook(done.ch) && bookOf(done.ch) === 1) setScene({ kind: "ending", ch: done.ch, stage: done.stage });
     else if (afterOutro.current.length) {
       const queued = afterOutro.current;
       afterOutro.current = [];
@@ -969,7 +971,7 @@ function StoryBanner({ chapter, stage, won, onRetry, onNext, onNextChapter, onBa
   return (
     <>
       {finale ? (
-        <Text id="arena.winner.storyComplete" as="p" className={cn(title, "max-w-sm text-balance")} />
+        <Text id={bookOf(chapter) === 1 ? "arena.winner.book2Complete" : "arena.winner.storyComplete"} as="p" className={cn(title, "max-w-sm text-balance")} />
       ) : (
         <Text id={last ? "arena.winner.chapterCleared" : "arena.winner.stageCleared"} vars={{ n: last ? chapterInBook(chapter) : stage + 1 }} as="p" className={title} />
       )}

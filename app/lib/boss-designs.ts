@@ -1194,6 +1194,243 @@ export function drawBossDesign(
       }
       break;
     }
+    // ----- The Somnarch: a sleeping giant in a drooping dream hood, closed eyes floating round its head -----
+    case "somnarch": {
+      const back = -face;
+      if (layer === "back") {
+        if (alive) glow(ctx, mid.x, mid.y, 92 * s, "hsl(46 100% 70% / 0.16)", "hsl(46 100% 70% / 0)");
+        // a halo of closed eyes, drifting slowly round behind the head
+        const n = 6;
+        for (let i = 0; i < n; i++) {
+          const an = (i / n) * TAU + t * 0.25;
+          const ex = head.x + Math.cos(an) * 30 * s, ey = head.y - 4 * s + Math.sin(an) * 26 * s;
+          ctx.fillStyle = "hsl(250 30% 26%)";
+          ctx.strokeStyle = INK;
+          ctx.lineWidth = 1.2 * s;
+          ctx.beginPath();
+          ctx.ellipse(ex, ey, 6 * s, 3.4 * s, 0, 0, TAU);
+          ctx.fill();
+          ctx.stroke();
+          // the shut lid, with three lashes
+          ctx.strokeStyle = alive ? "hsl(46 100% 74%)" : "hsl(250 10% 50%)";
+          ctx.lineWidth = 1.2 * s;
+          ctx.beginPath();
+          ctx.arc(ex, ey - 2 * s, 5 * s, 0.25 * Math.PI, 0.75 * Math.PI);
+          ctx.stroke();
+          for (const k of [-1, 0, 1]) {
+            ctx.beginPath();
+            ctx.moveTo(ex + k * 2.6 * s, ey + 2.6 * s);
+            ctx.lineTo(ex + k * 3.6 * s, ey + 4.6 * s);
+            ctx.stroke();
+          }
+        }
+      } else {
+        // the head, sunk low and heavy
+        ctx.fillStyle = "hsl(250 30% 22%)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.6 * s;
+        ctx.beginPath();
+        ctx.arc(head.x, head.y, (HEAD + 2) * s, 0, TAU);
+        ctx.fill();
+        ctx.stroke();
+        // two sleeping eyes and a big closed eye on the brow
+        ctx.strokeStyle = alive ? "hsl(46 100% 76%)" : "hsl(250 10% 50%)";
+        ctx.lineWidth = 1.5 * s;
+        for (const dx of [-3, 5]) {
+          ctx.beginPath();
+          ctx.arc(head.x + face * dx * s, head.y + 1 * s, 2.6 * s, 0.15 * Math.PI, 0.85 * Math.PI);
+          ctx.stroke();
+        }
+        ctx.lineWidth = 2 * s;
+        ctx.beginPath();
+        ctx.arc(head.x + face * 1 * s, head.y - 7 * s, 5 * s, 0.2 * Math.PI, 0.8 * Math.PI);
+        ctx.stroke();
+        // the long dream hood, flopping down behind it with a little star at its tip
+        const sway = alive ? Math.sin(t * 1.4) * 4 * s : 0;
+        const tipX = head.x + back * 34 * s + sway, tipY = head.y + 16 * s;
+        ctx.fillStyle = "hsl(252 36% 30%)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.6 * s;
+        ctx.beginPath();
+        ctx.moveTo(head.x - 14 * s, head.y - 2 * s);
+        ctx.quadraticCurveTo(head.x - 2 * s, head.y - 24 * s, head.x + back * 22 * s, head.y - 18 * s);
+        ctx.quadraticCurveTo(head.x + back * 36 * s, head.y - 10 * s, tipX, tipY);
+        ctx.quadraticCurveTo(head.x + back * 22 * s, head.y - 4 * s, head.x + 14 * s, head.y - 2 * s);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.strokeStyle = "hsl(46 100% 72% / 0.7)";
+        ctx.lineWidth = 1.2 * s;
+        ctx.beginPath();
+        ctx.moveTo(head.x - 14 * s, head.y - 2 * s);
+        ctx.lineTo(head.x + 14 * s, head.y - 2 * s);
+        ctx.stroke();
+        if (alive) glow(ctx, tipX, tipY, 9 * s, "hsl(46 100% 80% / 0.9)", "hsl(46 100% 70% / 0)");
+        ctx.fillStyle = alive ? "hsl(46 100% 84%)" : "hsl(46 10% 60%)";
+        ctx.beginPath();
+        for (let i = 0; i < 10; i++) {
+          const a = (i / 10) * TAU - Math.PI / 2, r = (i % 2 ? 1.6 : 4) * s;
+          const x = tipX + Math.cos(a) * r, y = tipY + Math.sin(a) * r;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.fill();
+      }
+      break;
+    }
+    // ----- The Hush: a long black veil, and a cracked bronze bell where its head should be -----
+    case "hush": {
+      const back = -face;
+      if (layer === "back") {
+        if (alive) glow(ctx, mid.x, mid.y, 84 * s, "hsl(354 90% 50% / 0.14)", "hsl(354 90% 50% / 0)");
+        // the veil, falling from the crown of the bell to the floor
+        const sway = alive ? Math.sin(t * 0.9) * 5 * s : 0;
+        ctx.fillStyle = "hsl(350 14% 8% / 0.94)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.4 * s;
+        ctx.beginPath();
+        ctx.moveTo(head.x - 6 * s, head.y - 14 * s);
+        ctx.quadraticCurveTo(head.x + back * 30 * s, mid.y, hip.x + back * 30 * s + sway, hip.y + 46 * s);
+        ctx.lineTo(hip.x + back * 4 * s + sway * 0.5, hip.y + 50 * s);
+        ctx.quadraticCurveTo(head.x + back * 10 * s, mid.y, head.x + 6 * s, head.y - 14 * s);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.strokeStyle = "hsl(354 90% 64% / 0.55)";
+        ctx.lineWidth = 1.2 * s;
+        ctx.beginPath();
+        ctx.moveTo(head.x, head.y - 14 * s);
+        ctx.quadraticCurveTo(head.x + back * 22 * s, mid.y, hip.x + back * 18 * s + sway, hip.y + 48 * s);
+        ctx.stroke();
+      } else {
+        // a red ribbon tied tight round the neck
+        ctx.strokeStyle = alive ? "hsl(354 90% 58%)" : "hsl(354 10% 40%)";
+        ctx.lineWidth = 3 * s;
+        ctx.beginPath();
+        ctx.moveTo(neck.x - 6 * s, neck.y);
+        ctx.lineTo(neck.x + 6 * s, neck.y);
+        ctx.stroke();
+        // the bell: wide at the mouth, narrow at the crown, dark inside
+        const bx = head.x, top = head.y - 15 * s, mouth = head.y + 10 * s;
+        ctx.fillStyle = "hsl(32 40% 34%)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.8 * s;
+        ctx.beginPath();
+        ctx.moveTo(bx - 6 * s, top);
+        ctx.quadraticCurveTo(bx - 9 * s, head.y, bx - 15 * s, mouth);
+        ctx.lineTo(bx + 15 * s, mouth);
+        ctx.quadraticCurveTo(bx + 9 * s, head.y, bx + 6 * s, top);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        // a band of verdigris and the crown loop
+        ctx.strokeStyle = "hsl(160 30% 50%)";
+        ctx.lineWidth = 1.6 * s;
+        ctx.beginPath();
+        ctx.moveTo(bx - 11 * s, head.y + 3 * s);
+        ctx.lineTo(bx + 11 * s, head.y + 3 * s);
+        ctx.stroke();
+        ctx.strokeStyle = INK;
+        ctx.beginPath();
+        ctx.arc(bx, top - 2 * s, 3 * s, Math.PI, TAU);
+        ctx.stroke();
+        // the dark mouth of the bell, a red glow deep inside it
+        ctx.fillStyle = "hsl(350 30% 4%)";
+        ctx.beginPath();
+        ctx.ellipse(bx, mouth, 15 * s, 3.4 * s, 0, 0, TAU);
+        ctx.fill();
+        if (alive) {
+          ctx.globalCompositeOperation = "lighter";
+          glow(ctx, bx, mouth, 8 * s, "hsl(354 100% 66% / 0.8)", "hsl(354 100% 60% / 0)");
+          ctx.globalCompositeOperation = "source-over";
+        }
+        // the crack down its side
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.2 * s;
+        ctx.beginPath();
+        ctx.moveTo(bx + face * 3 * s, top + 2 * s);
+        ctx.lineTo(bx + face * 6 * s, head.y - 4 * s);
+        ctx.lineTo(bx + face * 3 * s, head.y + 1 * s);
+        ctx.lineTo(bx + face * 8 * s, mouth - 1 * s);
+        ctx.stroke();
+      }
+      break;
+    }
+    // ----- The Elder Dark: arms of starless night, a cluster of eyes for a face and a crown of dead stars -----
+    case "elderdark": {
+      const back = -face;
+      if (layer === "back") {
+        if (alive) {
+          glow(ctx, mid.x, mid.y, 120 * s, "hsl(268 100% 50% / 0.2)", "hsl(268 100% 50% / 0)");
+          glow(ctx, mid.x, mid.y, 70 * s, "hsl(262 60% 4% / 0.6)", "hsl(262 60% 4% / 0)");
+        }
+        // four arms of night rising behind it, specks of starlight caught in them
+        for (let i = 0; i < 4; i++) {
+          const side = i % 2 ? 1 : -1, reach = (70 + i * 10) * s;
+          const sw = alive ? Math.sin(t * 1.3 + i * 1.7) * 14 * s : 0;
+          const bx = shoulder.x + back * 4 * s, by = shoulder.y + 4 * s;
+          const tx = bx + side * (34 + i * 14) * s + sw, ty = by - reach;
+          ctx.strokeStyle = "hsl(262 50% 6%)";
+          ctx.lineWidth = (9 - i) * s;
+          ctx.beginPath();
+          ctx.moveTo(bx, by);
+          ctx.bezierCurveTo(bx + side * 30 * s, by - reach * 0.3, tx - side * 24 * s - sw, ty + reach * 0.4, tx, ty);
+          ctx.stroke();
+          ctx.strokeStyle = "hsl(268 100% 74% / 0.5)";
+          ctx.lineWidth = 1 * s;
+          ctx.stroke();
+          ctx.fillStyle = "hsl(0 0% 100%)";
+          for (let k = 1; k < 5; k++) {
+            ctx.globalAlpha = alive ? 0.4 + 0.6 * Math.abs(Math.sin(t * 2 + i + k)) : 0.3;
+            const u = k / 5;
+            ctx.fillRect(bx + (tx - bx) * u + side * Math.sin(u * 3) * 10 * s, by + (ty - by) * u, 1.6 * s, 1.6 * s);
+          }
+          ctx.globalAlpha = 1;
+        }
+      } else {
+        // the head: a lump of the dark with no face, only eyes
+        ctx.fillStyle = "hsl(262 40% 8%)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.6 * s;
+        ctx.beginPath();
+        ctx.ellipse(head.x, head.y, (HEAD + 4) * s, (HEAD + 2) * s, 0, 0, TAU);
+        ctx.fill();
+        ctx.strokeStyle = "hsl(268 100% 74% / 0.6)";
+        ctx.stroke();
+        const eyes: [number, number, number][] = [[3, -2, 3.4], [-4, 1, 2.4], [8, 3, 2], [0, 6, 1.8], [-2, -7, 1.6]];
+        eyes.forEach(([dx, dy, r], i) => {
+          const ex = head.x + face * dx * s, ey = head.y + dy * s;
+          const blink = alive ? Math.max(0.15, Math.abs(Math.sin(t * 0.7 + i * 1.9))) : 0.2;
+          ctx.fillStyle = i % 2 ? "hsl(150 100% 66%)" : "hsl(268 100% 80%)";
+          ctx.beginPath();
+          ctx.ellipse(ex, ey, r * s, r * s * blink, 0, 0, TAU);
+          ctx.fill();
+          ctx.fillStyle = "hsl(262 60% 3%)";
+          ctx.beginPath();
+          ctx.ellipse(ex + face * 0.4 * s, ey, r * 0.3 * s, r * s * blink * 0.8, 0, 0, TAU);
+          ctx.fill();
+        });
+        // a crown of dead stars, only a few of them still faintly burning
+        for (let i = 0; i < 7; i++) {
+          const a = Math.PI + (i / 6) * Math.PI;
+          const cx = head.x + Math.cos(a) * 17 * s, cy = head.y - 4 * s + Math.sin(a) * 16 * s;
+          const lit = alive && i % 3 === 1;
+          ctx.fillStyle = lit ? "hsl(268 100% 86%)" : "hsl(262 14% 30%)";
+          if (lit) glow(ctx, cx, cy, 6 * s, "hsl(268 100% 80% / 0.8)", "hsl(268 100% 80% / 0)");
+          ctx.beginPath();
+          for (let k = 0; k < 8; k++) {
+            const ka = (k / 8) * TAU - Math.PI / 2, r = (k % 2 ? 1.2 : 3.4) * s;
+            const x = cx + Math.cos(ka) * r, y = cy + Math.sin(ka) * r;
+            if (k === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          ctx.closePath();
+          ctx.fill();
+        }
+      }
+      break;
+    }
   }
   ctx.restore();
   if (layer === "front") drawBossExtras(ctx, design, layer, p, s, face, t, alive, vx, act);
@@ -2156,6 +2393,188 @@ function drawBossPhase(
       }
       break;
     }
+    case "somnarch": {
+      if (!front) {
+        // 2: pillows of dream cloud drifting up behind it
+        ctx.fillStyle = "hsl(256 60% 80% / 0.28)";
+        for (let i = 0; i < 5; i++) {
+          const k = (t * 0.08 + i / 5) % 1;
+          const cx = mid.x + Math.sin(i * 2.3) * 60 * s, cy = hip.y + 20 * s - k * 150 * s, r = (12 + (i % 3) * 5) * s;
+          ctx.globalAlpha = Math.sin(k * Math.PI);
+          ctx.beginPath();
+          ctx.arc(cx, cy, r, 0, TAU);
+          ctx.arc(cx + r * 0.9, cy + r * 0.2, r * 0.7, 0, TAU);
+          ctx.arc(cx - r * 0.9, cy + r * 0.25, r * 0.6, 0, TAU);
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+      } else {
+        // 2: small gold eyes, wide awake now, circling it
+        orbit(5, 46, 12, mid.y, 0.8, (x, y) => {
+          ctx.fillStyle = "hsl(46 100% 80%)";
+          ctx.beginPath();
+          ctx.ellipse(x, y, 4.4 * s, 2.6 * s, 0, 0, TAU);
+          ctx.fill();
+          ctx.fillStyle = "hsl(250 40% 10%)";
+          ctx.beginPath();
+          ctx.arc(x, y, 1.4 * s, 0, TAU);
+          ctx.fill();
+        });
+      }
+      if (phase >= 3 && front) {
+        // 3: the eye on its brow opens, gold and hungry
+        const ex = head.x + face * 1 * s, ey = head.y - 7 * s;
+        ctx.globalCompositeOperation = "lighter";
+        glow(ctx, ex, ey, 12 * s, "hsl(46 100% 70% / 0.8)", "hsl(46 100% 60% / 0)");
+        ctx.globalCompositeOperation = "source-over";
+        ctx.fillStyle = "hsl(46 100% 74%)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.2 * s;
+        ctx.beginPath();
+        ctx.ellipse(ex, ey, 6 * s, 3.6 * s, 0, 0, TAU);
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = "hsl(250 50% 8%)";
+        ctx.beginPath();
+        ctx.ellipse(ex, ey, 1.2 * s, 3.2 * s, 0, 0, TAU);
+        ctx.fill();
+      }
+      if (phase >= 4 && !front) {
+        // 4: a black spiral of endless sleep turning behind it
+        const cx = mid.x + back * 6 * s, cy = head.y - 10 * s;
+        glow(ctx, cx, cy, 90 * s, "hsl(250 60% 4% / 0.7)", "hsl(250 60% 4% / 0)");
+        ctx.strokeStyle = "hsl(46 100% 72% / 0.6)";
+        ctx.lineWidth = 2 * s;
+        ctx.beginPath();
+        for (let i = 0; i <= 90; i++) {
+          const a = i * 0.2 - t * 1.2, r = i * 0.9 * s;
+          const x = cx + Math.cos(a) * r, y = cy + Math.sin(a) * r;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+      break;
+    }
+    case "hush": {
+      if (!front) {
+        // 2: silent rings spreading out from the bell, red and soundless
+        for (let i = 0; i < 3; i++) {
+          const k = (t * 0.5 + i / 3) % 1;
+          ctx.strokeStyle = `hsl(354 100% 70% / ${(1 - k) * 0.6})`;
+          ctx.lineWidth = 2 * s;
+          ctx.beginPath();
+          ctx.arc(head.x, head.y, (16 + k * 80) * s, 0, TAU);
+          ctx.stroke();
+        }
+      }
+      if (phase >= 3) {
+        // 3: the voices it has taken, pale threads pulled tight from the bell
+        orbit(6, 54, 14, head.y - 30 * s, 0.6, (x, y) => {
+          ctx.strokeStyle = "hsl(0 0% 96% / 0.55)";
+          ctx.lineWidth = 1 * s;
+          ctx.beginPath();
+          ctx.moveTo(head.x, head.y - 14 * s);
+          ctx.lineTo(x, y);
+          ctx.stroke();
+          ctx.fillStyle = "hsl(354 100% 84%)";
+          ctx.beginPath();
+          ctx.arc(x, y, 2.4 * s, 0, TAU);
+          ctx.fill();
+        });
+      }
+      if (phase >= 4 && !front) {
+        // 4: the bell splits, and behind it is only the dark between the stars
+        const cx = head.x + back * 4 * s, cy = head.y - 6 * s;
+        ctx.fillStyle = "hsl(350 40% 3%)";
+        ctx.strokeStyle = "hsl(354 100% 66%)";
+        ctx.lineWidth = 2.4 * s;
+        ctx.beginPath();
+        for (let i = 0; i < 14; i++) {
+          const a = (i / 14) * TAU, r = (i % 2 ? 40 : 52) * s;
+          const x = cx + Math.cos(a) * r, y = cy + Math.sin(a) * r;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = "hsl(0 0% 100%)";
+        for (let i = 0; i < 12; i++) {
+          ctx.globalAlpha = 0.4 + 0.6 * Math.abs(Math.sin(t * 2 + i));
+          ctx.fillRect(cx + Math.sin(i * 7.1) * 32 * s, cy + Math.cos(i * 3.7) * 30 * s, 1.6 * s, 1.6 * s);
+        }
+        ctx.globalAlpha = 1;
+      }
+      break;
+    }
+    case "elderdark": {
+      if (front) {
+        // 2: eyes opening all over its body
+        const spots: [Pt, number][] = [[mid, 3], [p.eF, 2.4], [p.eB, 2.2], [{ x: hip.x, y: hip.y - 6 * s }, 2.6], [shoulder, 2.2]];
+        spots.forEach(([q, r], i) => {
+          const blink = Math.max(0.2, Math.abs(Math.sin(t * 0.9 + i * 2.1)));
+          ctx.fillStyle = "hsl(262 50% 6%)";
+          ctx.beginPath();
+          ctx.ellipse(q.x, q.y, (r + 1.4) * s, (r + 1) * s, 0, 0, TAU);
+          ctx.fill();
+          ctx.fillStyle = i % 2 ? "hsl(268 100% 80%)" : "hsl(150 100% 66%)";
+          ctx.beginPath();
+          ctx.ellipse(q.x, q.y, r * s, r * s * blink, 0, 0, TAU);
+          ctx.fill();
+          ctx.fillStyle = "hsl(262 60% 3%)";
+          ctx.beginPath();
+          ctx.ellipse(q.x, q.y, r * 0.3 * s, r * s * blink * 0.8, 0, 0, TAU);
+          ctx.fill();
+        });
+      }
+      if (phase >= 3) {
+        // 3: the constellations come down and circle it, joined by faint lines
+        const pts: Pt[] = [];
+        orbit(7, 64, 18, mid.y - 10 * s, 0.35, (x, y) => {
+          pts.push({ x, y });
+          ctx.globalCompositeOperation = "lighter";
+          glow(ctx, x, y, 7 * s, "hsl(268 100% 86% / 0.9)", "hsl(268 100% 70% / 0)");
+          ctx.globalCompositeOperation = "source-over";
+          ctx.fillStyle = "hsl(0 0% 100%)";
+          ctx.fillRect(x - 1.5 * s, y - 1.5 * s, 3 * s, 3 * s);
+        });
+        ctx.strokeStyle = "hsl(268 100% 84% / 0.45)";
+        ctx.lineWidth = 1 * s;
+        ctx.beginPath();
+        pts.forEach((q, i) => (i === 0 ? ctx.moveTo(q.x, q.y) : ctx.lineTo(q.x, q.y)));
+        ctx.stroke();
+      }
+      if (phase >= 4 && !front) {
+        // 4: the sky behind it tears open on one enormous eye, older than the stars
+        const cx = mid.x + back * 8 * s, cy = head.y - 50 * s;
+        glow(ctx, cx, cy, 120 * s, "hsl(150 100% 50% / 0.25)", "hsl(150 100% 50% / 0)");
+        ctx.fillStyle = "hsl(262 60% 3%)";
+        ctx.strokeStyle = "hsl(268 100% 80%)";
+        ctx.lineWidth = 2 * s;
+        ctx.beginPath();
+        ctx.moveTo(cx - 96 * s, cy);
+        ctx.quadraticCurveTo(cx, cy - 66 * s, cx + 96 * s, cy);
+        ctx.quadraticCurveTo(cx, cy + 66 * s, cx - 96 * s, cy);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        const look = Math.sin(t * 0.6) * 14 * s;
+        ctx.fillStyle = "hsl(150 100% 56%)";
+        ctx.beginPath();
+        ctx.arc(cx + look, cy, 26 * s, 0, TAU);
+        ctx.fill();
+        ctx.fillStyle = "hsl(262 60% 3%)";
+        ctx.beginPath();
+        ctx.ellipse(cx + look, cy, 5 * s, 22 * s, 0, 0, TAU);
+        ctx.fill();
+        ctx.fillStyle = "hsl(0 0% 100% / 0.8)";
+        ctx.beginPath();
+        ctx.arc(cx + look - 9 * s, cy - 9 * s, 3 * s, 0, TAU);
+        ctx.fill();
+      }
+      break;
+    }
   }
   ctx.restore();
 }
@@ -2414,6 +2833,40 @@ function drawBossExtras(
       } else {
         pauldron(ctx, shoulder, face, s, "hsl(40 26% 70%)", "hsl(208 100% 84%)", 0);
         fists("hsl(208 100% 88%)", "hsl(208 100% 60% / 0)");
+      }
+      break;
+    case "somnarch":
+      if (layer === "back") {
+        // a heavy quilted sleeping gown, gold stitching at the hem, dream dust rising off it
+        robe(ctx, hip, p.fF, p.fB, s, t, "hsl(250 32% 22% / 0.96)", "hsl(46 100% 70%)");
+        if (alive) {
+          ctx.globalCompositeOperation = "lighter";
+          motes(ctx, mid.x, hip.y + 10 * s, 90 * s, 140 * s, t * 0.3, 10, "hsl(46 100% 76%)", 1.5 * s);
+          ctx.globalCompositeOperation = "source-over";
+        }
+      } else {
+        fists("hsl(46 100% 80%)", "hsl(46 100% 60% / 0)");
+      }
+      break;
+    case "hush":
+      if (layer === "back") {
+        cape(46, "hsl(350 14% 7% / 0.96)", "hsl(354 90% 62% / 0.8)", 4);
+      } else {
+        fists("hsl(354 100% 76%)", "hsl(354 100% 50% / 0)");
+      }
+      break;
+    case "elderdark":
+      if (layer === "back") {
+        // a robe of the night sky itself, starlight drifting off it
+        robe(ctx, hip, p.fF, p.fB, s, t, "hsl(262 46% 6% / 0.97)", "hsl(268 100% 76%)");
+        if (alive) {
+          ctx.globalCompositeOperation = "lighter";
+          motes(ctx, mid.x, hip.y + 20 * s, 110 * s, 160 * s, t * 0.4, 14, "hsl(268 100% 86%)", 1.4 * s);
+          ctx.globalCompositeOperation = "source-over";
+        }
+      } else {
+        pauldron(ctx, shoulder, face, s, "hsl(262 40% 10%)", "hsl(268 100% 76%)", 3);
+        fists("hsl(150 100% 72%)", "hsl(150 100% 50% / 0)");
       }
       break;
   }

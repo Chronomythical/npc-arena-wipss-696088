@@ -759,6 +759,292 @@ const LOOKS: Look[] = [
       }
     },
   },
+  // Book 2, 5. The Sleeping Valley: windmills and cottages under a violet sky with ribbons of gold dream light.
+  // Every stage more dream bubbles float up out of the chimneys, and at the lair a huge eye in the sky opens.
+  {
+    sky: [["hsl(262 34% 30%)", "hsl(280 30% 44%)", "hsl(36 70% 70%)"], ["hsl(256 36% 22%)", "hsl(270 30% 34%)", "hsl(30 50% 54%)"], ["hsl(250 40% 14%)", "hsl(262 34% 22%)", "hsl(280 30% 34%)"], ["hsl(248 50% 6%)", "hsl(254 40% 12%)", "hsl(262 36% 20%)"]],
+    far: "hsl(256 24% 24%)", near: "hsl(252 24% 16%)", floor: ["hsl(256 18% 30%)", "hsl(252 24% 14%)"], line: "hsl(46 100% 74% / 0.22)", starsFrom: 1,
+    scene(ctx, stage, phase, rnd) {
+      // ribbons of dream light drifting across the sky
+      for (let i = 0; i < 3; i++) {
+        ctx.strokeStyle = `hsl(46 100% 74% / ${0.14 + phase * 0.05})`;
+        ctx.lineWidth = 14 - i * 3;
+        ctx.beginPath();
+        const y0 = 90 + i * 50 + rnd() * 20;
+        ctx.moveTo(-20, y0);
+        for (let x = 0; x <= W + 20; x += 40) ctx.lineTo(x, y0 + Math.sin(x * 0.008 + i * 2) * 26);
+        ctx.stroke();
+      }
+      if (phase === 3) {
+        // the lair: the sky itself opens one huge gold eye
+        const ex = W * 0.5, ey = 150;
+        glow(ctx, ex, ey, 260, "hsl(46 100% 70%)", 0.35);
+        ctx.fillStyle = "hsl(250 50% 6%)";
+        ctx.strokeStyle = "hsl(46 100% 74%)";
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(ex - 230, ey);
+        ctx.quadraticCurveTo(ex, ey - 130, ex + 230, ey);
+        ctx.quadraticCurveTo(ex, ey + 130, ex - 230, ey);
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = "hsl(46 100% 66%)";
+        ctx.beginPath();
+        ctx.arc(ex, ey, 56, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "hsl(250 50% 6%)";
+        ctx.beginPath();
+        ctx.ellipse(ex, ey, 10, 48, 0, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        // a sleepy crescent moon, lower every part of the chapter
+        const my = 90 + phase * 40;
+        glow(ctx, 160, my, 80, "hsl(46 100% 80%)", 0.4);
+        ctx.fillStyle = "hsl(46 90% 84%)";
+        ctx.beginPath();
+        ctx.arc(160, my, 30, 0, Math.PI * 2);
+        ctx.arc(172, my - 8, 26, 0, Math.PI * 2, true);
+        ctx.fill("evenodd");
+      }
+      // windmills on the far hills, sails turning slower each stage until they stop
+      for (let i = 0; i < 3; i++) {
+        const x = 260 + i * 260 + rnd() * 60, y = 300 - rnd() * 30;
+        ctx.fillStyle = "hsl(256 24% 20%)";
+        ctx.beginPath();
+        ctx.moveTo(x - 14, y + 70);
+        ctx.lineTo(x - 8, y);
+        ctx.lineTo(x + 8, y);
+        ctx.lineTo(x + 14, y + 70);
+        ctx.fill();
+        ctx.strokeStyle = "hsl(256 24% 20%)";
+        ctx.lineWidth = 5;
+        const turn = rnd() * Math.PI;
+        for (let k = 0; k < 4; k++) {
+          const a = turn + (k * Math.PI) / 2;
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          ctx.lineTo(x + Math.cos(a) * 40, y + Math.sin(a) * 40);
+          ctx.stroke();
+        }
+      }
+    },
+    front(ctx, stage, phase, rnd) {
+      // cottages, their windows going dark as the valley falls asleep
+      for (let i = 0; i < 5; i++) {
+        const x = 40 + i * 210 + rnd() * 60, w = 70 + rnd() * 30, h = 50 + rnd() * 20;
+        ctx.fillStyle = INK;
+        ctx.fillRect(x, FLOOR - 40 - h, w, h + 40);
+        ctx.beginPath();
+        ctx.moveTo(x - 8, FLOOR - 40 - h);
+        ctx.lineTo(x + w / 2, FLOOR - 80 - h);
+        ctx.lineTo(x + w + 8, FLOOR - 40 - h);
+        ctx.fill();
+        const lit = i >= stage * 0.6 && phase < 3;
+        ctx.fillStyle = lit ? "hsl(42 100% 66%)" : "hsl(250 30% 22%)";
+        ctx.fillRect(x + 14, FLOOR - 30 - h, 14, 14);
+        ctx.fillRect(x + w - 28, FLOOR - 30 - h, 14, 14);
+      }
+      // dream bubbles floating up, more every stage
+      for (let i = 0; i < 4 + stage * 3; i++) {
+        const x = rnd() * W, y = 60 + rnd() * (FLOOR - 160), r = 5 + rnd() * 12;
+        ctx.strokeStyle = `hsl(${rnd() > 0.5 ? 46 : 270} 100% 82% / 0.6)`;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.fillStyle = "hsl(0 0% 100% / 0.4)";
+        ctx.fillRect(x - r * 0.4, y - r * 0.5, 2, 2);
+      }
+    },
+  },
+  // Book 2, 6. The Silent Bells: a city of bell towers on sea cliffs under a red dusk. Every stage another bell
+  // has fallen silent and its tower gone dark, and at the lair the great bell hangs cracked in a black sky.
+  {
+    sky: [["hsl(10 40% 34%)", "hsl(20 50% 50%)", "hsl(36 70% 70%)"], ["hsl(356 36% 24%)", "hsl(8 44% 38%)", "hsl(24 60% 56%)"], ["hsl(350 40% 14%)", "hsl(356 40% 22%)", "hsl(4 44% 36%)"], ["hsl(350 40% 5%)", "hsl(352 36% 9%)", "hsl(354 50% 18%)"]],
+    far: "hsl(350 16% 18%)", near: "hsl(350 16% 11%)", floor: ["hsl(30 12% 28%)", "hsl(350 14% 12%)"], line: "hsl(354 90% 66% / 0.22)", starsFrom: 2,
+    scene(ctx, stage, phase, rnd) {
+      // the sea far below the cliffs
+      ctx.fillStyle = phase === 3 ? "hsl(350 30% 8%)" : "hsl(356 30% 24%)";
+      ctx.fillRect(0, 300, W, 40);
+      if (phase === 3) {
+        // the lair: the great bell hanging cracked in the sky, red light spilling from its mouth
+        const bx = W * 0.5, by = 150;
+        glow(ctx, bx, by + 80, 200, "hsl(354 100% 60%)", 0.4);
+        ctx.strokeStyle = "hsl(350 10% 6%)";
+        ctx.lineWidth = 6;
+        ctx.beginPath();
+        ctx.moveTo(bx, 0);
+        ctx.lineTo(bx, by - 70);
+        ctx.stroke();
+        ctx.fillStyle = "hsl(30 30% 22%)";
+        ctx.beginPath();
+        ctx.moveTo(bx - 40, by - 70);
+        ctx.quadraticCurveTo(bx - 60, by, bx - 110, by + 70);
+        ctx.lineTo(bx + 110, by + 70);
+        ctx.quadraticCurveTo(bx + 60, by, bx + 40, by - 70);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillStyle = "hsl(350 40% 4%)";
+        ctx.beginPath();
+        ctx.ellipse(bx, by + 70, 110, 16, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "hsl(354 100% 66%)";
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(bx + 10, by - 66);
+        ctx.lineTo(bx + 24, by - 10);
+        ctx.lineTo(bx + 8, by + 20);
+        ctx.lineTo(bx + 30, by + 66);
+        ctx.stroke();
+      } else {
+        // a low red sun sinking into the sea
+        glow(ctx, W * 0.72, 290, 160, "hsl(14 100% 66%)", 0.5);
+        ctx.fillStyle = "hsl(16 90% 66%)";
+        ctx.beginPath();
+        ctx.arc(W * 0.72, 300 + phase * 10, 50, Math.PI, Math.PI * 2);
+        ctx.fill();
+      }
+      // bell towers along the cliffs, a little light in each one still ringing
+      for (let i = 0; i < 7; i++) {
+        const x = 40 + i * 150 + rnd() * 40, h = 120 + rnd() * 90, w = 34 + rnd() * 14;
+        ctx.fillStyle = "hsl(350 16% 16%)";
+        ctx.fillRect(x - w / 2, 340 - h, w, h);
+        ctx.beginPath();
+        ctx.moveTo(x - w / 2 - 4, 340 - h);
+        ctx.lineTo(x, 340 - h - 40);
+        ctx.lineTo(x + w / 2 + 4, 340 - h);
+        ctx.fill();
+        const ringing = i >= stage;
+        ctx.fillStyle = ringing && phase < 3 ? "hsl(40 90% 64%)" : "hsl(350 20% 8%)";
+        ctx.beginPath();
+        ctx.arc(x, 340 - h + 20, 8, Math.PI, Math.PI * 2);
+        ctx.lineTo(x + 10, 340 - h + 28);
+        ctx.lineTo(x - 10, 340 - h + 28);
+        ctx.fill();
+      }
+    },
+    front(ctx, stage, phase, rnd) {
+      // the square's wall, and fallen bells lying in the street, more every stage
+      ctx.fillStyle = INK;
+      ctx.fillRect(0, FLOOR - 26, W, 6);
+      for (let x = 20; x < W; x += 90) ctx.fillRect(x, FLOOR - 26, 8, 26);
+      for (let i = 0; i < 1 + Math.floor(stage / 2); i++) {
+        const x = 60 + rnd() * (W - 120), r = 18 + rnd() * 16;
+        ctx.save();
+        ctx.translate(x, FLOOR - r * 0.6);
+        ctx.rotate(rnd() > 0.5 ? 1.4 : -1.4);
+        ctx.fillStyle = "hsl(30 30% 24%)";
+        ctx.beginPath();
+        ctx.moveTo(-r * 0.4, -r);
+        ctx.quadraticCurveTo(-r * 0.6, 0, -r, r * 0.6);
+        ctx.lineTo(r, r * 0.6);
+        ctx.quadraticCurveTo(r * 0.6, 0, r * 0.4, -r);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      }
+      // red threads of stolen voices hanging in the air near the end
+      if (phase >= 2) {
+        ctx.strokeStyle = "hsl(354 100% 70% / 0.35)";
+        ctx.lineWidth = 1.5;
+        for (let i = 0; i < 8 + stage; i++) {
+          const x = rnd() * W;
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.quadraticCurveTo(x + (rnd() - 0.5) * 80, 160, x + (rnd() - 0.5) * 40, 260 + rnd() * 80);
+          ctx.stroke();
+        }
+      }
+    },
+  },
+  // Book 2, 7. The Elder Dark: broken ground floating up into a sky with no stars left in it. Every stage the crack
+  // in the sky is wider and more arms of the dark reach out of it, and at the lair one enormous eye fills the crack.
+  {
+    sky: [["hsl(258 40% 16%)", "hsl(268 34% 26%)", "hsl(160 30% 30%)"], ["hsl(260 44% 11%)", "hsl(266 36% 18%)", "hsl(160 36% 22%)"], ["hsl(262 50% 7%)", "hsl(264 40% 12%)", "hsl(156 40% 16%)"], ["hsl(262 60% 3%)", "hsl(262 50% 6%)", "hsl(150 50% 10%)"]],
+    far: "hsl(260 24% 12%)", near: "hsl(260 26% 8%)", floor: ["hsl(262 16% 20%)", "hsl(262 30% 7%)"], line: "hsl(268 100% 78% / 0.24)", starsFrom: 0,
+    scene(ctx, stage, phase, rnd) {
+      // the crack in the sky, wider every stage
+      const open = 0.25 + stage * 0.09;
+      const cx = W * 0.55, cy = 140;
+      glow(ctx, cx, cy, 160 + stage * 20, "hsl(150 100% 50%)", 0.3);
+      ctx.fillStyle = "hsl(262 60% 2%)";
+      ctx.strokeStyle = "hsl(268 100% 78%)";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      const pts = 12;
+      for (let i = 0; i <= pts; i++) {
+        const x = cx - 300 + (600 / pts) * i;
+        ctx.lineTo(x, cy - (i % 2 ? 18 : 40) * open - Math.sin((i / pts) * Math.PI) * 70 * open);
+      }
+      for (let i = pts; i >= 0; i--) {
+        const x = cx - 300 + (600 / pts) * i;
+        ctx.lineTo(x, cy + (i % 2 ? 22 : 36) * open + Math.sin((i / pts) * Math.PI) * 70 * open);
+      }
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+      if (phase === 3) {
+        // the lair: one enormous eye fills the crack
+        ctx.fillStyle = "hsl(150 100% 52%)";
+        ctx.beginPath();
+        ctx.arc(cx, cy, 74, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "hsl(262 60% 2%)";
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, 13, 66, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "hsl(0 0% 100% / 0.8)";
+        ctx.beginPath();
+        ctx.arc(cx - 26, cy - 26, 8, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        // dead stars caught in the crack
+        ctx.fillStyle = "hsl(268 100% 86%)";
+        for (let i = 0; i < 10; i++) ctx.fillRect(cx - 200 + rnd() * 400, cy - 20 + rnd() * 40, 2, 2);
+      }
+      // arms of the dark reaching out of the crack, more every stage
+      ctx.lineCap = "round";
+      for (let i = 0; i < 1 + stage; i++) {
+        const sx = cx - 240 + rnd() * 480, sy = cy + (rnd() - 0.5) * 40;
+        const ex = sx + (rnd() - 0.5) * 400, ey = sy + 60 + rnd() * 160;
+        ctx.strokeStyle = "hsl(262 50% 5%)";
+        ctx.lineWidth = 10 + rnd() * 8;
+        ctx.beginPath();
+        ctx.moveTo(sx, sy);
+        ctx.quadraticCurveTo((sx + ex) / 2 + (rnd() - 0.5) * 160, (sy + ey) / 2, ex, ey);
+        ctx.stroke();
+        ctx.strokeStyle = "hsl(268 100% 74% / 0.4)";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+      // chunks of the world floating up toward it
+      for (let i = 0; i < 6; i++) {
+        const x = rnd() * W, y = 220 + rnd() * 100, w = 30 + rnd() * 60;
+        ctx.fillStyle = "hsl(262 20% 14%)";
+        ctx.beginPath();
+        ctx.moveTo(x - w / 2, y);
+        ctx.lineTo(x + w / 2, y);
+        ctx.lineTo(x + w * 0.2, y + w * 0.6);
+        ctx.lineTo(x - w * 0.1, y + w * 0.5);
+        ctx.closePath();
+        ctx.fill();
+      }
+    },
+    front(ctx, stage, phase, rnd) {
+      // broken pillars of an old temple, the last thing standing between the world and the dark
+      ctx.fillStyle = INK;
+      for (let i = 0; i < 5; i++) {
+        const x = 60 + i * 220 + rnd() * 40, h = 60 + rnd() * 120;
+        ctx.fillRect(x - 12, FLOOR - h, 24, h);
+        ctx.fillRect(x - 18, FLOOR - h - 8, 36, 10);
+      }
+      // starlight specks drifting up into the crack
+      for (let i = 0; i < 20 + stage * 6; i++) {
+        ctx.fillStyle = `hsl(${rnd() > 0.7 ? 150 : 268} 100% 82% / ${0.3 + rnd() * 0.5})`;
+        ctx.fillRect(rnd() * W, rnd() * FLOOR, 2, 2);
+      }
+    },
+  },
 ];
 
 function paint(ch: number, stage: number): HTMLCanvasElement {

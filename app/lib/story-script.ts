@@ -5,14 +5,25 @@ import { lairOf } from "./story";
 
 export type Speaker = "narrator" | "you" | "foe" | "boss";
 export type Line = { who: Speaker; key: StringKey };
-export type SceneKind = "intro" | "stage" | "outro";
+export type SceneKind = "intro" | "stage" | "outro" | "ending";
 export type Scene = { kind: SceneKind; ch: number; stage: number };
 
 const k = (ch: number, part: string, n: number) => `story.script.c${ch + 1}.${part}.l${n}` as StringKey;
 
-/** The lines of one scene: a chapter's opening, the words before a stage, or the boss's last words. */
+/** Book 2's epilogue, after the Elder Dark falls: the narrator, then the player's pair, then the closing line. */
+const ENDING: Line[] = [
+  { who: "narrator", key: "story.ending.l1" },
+  { who: "narrator", key: "story.ending.l2" },
+  { who: "narrator", key: "story.ending.l3" },
+  { who: "narrator", key: "story.ending.l4" },
+  { who: "you", key: "story.ending.l5" },
+  { who: "narrator", key: "story.ending.l6" },
+];
+
+/** The lines of one scene: a chapter's opening, the words before a stage, the boss's last words, or a book's ending. */
 export function sceneLines(scene: Scene): Line[] {
   const { kind, ch, stage } = scene;
+  if (kind === "ending") return ENDING;
   if (kind === "intro") return [1, 2, 3].map((n) => ({ who: "narrator", key: k(ch, "intro", n) }));
   if (kind === "outro") return [{ who: "boss", key: k(ch, "outro", 1) }, { who: "you", key: k(ch, "outro", 2) }, { who: "narrator", key: k(ch, "outro", 3) }];
   // the boss's stage: the last of the chapter (s10 in Book 1, s9 in Book 2)

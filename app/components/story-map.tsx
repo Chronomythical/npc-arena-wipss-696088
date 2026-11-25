@@ -37,6 +37,12 @@ const THEMES: Theme[] = [
   { top: "hsl(270 18% 16%)", bottom: "hsl(290 14% 40%)", blob: "hsl(40 30% 92% / 0.14)", deco: "hsl(300 100% 86% / 0.5)", road: "hsl(300 100% 80%)", icons: [PiHouseFill, PiBuildingsFill, PiMaskHappyFill, PiScrollFill, PiBookOpenFill] },
   // Book 2. The Moth Moon: a mountain observatory under a huge low moon
   { top: "hsl(232 50% 7%)", bottom: "hsl(220 34% 26%)", blob: "hsl(208 100% 84% / 0.12)", deco: "hsl(208 100% 88% / 0.55)", road: "hsl(208 100% 80%)", icons: [PiMoonFill, PiButterflyFill, PiMountainsFill, PiStarFill] },
+  // Book 2. The Sleeping Valley: violet dusk over windmills, gold dream light in the air
+  { top: "hsl(256 40% 14%)", bottom: "hsl(270 30% 34%)", blob: "hsl(46 100% 70% / 0.12)", deco: "hsl(46 100% 80% / 0.55)", road: "hsl(46 100% 72%)", icons: [PiMoonStarsFill, PiHouseFill, PiSpiralFill, PiStarFill] },
+  // Book 2. The Silent Bells: bell towers on red sea cliffs
+  { top: "hsl(350 34% 10%)", bottom: "hsl(4 36% 28%)", blob: "hsl(354 100% 66% / 0.12)", deco: "hsl(354 100% 80% / 0.5)", road: "hsl(354 100% 70%)", icons: [PiBellFill, PiCastleTurretFill, PiBuildingsFill, PiWavesFill] },
+  // Book 2. The Elder Dark: broken ground floating up into a starless sky
+  { top: "hsl(262 60% 4%)", bottom: "hsl(264 40% 16%)", blob: "hsl(150 100% 56% / 0.1)", deco: "hsl(268 100% 84% / 0.55)", road: "hsl(268 100% 78%)", icons: [PiEyeFill, PiPlanetFill, PiShootingStarFill, PiSpiralFill] },
 ];
 
 /** A smooth road through the points, in the SVG's 1000 by 520 space. */

@@ -4,7 +4,7 @@
 import type { BossDesign, FighterDef, Move } from "./fighters";
 import type { Form } from "./forms";
 
-export type BossId = "nullshade" | "maelstrom" | "magmaw" | "everwinter" | "riftmaker" | "hollowking" | "blacksun" | "axiom" | "lanternmaw" | "sporemother" | "mnemovore" | "dustmoth";
+export type BossId = "nullshade" | "maelstrom" | "magmaw" | "everwinter" | "riftmaker" | "hollowking" | "blacksun" | "axiom" | "lanternmaw" | "sporemother" | "mnemovore" | "dustmoth" | "somnarch" | "hush" | "elderdark";
 
 const M = (m: Omit<Move, "wind" | "act" | "rec"> & Partial<Pick<Move, "wind" | "act" | "rec">>): Move => ({
   wind: 0.2,
@@ -184,6 +184,51 @@ export const BOSSES: Record<BossId, FighterDef> = {
       M({ id: "wingbeat", name: "Wingbeat", kind: "burst", anim: "raise", range: 160, cd: 6, dmg: 13, radius: 180, kb: 520, lift: -360, wind: 0.32 }),
       M({ id: "dust-fall", name: "Dust Fall", kind: "rain", anim: "raise", range: 540, cd: 5.5, dmg: 7, count: 7, radius: 170, size: 9, status: "blind", statusDur: 0.6, wind: 0.34 }),
       M({ id: "moth-swarm", name: "Moth Swarm", kind: "zone", anim: "cast", range: 400, cd: 9, dmg: 6, radius: 140, dur: 4.5, status: "blind", statusDur: 0.6, wind: 0.36 }),
+    ],
+  },
+  // Book 2, chapter 5. The fifth herald: a giant that has slept since before the world, and whose dreams leak out
+  // over the valley it lies under. Its lullaby slows you, its dreams knock you out, and it walks through sleep itself.
+  somnarch: {
+    id: "psy", boss: "somnarch", name: "The Somnarch", power: "Endless Sleep", role: "control",
+    ability: "A herald of the Elder Dark that has slept under the valley since before the first dawn. Its lullaby slows enemies, its dreams knock them out, and it steps through sleep from one place to another.",
+    color: "hsl(250 34% 18%)", glow: "hsl(46 100% 72%)", hp: 580, speed: 86,
+    moves: [
+      M({ id: "lullaby-touch", name: "Lullaby Touch", kind: "melee", anim: "thrust", range: 92, cd: 1, dmg: 11, kb: 220, status: "slow", statusDur: 1.2 }),
+      M({ id: "dream-motes", name: "Dream Motes", kind: "projectile", anim: "cast", range: 580, minRange: 80, cd: 2.5, dmg: 6, speed: 420, size: 11, count: 4, spread: 0.28, shape: "orb", status: "slow", statusDur: 1 }),
+      M({ id: "sleepwalk", name: "Sleepwalk", kind: "blink", anim: "kick", range: 560, minRange: 130, cd: 4.2, dmg: 13, kb: 300, lift: -280 }),
+      M({ id: "dream-spiral", name: "Dream Spiral", kind: "beam", anim: "thrust", range: 520, minRange: 70, cd: 3.6, dmg: 13, act: 0.34, status: "stun", statusDur: 0.4, wind: 0.32 }),
+      M({ id: "drowse-wave", name: "Drowse Wave", kind: "burst", anim: "raise", range: 160, cd: 6.5, dmg: 13, radius: 170, kb: 320, status: "stun", statusDur: 0.6, wind: 0.34 }),
+      M({ id: "deep-sleep", name: "Deep Sleep", kind: "zone", anim: "cast", range: 400, cd: 9, dmg: 6, radius: 140, dur: 4.5, pullIn: 150, status: "slow", statusDur: 0.8, wind: 0.36 }),
+    ],
+  },
+  // Book 2, chapter 6. The sixth herald: a veiled thing with a cracked bell for a head that eats every sound in the
+  // world. Where it walks the bells stop, voices fail, and its silence hits like a wall.
+  hush: {
+    id: "sono", boss: "hush", name: "The Hush", power: "Unsound", role: "attacker",
+    ability: "A herald of the Elder Dark that eats sound. Its touch steals your breath, its silent tolls knock you off your feet, and when it rings its cracked bell, nothing near it can move.",
+    color: "hsl(350 14% 10%)", glow: "hsl(354 90% 66%)", hp: 600, speed: 98,
+    moves: [
+      M({ id: "muffle", name: "Muffle", kind: "melee", anim: "jab", range: 86, cd: 0.9, dmg: 11, kb: 200, status: "stun", statusDur: 0.3 }),
+      M({ id: "silent-toll", name: "Silent Toll", kind: "projectile", anim: "thrust", range: 580, minRange: 90, cd: 2.4, dmg: 8, speed: 520, size: 14, count: 2, spread: 0.14, shape: "disc", kb: 200 }),
+      M({ id: "unring", name: "Unring", kind: "pull", anim: "cast", range: 480, minRange: 110, cd: 4.5, dmg: 9, status: "stun", statusDur: 0.4, wind: 0.26 }),
+      M({ id: "cracked-peal", name: "Cracked Peal", kind: "beam", anim: "thrust", range: 540, minRange: 70, cd: 3.4, dmg: 14, act: 0.32, status: "slow", statusDur: 1.2, wind: 0.32 }),
+      M({ id: "the-quiet", name: "The Quiet", kind: "burst", anim: "slam", range: 160, cd: 6.5, dmg: 14, radius: 170, kb: 380, lift: -260, status: "stun", statusDur: 0.6, wind: 0.34 }),
+      M({ id: "hush-dead-air", name: "Dead Air", kind: "zone", anim: "raise", range: 400, cd: 9, dmg: 6, radius: 140, dur: 4.5, status: "slow", statusDur: 0.8, wind: 0.36 }),
+    ],
+  },
+  // Book 2, chapter 7. The Elder Dark itself: the shape in the stars, older than light. A crown of dead stars, a
+  // cluster of eyes where a face should be, and arms of starless night. Every herald was one of its fingers.
+  elderdark: {
+    id: "umbra", boss: "elderdark", name: "The Elder Dark", power: "The Dark Before Stars", role: "control",
+    ability: "The ancient evil behind every herald, older than the first star. Its arms of night drag enemies in, its eyes burn whatever they look at, and the dead stars in its crown fall like rain.",
+    color: "hsl(262 40% 8%)", glow: "hsl(268 100% 78%)", hp: 680, speed: 90,
+    moves: [
+      M({ id: "void-tendril", name: "Void Tendril", kind: "melee", anim: "lunge", range: 110, cd: 1, dmg: 12, kb: 260, status: "slow", statusDur: 1 }),
+      M({ id: "dead-stars", name: "Dead Stars", kind: "projectile", anim: "cast", range: 600, minRange: 80, cd: 2.4, dmg: 6, speed: 480, size: 11, count: 5, spread: 0.3, shape: "orb", status: "blind", statusDur: 0.5 }),
+      M({ id: "abyssal-pull", name: "Abyssal Pull", kind: "pull", anim: "slam", range: 500, minRange: 100, cd: 4.2, dmg: 10, status: "slow", statusDur: 1.2, wind: 0.26 }),
+      M({ id: "unmaking-eye", name: "Unmaking Eye", kind: "beam", anim: "thrust", range: 560, minRange: 70, cd: 3.4, dmg: 15, act: 0.34, status: "stun", statusDur: 0.4, wind: 0.32 }),
+      M({ id: "first-dark", name: "The First Dark", kind: "burst", anim: "raise", range: 160, cd: 6.5, dmg: 14, radius: 180, kb: 400, lift: -300, status: "blind", statusDur: 0.8, wind: 0.34 }),
+      M({ id: "night-tide", name: "Night Tide", kind: "zone", anim: "cast", range: 420, cd: 9, dmg: 7, radius: 150, dur: 5, pullIn: 180, status: "slow", statusDur: 0.8, wind: 0.36 }),
     ],
   },
 };
@@ -543,6 +588,93 @@ export const BOSS_PHASES: Partial<Record<BossDesign, Form[]>> = {
       moves: [
         M({ id: "last-light", name: "Last Light", kind: "zone", anim: "raise", range: 440, cd: 10, dmg: 7, radius: 200, dur: 5, pullIn: 240, status: "blind", statusDur: 0.6, wind: 0.4 }),
         M({ id: "eclipse-of-wings", name: "Eclipse of Wings", kind: "burst", anim: "raise", range: 480, cd: 12, dmg: 16, radius: 430, kb: 460, lift: -400, status: "blind", statusDur: 1.5, wind: 0.55, rec: 0.35 }),
+      ],
+    },
+  ],
+  somnarch: [
+    {
+      ...P2, power: "psy", title: "THE DREAM DEEPENS", dodge: 0.12,
+      blurb: "The ring of closed eyes round its head flutters open one by one. Pillows of dream cloud drift up around it, and whoever it looks at starts to nod off.",
+      body: "hsl(252 34% 22%)", glow: "hsl(46 100% 76%)", a: "hsl(250 50% 56%)", b: "hsl(46 100% 80%)",
+      moves: [
+        M({ id: "falling-dreams", name: "Falling Dreams", kind: "rain", anim: "raise", range: 540, cd: 5.5, dmg: 7, count: 7, radius: 170, size: 10, status: "slow", statusDur: 1, wind: 0.34 }),
+        M({ id: "sleep-tug", name: "Sleep Tug", kind: "pull", anim: "cast", range: 480, minRange: 110, cd: 4.5, dmg: 9, status: "stun", statusDur: 0.4, wind: 0.26 }),
+      ],
+    },
+    {
+      ...P3, power: "psy", title: "THE NIGHTMARE WAKES", drain: 0.12,
+      blurb: "The great eye on its brow opens, gold and hungry. Dreams turn to nightmares, spikes of black dream burst up from the ground, and every hit feeds its sleep.",
+      body: "hsl(256 36% 15%)", glow: "hsl(40 100% 70%)", a: "hsl(270 60% 30%)", b: "hsl(46 100% 80%)",
+      moves: [
+        M({ id: "nightmare-spires", name: "Nightmare Spires", kind: "eruption", anim: "slam", range: 560, minRange: 40, cd: 6, dmg: 13, radius: 48, count: 4, lift: -640, status: "stun", statusDur: 0.3, wind: 0.38 }),
+        M({ id: "waking-terror", name: "Waking Terror", kind: "projectile", anim: "cast", range: 600, minRange: 80, cd: 3.2, dmg: 6, speed: 600, size: 10, count: 5, spread: 0.3, shape: "shard", status: "slow", statusDur: 0.8 }),
+      ],
+    },
+    {
+      ...P4, power: "psy", title: "SLEEP FOREVER", guard: 0.8, regen: 1.2,
+      blurb: "The whole valley shuts its eyes at once, and a black spiral of endless sleep turns behind it. The Long Night drags everyone toward it, and Never Wake knocks most of the arena out cold.",
+      body: "hsl(252 40% 9%)", glow: "hsl(46 100% 80%)", a: "hsl(250 50% 18%)", b: "hsl(46 100% 82%)", dark: "hsl(250 50% 4%)",
+      moves: [
+        M({ id: "the-long-night", name: "The Long Night", kind: "zone", anim: "raise", range: 440, cd: 10, dmg: 7, radius: 200, dur: 5, pullIn: 240, status: "slow", statusDur: 0.8, wind: 0.4 }),
+        M({ id: "never-wake", name: "Never Wake", kind: "burst", anim: "raise", range: 480, cd: 12, dmg: 16, radius: 430, kb: 380, lift: -340, status: "stun", statusDur: 1, wind: 0.55, rec: 0.35 }),
+      ],
+    },
+  ],
+  hush: [
+    {
+      ...P2, power: "sono", title: "THE BELLS GO STILL", dodge: 0.14,
+      blurb: "Its veil lifts in a wind nobody can hear, and the bell that is its head starts to swing without a sound. Silent rings spread out from it, and it reels in whoever tries to shout.",
+      body: "hsl(350 16% 13%)", glow: "hsl(354 94% 70%)", a: "hsl(30 40% 40%)", b: "hsl(354 100% 80%)",
+      moves: [
+        M({ id: "silent-rings", name: "Silent Rings", kind: "projectile", anim: "cast", range: 600, minRange: 80, cd: 3, dmg: 6, speed: 560, size: 12, count: 4, spread: 0.24, shape: "disc", status: "stun", statusDur: 0.2 }),
+        M({ id: "stolen-breath", name: "Stolen Breath", kind: "pull", anim: "cast", range: 480, minRange: 110, cd: 4.5, dmg: 9, status: "slow", statusDur: 1.2, wind: 0.26 }),
+      ],
+    },
+    {
+      ...P3, power: "sono", title: "A VOICE TAKEN", drain: 0.14,
+      blurb: "Every voice it has eaten hangs round it as a pale thread, pulled tight. The threads snap down on you like falling bells, and every hit it lands steals a little more breath.",
+      body: "hsl(350 18% 9%)", glow: "hsl(358 100% 72%)", a: "hsl(40 50% 50%)", b: "hsl(0 0% 100%)",
+      moves: [
+        M({ id: "falling-bells", name: "Falling Bells", kind: "rain", anim: "raise", range: 540, cd: 6, dmg: 8, count: 6, radius: 170, size: 12, status: "stun", statusDur: 0.3, wind: 0.36, rec: 0.3 }),
+        M({ id: "throat-of-night", name: "Throat of Night", kind: "beam", anim: "thrust", range: 560, minRange: 70, cd: 4.2, dmg: 16, act: 0.36, status: "slow", statusDur: 1.5, wind: 0.34 }),
+      ],
+    },
+    {
+      ...P4, power: "sono", title: "THE LAST SILENCE", guard: 0.8, regen: 1.2,
+      blurb: "The cracked bell splits wide open and there is nothing inside but the dark between the stars. No Echo pulls everyone in, and the Final Toll, the one ring nobody hears, flattens most of the arena.",
+      body: "hsl(350 24% 6%)", glow: "hsl(354 100% 76%)", a: "hsl(350 40% 14%)", b: "hsl(354 100% 82%)", dark: "hsl(350 40% 3%)",
+      moves: [
+        M({ id: "no-echo", name: "No Echo", kind: "zone", anim: "raise", range: 440, cd: 10, dmg: 7, radius: 200, dur: 5, pullIn: 240, status: "slow", statusDur: 0.8, wind: 0.4 }),
+        M({ id: "final-toll", name: "The Final Toll", kind: "burst", anim: "slam", range: 480, cd: 12, dmg: 16, radius: 430, kb: 460, lift: -380, status: "stun", statusDur: 0.9, wind: 0.55, rec: 0.35 }),
+      ],
+    },
+  ],
+  elderdark: [
+    {
+      ...P2, power: "umbra", title: "THE EYES OPEN", dodge: 0.12,
+      blurb: "Eyes open all over its body, every colour no star has ever shone. More arms of night uncoil behind it, and they burst up out of the ground wherever you stand.",
+      body: "hsl(262 40% 10%)", glow: "hsl(268 100% 80%)", a: "hsl(150 80% 50%)", b: "hsl(268 100% 84%)",
+      moves: [
+        M({ id: "rising-arms", name: "Rising Arms", kind: "eruption", anim: "slam", range: 560, minRange: 40, cd: 5.5, dmg: 12, radius: 48, count: 3, lift: -620, status: "slow", statusDur: 1, wind: 0.36 }),
+        M({ id: "many-gazes", name: "Many Gazes", kind: "projectile", anim: "cast", range: 600, minRange: 80, cd: 3, dmg: 6, speed: 640, size: 9, count: 6, spread: 0.34, shape: "shard", status: "stun", statusDur: 0.2 }),
+      ],
+    },
+    {
+      ...P3, power: "umbra", title: "THE SHAPE IN THE STARS", drain: 0.14,
+      blurb: "The constellations come down and lock round it like a cage turned inside out. Dead stars fall wherever it points, and every hit it lands eats a little light.",
+      body: "hsl(262 44% 7%)", glow: "hsl(272 100% 82%)", a: "hsl(150 100% 60%)", b: "hsl(0 0% 100%)",
+      moves: [
+        M({ id: "dark-starfall", name: "Starfall", kind: "rain", anim: "raise", range: 560, cd: 5.5, dmg: 9, count: 8, radius: 190, size: 12, status: "blind", statusDur: 0.6, wind: 0.36, rec: 0.3 }),
+        M({ id: "gaze-of-eons", name: "Gaze of Eons", kind: "beam", anim: "thrust", range: 580, minRange: 70, cd: 4, dmg: 17, act: 0.38, status: "stun", statusDur: 0.5, wind: 0.34 }),
+      ],
+    },
+    {
+      ...P4, power: "umbra", title: "BEFORE THE FIRST LIGHT", guard: 0.8, regen: 1.4,
+      blurb: "The sky behind it tears open on one enormous eye, older than the stars. The Void Between drags everyone toward it, and The End of All Light tries to put out the world.",
+      body: "hsl(262 50% 4%)", glow: "hsl(268 100% 86%)", a: "hsl(262 60% 14%)", b: "hsl(150 100% 72%)", dark: "hsl(262 60% 2%)",
+      moves: [
+        M({ id: "void-between", name: "The Void Between", kind: "zone", anim: "raise", range: 460, cd: 10, dmg: 8, radius: 210, dur: 5, pullIn: 260, status: "slow", statusDur: 0.8, wind: 0.4 }),
+        M({ id: "end-of-all-light", name: "The End of All Light", kind: "burst", anim: "raise", range: 500, cd: 12, dmg: 17, radius: 450, kb: 480, lift: -400, status: "blind", statusDur: 1.6, wind: 0.6, rec: 0.35 }),
       ],
     },
   ],
