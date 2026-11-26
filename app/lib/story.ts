@@ -298,6 +298,19 @@ export const CHAPTERS: Chapter[] = [
       { foes: [], boss: "vela" },
     ],
   },
+  {
+    // Book 3, chapter 5: The Eye of the Sky, the book's finale
+    stages: [
+      st("gc", 0.8),
+      st("cb", 0.74),
+      st("gcb", 0.46),
+      st("bcg", 0.42),
+      st("gcbc", 0.24),
+      st("ecbgc", 0.15),
+      st("ebcbcg", 0.12),
+      { foes: [], boss: "aeon" },
+    ],
+  },
 ];
 
 /** The books of Story mode: where each starts in CHAPTERS and how many chapters it will have once it is all written. */

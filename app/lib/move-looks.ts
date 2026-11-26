@@ -635,6 +635,19 @@ const QUEST_LOOKS: Record<string, Look> = {
   "starquake": F("rift-burst", "hsl(276 80% 66%)", "hsl(32 100% 80%)", "spark", true, 0, "starburst"),
   "sky-clock": F("stasis-field", "hsl(250 40% 8%)", "hsl(32 100% 72%)", "spark", false, -30, "clock"),
   "final-pulse": F("total-eclipse", "hsl(250 40% 10%)", "hsl(32 100% 80%)", "spark", true, 0, "starburst"),
+  // Aeon (Book 3): white fire and gold on a deep sapphire night, the light every other star came from
+  "halo-strike": F("corona-edge", "hsl(46 100% 66%)", "hsl(48 100% 96%)", "star", true, -40, "slash"),
+  "first-stars": F("fireball", "hsl(46 100% 70%)", "hsl(0 0% 100%)", "star", true, -60, "starburst"),
+  "light-years": F("shadow-step", "hsl(228 60% 24%)", "hsl(48 100% 90%)", "star", true, -40, "portal"),
+  "eye-of-the-sky": F("railgun", "hsl(48 100% 76%)", "hsl(0 0% 100%)", "star", true, 0, "flare"),
+  "rain-of-ages": F("meteor-drop", "hsl(40 100% 66%)", "hsl(48 100% 94%)", "star", true, 160, "starburst"),
+  "the-old-orbit": F("stasis-field", "hsl(228 60% 14%)", "hsl(46 100% 76%)", "star", false, -30, "swirl"),
+  "halo-ring": F("eclipse-disc", "hsl(46 100% 66%)", "hsl(48 100% 96%)", "spark", true, 0, "slash"),
+  "all-seeing": F("gravity-pull", "hsl(228 70% 22%)", "hsl(46 100% 80%)", "star", false, 0, "implode"),
+  "rays-of-dawn": F("flame-pillar", "hsl(32 100% 60%)", "hsl(48 100% 94%)", "star", true, -220, "flare"),
+  "ageless": F("mend", "hsl(46 100% 70%)", "hsl(0 0% 100%)", "star", true, -120, "sprout"),
+  "gathered-heavens": F("singularity", "hsl(230 60% 8%)", "hsl(46 100% 80%)", "star", false, -30, "implode"),
+  "the-beginning": F("total-eclipse", "hsl(48 100% 90%)", "hsl(228 80% 40%)", "star", true, 0, "starburst"),
 };
 for (const [id, lk] of Object.entries(QUEST_LOOKS)) FORM_LOOKS[id] = lk;
 for (const [id, lk] of Object.entries(FORM_LOOKS)) {

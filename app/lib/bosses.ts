@@ -4,7 +4,7 @@
 import type { BossDesign, FighterDef, Move } from "./fighters";
 import type { Form } from "./forms";
 
-export type BossId = "nullshade" | "maelstrom" | "magmaw" | "everwinter" | "riftmaker" | "hollowking" | "blacksun" | "axiom" | "lanternmaw" | "sporemother" | "mnemovore" | "dustmoth" | "somnarch" | "hush" | "elderdark" | "perihelion" | "asterion" | "carina" | "vela";
+export type BossId = "nullshade" | "maelstrom" | "magmaw" | "everwinter" | "riftmaker" | "hollowking" | "blacksun" | "axiom" | "lanternmaw" | "sporemother" | "mnemovore" | "dustmoth" | "somnarch" | "hush" | "elderdark" | "perihelion" | "asterion" | "carina" | "vela" | "aeon";
 
 const M = (m: Omit<Move, "wind" | "act" | "rec"> & Partial<Pick<Move, "wind" | "act" | "rec">>): Move => ({
   wind: 0.2,
@@ -289,6 +289,20 @@ export const BOSSES: Record<BossId, FighterDef> = {
       M({ id: "lighthouse-beam", name: "Lighthouse Beam", kind: "beam", anim: "thrust", range: 600, minRange: 70, cd: 3.4, dmg: 14, act: 0.36, status: "burn", statusDur: 1, wind: 0.32 }),
       M({ id: "glass-rain", name: "Glass Rain", kind: "rain", anim: "raise", range: 560, cd: 5.5, dmg: 8, count: 7, radius: 180, size: 10, status: "slow", statusDur: 0.8, wind: 0.34 }),
       M({ id: "magnetic-pole", name: "Magnetic Pole", kind: "pull", anim: "cast", range: 520, minRange: 110, cd: 5, dmg: 9, status: "stun", statusDur: 0.35, wind: 0.26 }),
+    ],
+  },  // Book 3, chapter 5. The fifth and oldest Celestial: Aeon, the first star that ever burned. It lit the sky, drove
+  // the Dark out of it, and then sat watching for an age. Now it has opened its eye, and it does not like the light below.
+  aeon: {
+    id: "lux", boss: "aeon", name: "Aeon", power: "The First Light", role: "attacker",
+    ability: "A Celestial: the first star, older than every other light in the sky, with one great eye of white fire. Its halo cuts, the first stars it ever made still answer its call, and it can cross the arena at the speed of light.",
+    color: "hsl(42 34% 84%)", glow: "hsl(46 100% 66%)", hp: 700, speed: 100,
+    moves: [
+      M({ id: "halo-strike", name: "Halo Strike", kind: "melee", anim: "spin", range: 110, cd: 1, dmg: 12, kb: 260, status: "blind", statusDur: 0.3 }),
+      M({ id: "first-stars", name: "The First Stars", kind: "projectile", anim: "cast", range: 640, minRange: 80, cd: 2.4, dmg: 6, speed: 600, size: 10, count: 6, spread: 0.36, shape: "orb", status: "burn", statusDur: 0.8 }),
+      M({ id: "light-years", name: "Light Years", kind: "blink", anim: "kick", range: 580, minRange: 130, cd: 4, dmg: 13, kb: 320, lift: -260, status: "blind", statusDur: 0.4 }),
+      M({ id: "eye-of-the-sky", name: "Eye of the Sky", kind: "beam", anim: "thrust", range: 620, minRange: 70, cd: 3.3, dmg: 15, act: 0.36, status: "burn", statusDur: 1, wind: 0.32 }),
+      M({ id: "rain-of-ages", name: "Rain of Ages", kind: "rain", anim: "raise", range: 560, cd: 5.4, dmg: 8, count: 8, radius: 190, size: 10, status: "burn", statusDur: 0.8, wind: 0.34 }),
+      M({ id: "the-old-orbit", name: "The Old Orbit", kind: "zone", anim: "slam", range: 420, cd: 9, dmg: 6, radius: 150, dur: 4.5, pullIn: 160, status: "slow", statusDur: 0.8, wind: 0.36 }),
     ],
   },
 };
@@ -851,6 +865,35 @@ export const BOSS_PHASES: Partial<Record<BossDesign, Form[]>> = {
       moves: [
         M({ id: "sky-clock", name: "The Sky Clock", kind: "zone", anim: "raise", range: 440, cd: 10, dmg: 7, radius: 200, dur: 5, pullIn: 240, status: "slow", statusDur: 0.8, wind: 0.4 }),
         M({ id: "final-pulse", name: "The Final Pulse", kind: "burst", anim: "raise", range: 480, cd: 12, dmg: 16, radius: 430, kb: 480, lift: -400, status: "burn", statusDur: 0.8, wind: 0.55, rec: 0.35 }),
+      ],
+    },
+  ],
+  aeon: [
+    {
+      ...P2, power: "lux", title: "WIDE AWAKE", dodge: 0.14,
+      blurb: "Its eye opens all the way and the arena turns white at the edges. It throws its halo like a blade, and nothing it looks at can hide.",
+      body: "hsl(44 40% 88%)", glow: "hsl(48 100% 74%)", a: "hsl(46 100% 64%)", b: "hsl(228 80% 56%)",
+      moves: [
+        M({ id: "halo-ring", name: "Halo Ring", kind: "projectile", anim: "spin", range: 620, minRange: 80, cd: 3, dmg: 9, speed: 560, size: 18, count: 1, shape: "disc", status: "slow", statusDur: 0.8 }),
+        M({ id: "all-seeing", name: "All-Seeing", kind: "pull", anim: "cast", range: 520, minRange: 110, cd: 4.6, dmg: 9, status: "blind", statusDur: 0.6, wind: 0.26 }),
+      ],
+    },
+    {
+      ...P3, power: "lux", title: "THE FIRST DAWN", drain: 0.12,
+      blurb: "It remembers the first morning there ever was. Spears of dawn split the ground, and when it is hurt, the light of every star it ever lit flows back into it.",
+      body: "hsl(40 50% 90%)", glow: "hsl(36 100% 70%)", a: "hsl(32 100% 62%)", b: "hsl(48 100% 92%)",
+      moves: [
+        M({ id: "rays-of-dawn", name: "Rays of Dawn", kind: "eruption", anim: "slam", range: 560, minRange: 40, cd: 6, dmg: 13, radius: 46, count: 5, lift: -700, status: "burn", statusDur: 0.8, wind: 0.38 }),
+        M({ id: "ageless", name: "Ageless", kind: "heal", anim: "raise", range: 2000, cd: 13, dmg: 0, heal: 30, below: 0.6, wind: 0.4, act: 0.3 }),
+      ],
+    },
+    {
+      ...P4, power: "lux", title: "EVERY STAR AT ONCE", guard: 0.8, regen: 1.4,
+      blurb: "It calls every star in the sky down at once. The Gathered Heavens drag everyone into its orbit, and The Beginning, the light that started everything, fills almost the whole arena.",
+      body: "hsl(48 60% 94%)", glow: "hsl(48 100% 86%)", a: "hsl(228 70% 24%)", b: "hsl(46 100% 74%)", dark: "hsl(230 60% 6%)",
+      moves: [
+        M({ id: "gathered-heavens", name: "Gathered Heavens", kind: "zone", anim: "raise", range: 440, cd: 10, dmg: 7, radius: 210, dur: 5, pullIn: 250, status: "blind", statusDur: 0.5, wind: 0.4 }),
+        M({ id: "the-beginning", name: "The Beginning", kind: "burst", anim: "raise", range: 480, cd: 12, dmg: 17, radius: 440, kb: 500, lift: -420, status: "burn", statusDur: 0.9, wind: 0.55, rec: 0.35 }),
       ],
     },
   ],

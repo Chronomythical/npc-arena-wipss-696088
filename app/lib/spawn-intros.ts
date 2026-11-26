@@ -2701,6 +2701,75 @@ export const BOSS_INTROS: Record<BossDesign, IntroSpec> = {
       ctx.restore();
     },
   },
+  // Aeon: the arena goes black, and every star in the sky slowly turns to look down. They draw together overhead into
+  // one shape, a great eye, which opens. Its gaze comes down as a column of white light, and Aeon is standing in it.
+  aeon: {
+    len: BOSS_LEN, hit: 0.64, shake: 14, wave: ["hsl(46 100% 74%)", "hsl(222 100% 76%)"],
+    body: (u) => base(u < 0.64 ? "float" : settle(u, "guard", 0.8), {
+      alpha: seg(u, 0.56, 0.66),
+      solid: "hsl(48 100% 96%)", solidA: 1 - seg(u, 0.64, 0.92),
+    }),
+    bursts: [
+      { at: 0.64, n: 48, spd: 560, shape: "star", a: "hsl(46 100% 76%)", b: "hsl(48 100% 96%)", grav: 0, add: true, from: "body", dir: "out" },
+      { at: 0.64, n: 24, spd: 300, shape: "spark", a: "hsl(222 100% 76%)", b: "hsl(0 0% 100%)", grav: 0, add: true, from: "feet", dir: "flat" },
+      { at: 0.66, n: 16, spd: 200, shape: "dust", a: "hsl(44 40% 80%)", b: "hsl(46 100% 86%)", grav: -30, add: false, from: "feet", dir: "flat" },
+    ],
+    back: ({ ctx, x, y, s, u, t }) => {
+      const on = seg(u, 0, 0.12) * (1 - seg(u, 0.86, 1));
+      if (on <= 0) return;
+      ctx.save();
+      ctx.fillStyle = hsla(230, 60, 3, 0.7 * on);
+      ctx.fillRect(-400, -400, 2000, 1200);
+      const ex = x, ey = y - 250 * s;
+      const gather = easeIn(seg(u, 0.1, 0.42));
+      const open = easeOut(seg(u, 0.42, 0.56));
+      const fade = 1 - seg(u, 0.7, 0.86);
+      ctx.globalCompositeOperation = "lighter";
+      // the stars: scattered across the sky, then drawing together into the outline of an eye
+      for (let i = 0; i < 40; i++) {
+        const sx = x + (((i * 97) % 100) / 100 - 0.5) * 900 * s, sy = y - 60 * s - ((i * 53) % 100) / 100 * 360 * s;
+        const a = (i / 40) * Math.PI * 2;
+        const tx = ex + Math.cos(a) * 120 * s, ty = ey + Math.sin(a) * 120 * s * (0.12 + 0.38 * open);
+        const px = lerp(sx, tx, gather), py = lerp(sy, ty, gather);
+        const tw = 0.5 + 0.5 * Math.abs(Math.sin(t * 3 + i));
+        ctx.fillStyle = hsla(48, 100, 94, on * fade * tw);
+        ctx.fillRect(px - 1.8 * s, py - 1.8 * s, 3.6 * s, 3.6 * s);
+      }
+      // the eye opens: a sapphire iris and a gold pupil inside the ring of stars
+      if (open > 0) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.ellipse(ex, ey, 118 * s, 118 * s * (0.12 + 0.38 * open), 0, 0, Math.PI * 2);
+        ctx.clip();
+        glow(ctx, ex, ey, 120 * s, 60 * s, hsla(48, 100, 92, 0.25 * on * fade), hsla(48, 100, 80, 0));
+        glow(ctx, ex, ey, 44 * s, 44 * s, hsla(228, 90, 50, 0.9 * on * fade), hsla(228, 90, 40, 0));
+        glow(ctx, ex, ey, 18 * s, 18 * s, hsla(46, 100, 80, on * fade), hsla(46, 100, 60, 0));
+        ctx.restore();
+      }
+      // its gaze comes down: a column of white light onto the spot where Aeon will stand
+      const beam = seg(u, 0.5, 0.62) * (1 - seg(u, 0.66, 0.84));
+      if (beam > 0) {
+        const w = 40 * s * beam;
+        const g = ctx.createLinearGradient(x - w, 0, x + w, 0);
+        g.addColorStop(0, hsla(48, 100, 90, 0));
+        g.addColorStop(0.5, hsla(48, 100, 96, 0.85 * beam));
+        g.addColorStop(1, hsla(48, 100, 90, 0));
+        ctx.fillStyle = g;
+        ctx.fillRect(x - w, ey, w * 2, y - ey + 10 * s);
+      }
+      // the moment it lands, a ring of light runs out along the floor
+      const k = seg(u, 0.64, 0.86);
+      if (k > 0 && k < 1) {
+        ctx.strokeStyle = hsla(46, 100, 80, 0.7 * (1 - k));
+        ctx.lineWidth = 4 * s;
+        ctx.beginPath();
+        ctx.ellipse(x, y, easeOut(k) * 300 * s, easeOut(k) * 54 * s, 0, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+      ctx.globalCompositeOperation = "source-over";
+      ctx.restore();
+    },
+  },
 };
 
 // ---------- hybrids ----------

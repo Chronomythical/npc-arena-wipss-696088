@@ -6,7 +6,7 @@ import {
   PiEyeFill, PiFireFill, PiGhostFill, PiHourglassFill, PiLighthouseFill, PiLightningFill, PiLockSimpleFill, PiMoonStarsFill,
   PiMountainsFill, PiPlanetFill, PiShootingStarFill, PiSkullFill, PiSnowflakeFill, PiSpiralFill, PiStarFill, PiSunFill,
   PiSunHorizonFill, PiTreeFill, PiWavesFill, PiBookOpenFill, PiBugFill, PiButterflyFill, PiHouseFill, PiMaskHappyFill, PiMoonFill,
-  PiPlantFill, PiScrollFill, PiTreeEvergreenFill, PiCompassFill, PiTargetFill, PiCloudFill, PiSparkleFill, PiMagnetFill,
+  PiPlantFill, PiScrollFill, PiTreeEvergreenFill, PiCompassFill, PiTargetFill, PiCloudFill, PiSparkleFill, PiMagnetFill, PiEyeClosedFill,
 } from "react-icons/pi";
 import { Text, useString } from "~stencil/ui/strings";
 import { cn } from "~/lib/utils";
@@ -53,6 +53,8 @@ const THEMES: Theme[] = [
   { top: "hsl(296 50% 10%)", bottom: "hsl(320 30% 40%)", blob: "hsl(326 100% 70% / 0.14)", deco: "hsl(172 100% 80% / 0.55)", road: "hsl(326 100% 78%)", icons: [PiCloudFill, PiSparkleFill, PiStarFill, PiShootingStarFill] },
   // Book 3. The Spinning Heart: a desert swept into glass by a pulsar's beams
   { top: "hsl(250 44% 8%)", bottom: "hsl(30 40% 34%)", blob: "hsl(32 100% 64% / 0.14)", deco: "hsl(36 100% 80% / 0.55)", road: "hsl(32 100% 70%)", icons: [PiLighthouseFill, PiClockFill, PiMagnetFill, PiSunFill] },
+  // Book 3. The Eye of the Sky: the summit of Zenith above a sea of cloud, under the great eye of the oldest star
+  { top: "hsl(230 60% 6%)", bottom: "hsl(220 30% 44%)", blob: "hsl(46 100% 70% / 0.14)", deco: "hsl(210 100% 90% / 0.6)", road: "hsl(46 100% 76%)", icons: [PiEyeFill, PiCloudFill, PiEyeClosedFill, PiSunHorizonFill] },
 ];
 
 /** A smooth road through the points, in the SVG's 1000 by 520 space. */

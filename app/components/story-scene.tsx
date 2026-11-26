@@ -10,12 +10,12 @@ import { W, H, GROUND, drawScene, newGame, step } from "~/lib/arena-engine";
 import { arenaSound } from "~/lib/arena-sound";
 import { BOSSES } from "~/lib/bosses";
 import type { FighterDef } from "~/lib/fighters";
-import { BOOKS, CHAPTERS, enemySide, lairOf, playerSide, stageLineup, type Pair } from "~/lib/story";
+import { BOOKS, CHAPTERS, bookOf, enemySide, lairOf, playerSide, stageLineup, type Pair } from "~/lib/story";
 import { storyBackdrop } from "~/lib/story-backdrops";
 import { sceneLines, type Scene } from "~/lib/story-script";
 
-export const CHAPTER_TITLES: StringKey[] = ["story.chapterTitle", "story.ch2.title", "story.ch3.title", "story.ch4.title", "story.ch5.title", "story.ch6.title", "story.ch7.title", "story.ch8.title", "story.ch9.title", "story.ch10.title", "story.ch11.title", "story.ch12.title", "story.ch13.title", "story.ch14.title", "story.ch15.title", "story.ch16.title", "story.ch17.title", "story.ch18.title", "story.ch19.title"];
-const STAGE_PREFIX = ["story.stages", "story.ch2.stages", "story.ch3.stages", "story.ch4.stages", "story.ch5.stages", "story.ch6.stages", "story.ch7.stages", "story.ch8.stages", "story.ch9.stages", "story.ch10.stages", "story.ch11.stages", "story.ch12.stages", "story.ch13.stages", "story.ch14.stages", "story.ch15.stages", "story.ch16.stages", "story.ch17.stages", "story.ch18.stages", "story.ch19.stages"];
+export const CHAPTER_TITLES: StringKey[] = ["story.chapterTitle", "story.ch2.title", "story.ch3.title", "story.ch4.title", "story.ch5.title", "story.ch6.title", "story.ch7.title", "story.ch8.title", "story.ch9.title", "story.ch10.title", "story.ch11.title", "story.ch12.title", "story.ch13.title", "story.ch14.title", "story.ch15.title", "story.ch16.title", "story.ch17.title", "story.ch18.title", "story.ch19.title", "story.ch20.title"];
+const STAGE_PREFIX = ["story.stages", "story.ch2.stages", "story.ch3.stages", "story.ch4.stages", "story.ch5.stages", "story.ch6.stages", "story.ch7.stages", "story.ch8.stages", "story.ch9.stages", "story.ch10.stages", "story.ch11.stages", "story.ch12.stages", "story.ch13.stages", "story.ch14.stages", "story.ch15.stages", "story.ch16.stages", "story.ch17.stages", "story.ch18.stages", "story.ch19.stages", "story.ch20.stages"];
 export const stageNameKey = (ch: number, i: number) => `${STAGE_PREFIX[ch]}.s${i + 1}` as StringKey;
 
 export function StoryScene({ scene, pair, onDone }: { scene: Scene; pair: Pair; onDone: () => void }) {
@@ -66,8 +66,8 @@ export function StoryScene({ scene, pair, onDone }: { scene: Scene; pair: Pair; 
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
     arenaSound.unlock();
-    // the ending goes home, to the harbour where Book 2 began, with only the player's pair left standing
-    const backdrop = scene.kind === "ending" ? storyBackdrop(BOOKS[1].first, 0) : storyBackdrop(scene.ch, stage);
+    // an ending goes back to where its book began (Book 2's harbour, Book 3's snowfields), with only the player's pair left standing
+    const backdrop = scene.kind === "ending" ? storyBackdrop(BOOKS[bookOf(scene.ch)].first, 0) : storyBackdrop(scene.ch, stage);
     const g = scene.kind === "intro"
       ? newGame([boss], true, [1])
       : scene.kind === "ending"
@@ -126,7 +126,7 @@ export function StoryScene({ scene, pair, onDone }: { scene: Scene; pair: Pair; 
                 <Text id={stageNameKey(scene.ch, scene.stage)} as="h2" className="font-display text-xl text-white text-balance sm:text-3xl" />
               </>
             ) : scene.kind === "ending" ? (
-              <Text id="story.ending.title" as="h2" className="font-display text-xl text-white text-balance sm:text-3xl" />
+              <Text id={bookOf(scene.ch) === 2 ? "story.ending3.title" : "story.ending.title"} as="h2" className="font-display text-xl text-white text-balance sm:text-3xl" />
             ) : (
               <Text id={CHAPTER_TITLES[scene.ch]} as="h2" className="font-display text-xl text-white text-balance sm:text-3xl" />
             )}

@@ -1395,6 +1395,130 @@ const LOOKS: Look[] = [
       }
     },
   },
+  // Book 3, 5. The Eye of the Sky: the summit of Zenith, the highest mountain in the world, where the clouds lie below
+  // like a sea. Every stage climbs higher, the stars crowd closer, and the great eye in the sky opens a little wider.
+  // At the lair it is wide open, ringed in gold, and every star in the sky has gathered round it.
+  {
+    sky: [["hsl(214 60% 58%)", "hsl(200 50% 76%)", "hsl(40 80% 86%)"], ["hsl(232 50% 36%)", "hsl(260 30% 54%)", "hsl(30 70% 74%)"], ["hsl(232 60% 14%)", "hsl(236 46% 26%)", "hsl(222 40% 44%)"], ["hsl(230 70% 4%)", "hsl(232 60% 10%)", "hsl(226 50% 22%)"]],
+    far: "hsl(222 24% 64%)", near: "hsl(220 16% 46%)", floor: ["hsl(220 14% 58%)", "hsl(224 18% 36%)"], line: "hsl(224 30% 20% / 0.35)", starsFrom: 1, flat: true,
+    scene(ctx, stage, phase, rnd) {
+      const k = stage / 7;
+      // the eye in the sky: a ring of stars that opens a little wider every stage
+      const ex = 480, ey = 140 - k * 20, rx = 150 + k * 90, open = 0.05 + k * 0.4;
+      const ry = rx * open;
+      glow(ctx, ex, ey, rx * 1.3, "hsl(46 100% 76%)", 0.08 + k * 0.16);
+      for (let i = 0; i < 26 + stage * 6; i++) {
+        const a = rnd() * Math.PI * 2;
+        const x = ex + Math.cos(a) * rx * (0.98 + rnd() * 0.06), y = ey + Math.sin(a) * ry * (0.98 + rnd() * 0.06);
+        glow(ctx, x, y, 6 + rnd() * 6, "hsl(48 100% 92%)", 0.7);
+        ctx.fillStyle = "hsl(48 100% 97%)";
+        ctx.fillRect(x - 1.2, y - 1.2, 2.4, 2.4);
+      }
+      if (stage >= 2) {
+        // inside it, once it has opened enough: a sapphire iris with a gold star for a pupil
+        ctx.save();
+        ctx.beginPath();
+        ctx.ellipse(ex, ey, rx, ry, 0, 0, Math.PI * 2);
+        ctx.clip();
+        glow(ctx, ex, ey, rx, "hsl(48 80% 90%)", 0.18 + k * 0.1);
+        glow(ctx, ex, ey, ry * 0.95, "hsl(228 90% 46%)", 0.55 + k * 0.3);
+        glow(ctx, ex, ey, ry * 0.35, "hsl(46 100% 76%)", 0.9);
+        ctx.restore();
+      }
+      if (phase === 3) {
+        // at the lair the eye is wide open, its rays reaching over the whole sky
+        ctx.strokeStyle = "hsl(46 100% 76% / 0.25)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for (let i = 0; i < 24; i++) {
+          const a = (i / 24) * Math.PI * 2;
+          ctx.moveTo(ex + Math.cos(a) * (rx + 20), ey + Math.sin(a) * (ry + 20));
+          ctx.lineTo(ex + Math.cos(a) * (rx + 120 + (i % 2) * 80), ey + Math.sin(a) * (ry + 80 + (i % 2) * 60));
+        }
+        ctx.stroke();
+        glow(ctx, ex, ey, 280, "hsl(46 100% 70%)", 0.18);
+      }
+      // the other peaks poking up out of the cloud, far off, smaller the higher we climb
+      ctx.fillStyle = phase >= 2 ? "hsl(232 30% 16%)" : "hsl(222 24% 64%)";
+      for (let i = 0; i < 4; i++) {
+        const x = 60 + rnd() * 840, h = (70 - k * 40) + rnd() * 40, w = 50 + rnd() * 40;
+        ctx.beginPath();
+        ctx.moveTo(x - w, 316);
+        ctx.lineTo(x - 6, 316 - h);
+        ctx.lineTo(x + 6, 316 - h + 4);
+        ctx.lineTo(x + w, 316);
+        ctx.fill();
+        ctx.fillStyle = phase >= 2 ? "hsl(222 30% 40%)" : "hsl(0 0% 98%)";
+        ctx.beginPath();
+        ctx.moveTo(x - 14, 316 - h + 18);
+        ctx.lineTo(x - 6, 316 - h);
+        ctx.lineTo(x + 6, 316 - h + 4);
+        ctx.lineTo(x + 16, 316 - h + 20);
+        ctx.fill();
+        ctx.fillStyle = phase >= 2 ? "hsl(232 30% 16%)" : "hsl(222 24% 64%)";
+      }
+      // the sea of clouds far below, lit from above, darker as night comes on
+      for (let row = 0; row < 3; row++) {
+        const y = 300 + row * 26;
+        ctx.fillStyle = phase >= 2 ? `hsl(228 30% ${22 + row * 6}%)` : `hsl(220 30% ${80 - row * 6}%)`;
+        ctx.beginPath();
+        ctx.moveTo(0, FLOOR);
+        for (let x = 0; x <= W; x += 30) ctx.lineTo(x, y - Math.abs(Math.sin(x * 0.012 + row * 1.7 + stage)) * 22);
+        ctx.lineTo(W, FLOOR);
+        ctx.fill();
+      }
+    },
+    front(ctx, stage, phase, rnd) {
+      // the summit: bare grey rock with steps cut into it by whoever climbed here first
+      const rock = ctx.createLinearGradient(0, FLOOR - 40, 0, FLOOR);
+      rock.addColorStop(0, phase >= 2 ? "hsl(228 20% 26%)" : "hsl(220 12% 62%)");
+      rock.addColorStop(1, phase >= 2 ? "hsl(228 22% 18%)" : "hsl(222 14% 46%)");
+      ctx.fillStyle = rock;
+      ctx.fillRect(0, FLOOR - 40, W, 40);
+      ctx.strokeStyle = phase >= 2 ? "hsl(228 30% 40% / 0.5)" : "hsl(220 10% 36% / 0.5)";
+      ctx.lineWidth = 1.5;
+      for (let i = 0; i < 4; i++) {
+        const y = FLOOR - 36 + i * 9;
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(W, y);
+        ctx.stroke();
+      }
+      // frost and snow lying in the cracks
+      ctx.fillStyle = phase >= 2 ? "hsl(222 40% 70% / 0.5)" : "hsl(0 0% 100% / 0.75)";
+      for (let i = 0; i < 18; i++) {
+        const x = rnd() * W, y = FLOOR - 38 + rnd() * 34;
+        ctx.beginPath();
+        ctx.ellipse(x, y, 10 + rnd() * 18, 2 + rnd() * 2, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      // tall standing lanterns of old stone along the edges, lit gold, more of them every stage
+      for (let i = 0; i < Math.min(8, 2 + stage); i++) {
+        const left = i % 2 === 0, x = left ? 40 + (i >> 1) * 56 : W - 40 - (i >> 1) * 56, h = 70 + rnd() * 30;
+        ctx.fillStyle = phase >= 2 ? "hsl(228 20% 22%)" : "hsl(220 10% 52%)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.rect(x - 6, FLOOR - h, 12, h);
+        ctx.fill();
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.rect(x - 11, FLOOR - h - 16, 22, 16);
+        ctx.fill();
+        ctx.stroke();
+        glow(ctx, x, FLOOR - h - 8, 26, "hsl(46 100% 70%)", 0.4 + phase * 0.12);
+        ctx.fillStyle = "hsl(48 100% 90%)";
+        ctx.fillRect(x - 4, FLOOR - h - 12, 8, 8);
+      }
+      // from the fourth stage on, fallen stars glow on the rock where they landed
+      for (let i = 0; i < Math.max(0, stage - 3) * 2; i++) {
+        const x = 200 + rnd() * 560, y = FLOOR - 4 - rnd() * 28;
+        glow(ctx, x, y, 16, rnd() < 0.5 ? "hsl(46 100% 74%)" : "hsl(222 100% 76%)", 0.7);
+        ctx.fillStyle = "hsl(48 100% 96%)";
+        ctx.fillRect(x - 2, y - 2, 4, 4);
+      }
+    },
+  },
 ];
 
 function paint(ch: number, stage: number): HTMLCanvasElement {

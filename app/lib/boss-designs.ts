@@ -1773,6 +1773,120 @@ export function drawBossDesign(
       }
       break;
     }
+    // ----- Aeon: the first star, a tall figure of white fire whose head is one great eye, a gold halo behind it -----
+    case "aeon": {
+      const back = -face;
+      // it blinks slowly, about once every seven seconds
+      const blink = !alive ? 1 : Math.max(0, 1 - Math.abs(((t % 7) - 6.8) / 0.12));
+      if (layer === "back") {
+        if (alive) {
+          ctx.globalCompositeOperation = "lighter";
+          glow(ctx, head.x, head.y, 96 * s, "hsl(46 100% 70% / 0.22)", "hsl(46 100% 60% / 0)");
+          // the halo: a gold ring behind the head with long and short rays standing out of it, turning very slowly
+          const hr = (HEAD + 16) * s;
+          ctx.strokeStyle = "hsl(46 100% 72% / 0.9)";
+          ctx.lineWidth = 2.4 * s;
+          ctx.beginPath();
+          ctx.arc(head.x + back * 2 * s, head.y, hr, 0, TAU);
+          ctx.stroke();
+          ctx.lineWidth = 1.6 * s;
+          ctx.beginPath();
+          for (let i = 0; i < 16; i++) {
+            const a = (i / 16) * TAU + t * 0.12, len = (i % 2 ? 7 : 15) * s;
+            ctx.moveTo(head.x + back * 2 * s + Math.cos(a) * (hr + 3 * s), head.y + Math.sin(a) * (hr + 3 * s));
+            ctx.lineTo(head.x + back * 2 * s + Math.cos(a) * (hr + 3 * s + len), head.y + Math.sin(a) * (hr + 3 * s + len));
+          }
+          ctx.stroke();
+          // two thin rings tilted round the body like an old star map, the far halves behind it
+          ctx.strokeStyle = "hsl(222 90% 70% / 0.4)";
+          ctx.lineWidth = 1.2 * s;
+          ctx.beginPath();
+          ctx.ellipse(mid.x, mid.y, 44 * s, 12 * s, 0.35 + Math.sin(t * 0.3) * 0.08, Math.PI, TAU);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.ellipse(mid.x, mid.y, 40 * s, 11 * s, -0.5 + Math.sin(t * 0.25) * 0.08, Math.PI, TAU);
+          ctx.stroke();
+          ctx.globalCompositeOperation = "source-over";
+        }
+      } else {
+        // the near halves of the star-map rings
+        if (alive) {
+          ctx.globalCompositeOperation = "lighter";
+          ctx.strokeStyle = "hsl(222 90% 74% / 0.55)";
+          ctx.lineWidth = 1.2 * s;
+          ctx.beginPath();
+          ctx.ellipse(mid.x, mid.y, 44 * s, 12 * s, 0.35 + Math.sin(t * 0.3) * 0.08, 0, Math.PI);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.ellipse(mid.x, mid.y, 40 * s, 11 * s, -0.5 + Math.sin(t * 0.25) * 0.08, 0, Math.PI);
+          ctx.stroke();
+          ctx.globalCompositeOperation = "source-over";
+        }
+        // a small sun burning in its chest
+        const cx = mid.x + face * 1.5 * s, cy = shoulder.y + 10 * s;
+        if (alive) {
+          ctx.globalCompositeOperation = "lighter";
+          glow(ctx, cx, cy, (15 + Math.sin(t * 1.6) * 2) * s, "hsl(46 100% 74% / 0.9)", "hsl(46 100% 60% / 0)");
+          ctx.globalCompositeOperation = "source-over";
+        }
+        ctx.fillStyle = alive ? "hsl(48 100% 96%)" : "hsl(42 6% 60%)";
+        ctx.beginPath();
+        ctx.arc(cx, cy, 3.6 * s, 0, TAU);
+        ctx.fill();
+        // the head is one great eye: a white ball ringed in gold, its iris deep sapphire with a gold star for a pupil
+        const er = (HEAD + 2) * s;
+        ctx.fillStyle = alive ? "hsl(48 60% 96%)" : "hsl(42 6% 66%)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.6 * s;
+        ctx.beginPath();
+        ctx.arc(head.x, head.y, er, 0, TAU);
+        ctx.fill();
+        ctx.stroke();
+        ctx.strokeStyle = alive ? "hsl(44 100% 60%)" : "hsl(42 6% 46%)";
+        ctx.lineWidth = 1.4 * s;
+        ctx.beginPath();
+        ctx.arc(head.x, head.y, er - 1.8 * s, 0, TAU);
+        ctx.stroke();
+        if (blink < 0.95) {
+          const ix = head.x + face * 3 * s, iy = head.y;
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(head.x, head.y, er - 2.6 * s, 0, TAU);
+          ctx.clip();
+          ctx.fillStyle = alive ? "hsl(228 76% 34%)" : INK;
+          ctx.beginPath();
+          ctx.arc(ix, iy, 5.6 * s, 0, TAU);
+          ctx.fill();
+          if (alive) {
+            ctx.globalCompositeOperation = "lighter";
+            glow(ctx, ix, iy, 7 * s, "hsl(46 100% 76% / 0.95)", "hsl(46 100% 60% / 0)");
+            ctx.globalCompositeOperation = "source-over";
+          }
+          ctx.fillStyle = alive ? "hsl(48 100% 94%)" : "hsl(42 6% 70%)";
+          ctx.beginPath();
+          ctx.arc(ix, iy, 1.8 * s, 0, TAU);
+          ctx.fill();
+          ctx.restore();
+        }
+        // the lid: closes over the eye when it blinks, and stays shut once it falls
+        if (blink > 0) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(head.x, head.y, er - 0.8 * s, 0, TAU);
+          ctx.clip();
+          ctx.fillStyle = alive ? "hsl(42 30% 80%)" : "hsl(42 6% 52%)";
+          ctx.fillRect(head.x - er, head.y - er, er * 2, er * 2 * blink);
+          ctx.strokeStyle = INK;
+          ctx.lineWidth = 1.4 * s;
+          ctx.beginPath();
+          ctx.moveTo(head.x - er, head.y - er + er * 2 * blink);
+          ctx.lineTo(head.x + er, head.y - er + er * 2 * blink);
+          ctx.stroke();
+          ctx.restore();
+        }
+      }
+      break;
+    }
   }
   ctx.restore();
   if (layer === "front") drawBossExtras(ctx, design, layer, p, s, face, t, alive, vx, act);
@@ -3150,6 +3264,73 @@ function drawBossPhase(
       }
       break;
     }
+    case "aeon": {
+      // 2: small eyes opening all round it, circling slowly, every one of them watching
+      orbit(6, 50, 14, mid.y - 10 * s, 0.9, (x, y, i) => {
+        const look = Math.sin(t * 1.3 + i) * 1.6 * s;
+        ctx.fillStyle = "hsl(48 60% 96%)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1 * s;
+        ctx.beginPath();
+        ctx.ellipse(x, y, 6 * s, 3.6 * s, 0, 0, TAU);
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = "hsl(228 76% 34%)";
+        ctx.beginPath();
+        ctx.arc(x + look, y, 2.2 * s, 0, TAU);
+        ctx.fill();
+        ctx.globalCompositeOperation = "lighter";
+        glow(ctx, x + look, y, 4 * s, "hsl(46 100% 80% / 0.9)", "hsl(46 100% 60% / 0)");
+        ctx.globalCompositeOperation = "source-over";
+      });
+      if (phase >= 3 && !front) {
+        // 3: the first dawn rising behind it, a fan of gold rays out of the ground at its back
+        const gy = Math.max(p.fF.y, p.fB.y);
+        ctx.globalCompositeOperation = "lighter";
+        glow(ctx, mid.x + back * 10 * s, gy, 160 * s, "hsl(36 100% 64% / 0.3)", "hsl(36 100% 60% / 0)");
+        for (let i = 0; i < 9; i++) {
+          const a = -Math.PI + (i + 0.5) * (Math.PI / 9);
+          const len = (170 + Math.sin(t * 2 + i * 1.3) * 18) * s, w = 0.05;
+          const g = ctx.createLinearGradient(mid.x, gy, mid.x + Math.cos(a) * len, gy + Math.sin(a) * len);
+          g.addColorStop(0, "hsl(40 100% 80% / 0.45)");
+          g.addColorStop(1, "hsl(36 100% 60% / 0)");
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.moveTo(mid.x + back * 10 * s, gy);
+          ctx.lineTo(mid.x + back * 10 * s + Math.cos(a - w) * len, gy + Math.sin(a - w) * len);
+          ctx.lineTo(mid.x + back * 10 * s + Math.cos(a + w) * len, gy + Math.sin(a + w) * len);
+          ctx.closePath();
+          ctx.fill();
+        }
+        ctx.globalCompositeOperation = "source-over";
+      }
+      if (phase >= 4) {
+        // 4: every star in the sky falling in towards it, a slow spiral of lights narrowing on its heart
+        if (!front) {
+          ctx.globalCompositeOperation = "lighter";
+          glow(ctx, mid.x, mid.y - 20 * s, 250 * s, "hsl(46 100% 70% / 0.2)", "hsl(228 80% 40% / 0)");
+          for (let i = 0; i < 28; i++) {
+            const k = ((t * 0.18 + i / 28) % 1);
+            const a = i * 2.4 + k * 5;
+            const r = (1 - k) * 220 * s + 20 * s;
+            const x = mid.x + Math.cos(a) * r, y = mid.y - 10 * s + Math.sin(a) * r * 0.7;
+            ctx.fillStyle = `hsl(48 100% 94% / ${0.3 + 0.7 * k})`;
+            ctx.fillRect(x - 1.6 * s, y - 1.6 * s, 3.2 * s, 3.2 * s);
+          }
+          ctx.globalCompositeOperation = "source-over";
+        }
+        orbit(3, 64, 20, mid.y - 6 * s, 1.4, (x, y) => {
+          ctx.globalCompositeOperation = "lighter";
+          glow(ctx, x, y, 12 * s, "hsl(222 100% 76% / 0.9)", "hsl(222 100% 60% / 0)");
+          ctx.globalCompositeOperation = "source-over";
+          ctx.fillStyle = "hsl(0 0% 100%)";
+          ctx.beginPath();
+          ctx.arc(x, y, 3 * s, 0, TAU);
+          ctx.fill();
+        });
+      }
+      break;
+    }
   }
   ctx.restore();
 }
@@ -3494,6 +3675,19 @@ function drawBossExtras(
       } else {
         pauldron(ctx, shoulder, face, s, "hsl(250 20% 24%)", "hsl(32 100% 70%)", 2);
         fists("hsl(36 100% 80%)", "hsl(32 100% 60% / 0)");
+      }
+      break;
+    case "aeon":
+      if (layer === "back") {
+        // a long mantle of pale light off its shoulders, hemmed in gold, shedding sparks as it moves
+        cape(50, "hsl(44 40% 86% / 0.8)", "hsl(46 100% 64% / 0.9)", 7);
+        if (alive) {
+          ctx.globalCompositeOperation = "lighter";
+          motes(ctx, mid.x, hip.y + 26 * s, 90 * s, 160 * s, t * 0.3, 12, "hsl(48 100% 88%)", 1.4 * s);
+          ctx.globalCompositeOperation = "source-over";
+        }
+      } else {
+        fists("hsl(48 100% 86%)", "hsl(46 100% 60% / 0)");
       }
       break;
   }

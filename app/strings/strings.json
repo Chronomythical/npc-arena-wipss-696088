@@ -93,7 +93,8 @@
       "teamKnockedOut": "{{name}} team is knocked out",
       "teamResetNeeded": "{{name}} team forces a reset match!",
       "nextBook": "Start Book {{n}}",
-      "book2Complete": "Book 2 complete! The Elder Dark is sealed beyond the stars."
+      "book2Complete": "Book 2 complete! The Elder Dark is sealed beyond the stars.",
+      "book3Complete": "Book 3 complete! The Celestials are back in the sky, and the light down here is ours."
     },
     "idle": "Press Start to begin the battle",
     "teams": {
@@ -1412,6 +1413,51 @@
           "l2": "Take a break. You've been going for a while.",
           "l3": "Vela's beams flicker and go dim, and it settles into the glass like a stopped watch. For the first time in an age, the sky has no beat to keep. High above, the oldest of the Celestials opens its eye."
         }
+      },
+      "c20": {
+        "intro": {
+          "l1": "Four Celestials have fallen, and the sky has gone quiet. No comet, no Hunter, no glowing cloud, no beat. One light is left up there, and it is the oldest of them all.",
+          "l2": "Aeon was the first star that ever burned. It lit the sky, it drove the Dark out of it, and then it sat at the top of everything and watched. It has been watching ever since.",
+          "l3": "Now its eye has opened over Zenith, the highest mountain in the world, where the clouds lie below like a sea. Aeon has decided the world is too bright to be allowed. To stop it, your fighters will have to climb."
+        },
+        "s1": {
+          "l1": "I left Aeon before your world was made. I have come SO far. Do you know how long that took?",
+          "l2": "Long enough to get tired, we hope."
+        },
+        "s2": {
+          "l1": "I have watched this patch of sky since the beginning. Nothing new has ever come into it. Until you.",
+          "l2": "Then look closely. You'll want to remember this."
+        },
+        "s3": {
+          "l1": "Ate... my planets. Still... hungry. You... look... small.",
+          "l2": "We're also very hard to chew."
+        },
+        "s4": {
+          "l1": "The stars are leaning down to watch. Nothing has ever climbed this high to fight Aeon before.",
+          "l2": "Then let's give them a good one."
+        },
+        "s5": {
+          "l1": "Comet, Hunter, Mother, Clock. We saw all of it, and so did Aeon. It was not impressed.",
+          "l2": "It's about to be."
+        },
+        "s6": {
+          "l1": "I am the North Star. Every lost traveller who ever lived found their way home by me. You will not find your way past me.",
+          "l2": "We're not lost. We know exactly where we're going."
+        },
+        "s7": {
+          "l1": "This is the top of the world. Above here there is only Aeon, and Aeon has never lost.",
+          "l2": "Everyone says that right before the last stage."
+        },
+        "s8": {
+          "l1": "I lit the first light in the sky. I drove the Dark out with my own fire. Then for an age I watched you shine brighter and brighter, as if the light were yours.",
+          "l2": "Some of it is. We made it ourselves.",
+          "l3": "Nothing shines that I did not light first. I will take it back, every spark of it, and the sky will be as it was on the first night: mine."
+        },
+        "outro": {
+          "l1": "So bright... You were always this bright. I never looked closely enough to see that the light was your own.",
+          "l2": "There's room up there for both of us.",
+          "l3": "Aeon's great eye slowly closes. The light it gathered streams back up into the sky, star by star, until the night is full again. On the summit of Zenith the first star rests, and for the first time in an age, it isn't keeping watch alone."
+        }
       }
     },
     "map": {
@@ -1592,6 +1638,19 @@
         "s8": "Vela's Clockface"
       }
     },
+    "ch20": {
+      "title": "Chapter 5: The Eye of the Sky",
+      "stages": {
+        "s1": "The Cloud Stair",
+        "s2": "Above the Clouds",
+        "s3": "The Thin Air",
+        "s4": "Lantern Ridge",
+        "s5": "The Watchers' Ledge",
+        "s6": "The North Gate",
+        "s7": "The Last Steps",
+        "s8": "The Eye of the Sky"
+      }
+    },
     "ending": {
       "title": "Epilogue: First Light",
       "l1": "The ground the Elder Dark tore loose settles back into place, softly, like a sleeper turning over.",
@@ -1600,6 +1659,15 @@
       "l4": "Somewhere past the edge of the sky the Dark is still waiting. It always will be. But now it knows something it never knew before: the light fights back.",
       "l5": "Come on. Let's go home.",
       "l6": "The end of Book 2: The Elder Dark."
+    },
+    "ending3": {
+      "title": "Epilogue: A Shared Sky",
+      "l1": "One by one the Celestials go back up. Perihelion swings out past the northern snow, the Hunter steps back into his place among the stones, Carina's cloud drifts high and soft, and Vela keeps the time again, a little gentler than before.",
+      "l2": "Down below, the snowfields thaw at the edges, the Mirror Flats hold the stars like still water, and in the Glasslands the dunes catch every sunrise and throw it back.",
+      "l3": "In the old harbour the lighthouse keeps burning. Somewhere past the edge of the sky the Dark is still waiting, as it always will be.",
+      "l4": "But if it looks this way tonight, it will see two kinds of light: the old stars overhead and the new ones down below, each of them keeping an eye on the other.",
+      "l5": "Look up. They're still there. Good. Somebody has to watch the sky.",
+      "l6": "The end of Book 3: The Celestials."
     }
   },
   "fusion": {

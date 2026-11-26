@@ -608,4 +608,31 @@ export const MINIONS: Crew[] = [
       surge: { from: "magnetic-pole", name: "Pole Pull" },
     }),
   },
+  // Book 3, chapter 5: Aeon's watch, the oldest lights in the sky, still keeping their places after an age
+  {
+    grunt: minion("grunt", "aeon", {
+      base: "aero", name: "Glint", color: "hsl(230 30% 26%)", mark: "hsl(46 100% 74%)",
+      power: "Old Light", ability: "A speck of light that left Aeon before the world was made and is only arriving now. It is very fast, it has come a very long way, and it does not want to have come all this way for nothing.",
+      tone: ["hsl(46 100% 70%)", "hsl(48 100% 94%)"], moves: ["Glint Jab", "Speck Dart", "Long Arrival"],
+      surge: { from: "first-stars", name: "Little Stars" },
+    }),
+    caster: minion("caster", "aeon", {
+      base: "chrono", name: "Skywatcher", color: "hsl(228 36% 18%)", mark: "hsl(46 100% 74%)",
+      power: "Long Watch", ability: "One of the thousand small eyes that open around Aeon when it looks down. Each one has watched a single patch of sky since the beginning, and each one remembers everything it saw.",
+      tone: ["hsl(222 80% 64%)", "hsl(46 100% 84%)"], moves: ["Blink Touch", "Old Glance", "Remembered Hour", "Unblinking"],
+      surge: { from: "eye-of-the-sky", name: "Small Gaze" },
+    }),
+    brute: minion("brute", "aeon", {
+      base: "pyro", name: "Red Giant", color: "hsl(8 50% 24%)", mark: "hsl(46 100% 74%)",
+      power: "Swell", ability: "An old star near the end of its life, swollen up huge and red and slow. It has eaten its own planets and it is still hungry, and every time it breathes out it gets a little bigger.",
+      tone: ["hsl(10 90% 52%)", "hsl(36 100% 76%)"], moves: ["Swollen Fist", "Red Breath", "Last Swell"],
+      surge: { from: "rain-of-ages", name: "Ember Rain" },
+    }),
+    elite: minion("elite", "aeon", {
+      base: "cryo", name: "Polaris", color: "hsl(214 40% 86%)", mark: "hsl(46 100% 70%)",
+      power: "True North", ability: "The North Star, the one light in the sky that never moves. Every lost traveller who ever lived steered home by it, and all that time it was standing guard for Aeon at the top of the world.",
+      tone: ["hsl(204 100% 76%)", "hsl(0 0% 100%)"], moves: ["North Strike", "Fixed Point", "Cold Bearing", "The Still Star"],
+      surge: { from: "the-old-orbit", name: "Still Orbit" },
+    }),
+  },
 ];

@@ -711,6 +711,37 @@ const CHAPTER_SONGS: Song[] = [
     fill: { kick: "x...x...x.x.x.x.", snare: "....x...x.xxxxxx" },
     drums: 0.8,
   }),
+  // Book 3, 5. Aeon: the finale. A wide, slow hymn in D major that sounds older than everything else in the game, huge
+  // open sawtooth chords that swell in, a lead that climbs to the top of the sky, and drums that march like a summit climb.
+  song({
+    bpm: 100,
+    pad: ["D3 F#3 A3", "C#3 E3 A3", "B2 D3 F#3", "G2 B2 D3", "D3 F#3 A3", "G2 B2 D3", "E3 G3 B3", "A2 C#3 E3"],
+    padWave: "sawtooth",
+    padCut: 1400,
+    padAttack: 0.5,
+    bass: ["D2", "C#2", "B1", "G1", "D2", "G1", "E2", "A1"],
+    bassPat: "x.....x.x.......",
+    bassMax: 4,
+    bassCut: 520,
+    lead: [
+      "A5 - - - F#5 - D5 -",
+      "E5 - - - A5 - C#6 -",
+      "D6 - - - B5 - F#5 -",
+      "G5 - B5 - D6 - - .",
+      "F#6 - - - E6 - D6 -",
+      "B5 - D6 - G6 - - -",
+      "E6 - D6 - B5 - G5 -",
+      "A5 - - - - - . .",
+    ],
+    leadWave: "triangle",
+    leadVol: 0.13,
+    arp: "0.1.2.1.0.1.2.3.",
+    kick: "x.......x.....x.",
+    snare: "....x.......x...",
+    hat: "x.x.x.x.x.x.x.x.",
+    fill: { kick: "x.......x.x.x.x.", snare: "....x...x.xxxxxx" },
+    drums: 0.7,
+  }),
 ];
 
 /** The theme for a Story chapter (0-based). */
