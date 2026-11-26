@@ -500,4 +500,58 @@ export const MINIONS: Crew[] = [
       surge: { from: "unmaking-eye", name: "Herald's Gaze" },
     }),
   },
+  // Book 3, chapter 1: Perihelion's fallen, pieces of the comet that hit the snow and got up again
+  {
+    grunt: minion("grunt", "perihelion", {
+      base: "pyro", name: "Cinderflake", color: "hsl(210 30% 30%)", mark: "hsl(190 100% 80%)",
+      power: "Cold Fire", ability: "A flake that broke off the comet's head and never stopped burning. Its fire is blue, and it burns like frost.",
+      tone: ["hsl(200 90% 56%)", "hsl(190 100% 86%)"], moves: ["Frostburn Jab", "Bluefire Ball", "Cold Flame Pillar"],
+      surge: { from: "tail-lash", name: "Little Lash" },
+    }),
+    caster: minion("caster", "perihelion", {
+      base: "electro", name: "Ion Wisp", color: "hsl(216 30% 26%)", mark: "hsl(190 100% 80%)",
+      power: "Ion Stream", ability: "A thread of the comet's blue ion tail, still crackling with the solar wind it was born in.",
+      tone: ["hsl(214 90% 60%)", "hsl(200 100% 88%)"], moves: ["Static Touch", "Ion Ray", "Charged Mote", "Solar Wind"],
+      surge: { from: "coma-shards", name: "Coma Shard" },
+    }),
+    brute: minion("brute", "perihelion", {
+      base: "terra", name: "Impact Golem", color: "hsl(214 16% 34%)", mark: "hsl(190 100% 80%)",
+      power: "Crater", ability: "A boulder of comet ice and rock that hit the ground so hard it got up angry.",
+      tone: ["hsl(210 14% 46%)", "hsl(196 60% 80%)"], moves: ["Iceboulder Fist", "Crater Spike", "Impact Stomp"],
+      surge: { from: "nucleus-flare", name: "Small Flare" },
+    }),
+    elite: minion("elite", "perihelion", {
+      base: "chrono", name: "The Returner", color: "hsl(214 34% 16%)", mark: "hsl(190 100% 86%)",
+      power: "Long Orbit", ability: "Comes back round the sun once a lifetime and remembers every world it has passed. It fights like it already knows how this ends.",
+      tone: ["hsl(44 90% 60%)", "hsl(190 100% 86%)"], moves: ["Orbit Strike", "Return Bolt", "Aphelion Field", "Come Round Again"],
+      surge: { from: "tailfire-ray", name: "Tailfire" },
+    }),
+  },
+  // Book 3, chapter 2: Asterion's hunting party, the constellations that run with the Hunter
+  {
+    grunt: minion("grunt", "asterion", {
+      base: "velo", name: "Star Hound", color: "hsl(232 34% 22%)", mark: "hsl(44 100% 74%)",
+      power: "Dog Star", ability: "The Hunter's hound: seven stars and a few bright lines. It runs down whatever the Hunter points at.",
+      tone: ["hsl(220 80% 70%)", "hsl(44 100% 86%)"], moves: ["Bright Bite", "Pack Rush", "Hound's Kick"],
+      surge: { from: "star-to-star", name: "Star Leap" },
+    }),
+    caster: minion("caster", "asterion", {
+      base: "psy", name: "The Lyre", color: "hsl(240 30% 22%)", mark: "hsl(44 100% 74%)",
+      power: "Music of the Spheres", ability: "A constellation shaped like a harp, strung with starlight. Each note it plays moves something in the sky, and something on the ground.",
+      tone: ["hsl(266 60% 66%)", "hsl(44 100% 86%)"], moves: ["Plucked Note", "Rising Chord", "Sphere Song", "Crushing Harmony"],
+      surge: { from: "starshot", name: "Small Starshot" },
+    }),
+    brute: minion("brute", "asterion", {
+      base: "gravi", name: "Star Bull", color: "hsl(232 30% 16%)", mark: "hsl(44 100% 74%)",
+      power: "Heavy Heavens", ability: "The bull of the sky. Every star in it weighs as much as a mountain, and it knows it.",
+      tone: ["hsl(232 40% 30%)", "hsl(44 100% 80%)"], moves: ["Horn Hook", "Weight of Stars", "Drag of the Heavens"],
+      surge: { from: "shooting-stars", name: "Star Hooves" },
+    }),
+    elite: minion("elite", "asterion", {
+      base: "toxi", name: "The Star Scorpion", color: "hsl(240 40% 10%)", mark: "hsl(44 100% 78%)",
+      power: "Sting of Night", ability: "The Hunter's oldest enemy. When the Celestials came down it put the old fight aside to guard his gate, and its sting is still the brightest red in the sky.",
+      tone: ["hsl(354 90% 56%)", "hsl(44 100% 80%)"], moves: ["Pincer Snap", "Star Venom", "Red Star Field", "Sting of Night"],
+      surge: { from: "line-of-stars", name: "Line of Venom" },
+    }),
+  },
 ];

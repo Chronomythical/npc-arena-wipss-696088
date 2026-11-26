@@ -4,7 +4,7 @@
 import type { BossDesign, FighterDef, Move } from "./fighters";
 import type { Form } from "./forms";
 
-export type BossId = "nullshade" | "maelstrom" | "magmaw" | "everwinter" | "riftmaker" | "hollowking" | "blacksun" | "axiom" | "lanternmaw" | "sporemother" | "mnemovore" | "dustmoth" | "somnarch" | "hush" | "elderdark";
+export type BossId = "nullshade" | "maelstrom" | "magmaw" | "everwinter" | "riftmaker" | "hollowking" | "blacksun" | "axiom" | "lanternmaw" | "sporemother" | "mnemovore" | "dustmoth" | "somnarch" | "hush" | "elderdark" | "perihelion" | "asterion";
 
 const M = (m: Omit<Move, "wind" | "act" | "rec"> & Partial<Pick<Move, "wind" | "act" | "rec">>): Move => ({
   wind: 0.2,
@@ -229,6 +229,36 @@ export const BOSSES: Record<BossId, FighterDef> = {
       M({ id: "unmaking-eye", name: "Unmaking Eye", kind: "beam", anim: "thrust", range: 560, minRange: 70, cd: 3.4, dmg: 15, act: 0.34, status: "stun", statusDur: 0.4, wind: 0.32 }),
       M({ id: "first-dark", name: "The First Dark", kind: "burst", anim: "raise", range: 160, cd: 6.5, dmg: 14, radius: 180, kb: 400, lift: -300, status: "blind", statusDur: 0.8, wind: 0.34 }),
       M({ id: "night-tide", name: "Night Tide", kind: "zone", anim: "cast", range: 420, cd: 9, dmg: 7, radius: 150, dur: 5, pullIn: 180, status: "slow", statusDur: 0.8, wind: 0.36 }),
+    ],
+  },
+  // Book 3, chapter 1. The first of the Celestials: a living comet, a head of white fire on a body of old ice, its
+  // tail streaming behind it. It falls on the north like a judgement, and everything it touches burns cold.
+  perihelion: {
+    id: "cryo", boss: "perihelion", name: "Perihelion", power: "Comet Fire", role: "attacker",
+    ability: "A Celestial: a living comet older than the world, sent down to put the bright world back in its place. Its tail burns cold, its shards freeze you in place, and it dives on its enemies like a falling star.",
+    color: "hsl(212 40% 22%)", glow: "hsl(190 100% 80%)", hp: 620, speed: 100,
+    moves: [
+      M({ id: "tail-lash", name: "Tail Lash", kind: "melee", anim: "spin", range: 100, cd: 1, dmg: 12, kb: 260, status: "burn", statusDur: 1 }),
+      M({ id: "coma-shards", name: "Coma Shards", kind: "projectile", anim: "cast", range: 600, minRange: 80, cd: 2.5, dmg: 6, speed: 560, size: 10, count: 4, spread: 0.26, shape: "shard", status: "slow", statusDur: 0.8 }),
+      M({ id: "comet-dive", name: "Comet Dive", kind: "dash", anim: "lunge", range: 560, minRange: 90, cd: 4.4, dmg: 14, kb: 380, lift: -260, status: "burn", statusDur: 1, wind: 0.3 }),
+      M({ id: "tailfire-ray", name: "Tailfire Ray", kind: "beam", anim: "thrust", range: 560, minRange: 70, cd: 3.4, dmg: 14, act: 0.34, status: "burn", statusDur: 1.2, wind: 0.32 }),
+      M({ id: "meteor-shower", name: "Meteor Shower", kind: "rain", anim: "raise", range: 560, cd: 5.5, dmg: 8, count: 7, radius: 180, size: 10, status: "burn", statusDur: 0.8, wind: 0.34 }),
+      M({ id: "nucleus-flare", name: "Nucleus Flare", kind: "burst", anim: "slam", range: 160, cd: 6.5, dmg: 14, radius: 175, kb: 440, lift: -300, status: "slow", statusDur: 0.8, wind: 0.34 }),
+    ],
+  },
+  // Book 3, chapter 2. The second Celestial: the Hunter, a giant drawn in stars and the lines between them. It has
+  // hunted across the sky since before the first sunrise, and now it has come down to hunt the ones who beat the Dark.
+  asterion: {
+    id: "lux", boss: "asterion", name: "Asterion", power: "Constellation", role: "attacker",
+    ability: "A Celestial: the Hunter in the stars, a giant made of starlight and the lines that join it. Its spear pins you, its arrows never miss, and it steps from star to star faster than you can turn.",
+    color: "hsl(232 44% 14%)", glow: "hsl(44 100% 74%)", hp: 640, speed: 104,
+    moves: [
+      M({ id: "star-spear", name: "Star Spear", kind: "melee", anim: "lunge", range: 112, cd: 1, dmg: 12, kb: 280, status: "stun", statusDur: 0.25 }),
+      M({ id: "starshot", name: "Starshot", kind: "projectile", anim: "thrust", range: 640, minRange: 90, cd: 2.3, dmg: 8, speed: 720, size: 10, count: 3, spread: 0.12, shape: "blade" }),
+      M({ id: "star-to-star", name: "Star to Star", kind: "blink", anim: "kick", range: 580, minRange: 130, cd: 4, dmg: 14, kb: 320, lift: -260 }),
+      M({ id: "line-of-stars", name: "Line of Stars", kind: "beam", anim: "thrust", range: 580, minRange: 70, cd: 3.4, dmg: 14, act: 0.32, status: "stun", statusDur: 0.4, wind: 0.32 }),
+      M({ id: "shooting-stars", name: "Shooting Stars", kind: "rain", anim: "raise", range: 560, cd: 5.5, dmg: 8, count: 7, radius: 180, size: 10, status: "blind", statusDur: 0.5, wind: 0.34 }),
+      M({ id: "star-chart", name: "Star Chart", kind: "zone", anim: "slam", range: 420, cd: 9, dmg: 6, radius: 145, dur: 4.5, pullIn: 140, status: "slow", statusDur: 0.8, wind: 0.36 }),
     ],
   },
 };
@@ -675,6 +705,64 @@ export const BOSS_PHASES: Partial<Record<BossDesign, Form[]>> = {
       moves: [
         M({ id: "void-between", name: "The Void Between", kind: "zone", anim: "raise", range: 460, cd: 10, dmg: 8, radius: 210, dur: 5, pullIn: 260, status: "slow", statusDur: 0.8, wind: 0.4 }),
         M({ id: "end-of-all-light", name: "The End of All Light", kind: "burst", anim: "raise", range: 500, cd: 12, dmg: 17, radius: 450, kb: 480, lift: -400, status: "blind", statusDur: 1.6, wind: 0.6, rec: 0.35 }),
+      ],
+    },
+  ],
+  perihelion: [
+    {
+      ...P2, power: "cryo", title: "THE TAIL IGNITES", dodge: 0.12,
+      blurb: "Its tail splits in two: a straight blue tail of burning ions and a curved gold one of dust. Frozen shards spin off it, and the ion tail drags you into its wake.",
+      body: "hsl(212 44% 24%)", glow: "hsl(190 100% 84%)", a: "hsl(196 90% 64%)", b: "hsl(44 100% 76%)",
+      moves: [
+        M({ id: "twin-tails", name: "Twin Tails", kind: "projectile", anim: "cast", range: 620, minRange: 80, cd: 3, dmg: 7, speed: 600, size: 13, count: 2, spread: 0.2, shape: "disc", status: "burn", statusDur: 0.8 }),
+        M({ id: "ion-wake", name: "Ion Wake", kind: "pull", anim: "cast", range: 500, minRange: 110, cd: 4.5, dmg: 9, status: "slow", statusDur: 1.2, wind: 0.26 }),
+      ],
+    },
+    {
+      ...P3, power: "cryo", title: "SUNGRAZER", drain: 0.12,
+      blurb: "It swings close to the sun and comes back white hot. A corona of cold flame wraps it, the ground cracks into craters where it points, and every hit it lands feeds its fire.",
+      body: "hsl(204 40% 30%)", glow: "hsl(0 0% 100%)", a: "hsl(190 100% 86%)", b: "hsl(0 0% 100%)",
+      moves: [
+        M({ id: "impact-craters", name: "Impact Craters", kind: "eruption", anim: "slam", range: 560, minRange: 40, cd: 6, dmg: 13, radius: 48, count: 4, lift: -680, status: "burn", statusDur: 0.8, wind: 0.38 }),
+        M({ id: "calving-ice", name: "Calving Ice", kind: "projectile", anim: "thrust", range: 600, minRange: 80, cd: 3.2, dmg: 6, speed: 620, size: 10, count: 6, spread: 0.32, shape: "shard", status: "freeze", statusDur: 0.4 }),
+      ],
+    },
+    {
+      ...P4, power: "cryo", title: "THE GREAT COMET", guard: 0.8, regen: 1.3,
+      blurb: "Its head breaks into a ring of burning fragments, and its tail stretches across the whole sky. Orbit's End drags everyone round it, and Impact Winter hits most of the arena like a falling star.",
+      body: "hsl(214 50% 12%)", glow: "hsl(190 100% 88%)", a: "hsl(214 60% 20%)", b: "hsl(190 100% 84%)", dark: "hsl(214 60% 4%)",
+      moves: [
+        M({ id: "orbits-end", name: "Orbit's End", kind: "zone", anim: "raise", range: 440, cd: 10, dmg: 7, radius: 200, dur: 5, pullIn: 240, status: "slow", statusDur: 0.8, wind: 0.4 }),
+        M({ id: "impact-winter", name: "Impact Winter", kind: "burst", anim: "slam", range: 480, cd: 12, dmg: 16, radius: 430, kb: 480, lift: -400, status: "freeze", statusDur: 0.8, wind: 0.55, rec: 0.35 }),
+      ],
+    },
+  ],
+  asterion: [
+    {
+      ...P2, power: "lux", title: "THE HUNTER'S BOW", dodge: 0.14,
+      blurb: "It draws a bow out of the stars on its shoulder. Its arrows of dawn fly straight and fast, and a snare of starlight pulls whoever runs back into reach of its spear.",
+      body: "hsl(232 44% 17%)", glow: "hsl(44 100% 78%)", a: "hsl(220 80% 70%)", b: "hsl(44 100% 80%)",
+      moves: [
+        M({ id: "arrow-of-dawn", name: "Arrow of Dawn", kind: "projectile", anim: "thrust", range: 680, minRange: 90, cd: 3, dmg: 11, speed: 900, size: 14, count: 1, shape: "blade", pierce: true, kb: 260 }),
+        M({ id: "hunters-snare", name: "Hunter's Snare", kind: "pull", anim: "cast", range: 500, minRange: 110, cd: 4.5, dmg: 9, status: "stun", statusDur: 0.4, wind: 0.26 }),
+      ],
+    },
+    {
+      ...P3, power: "lux", title: "THE BEASTS OF THE SKY", drain: 0.12,
+      blurb: "The constellations it has hunted come down and circle it: the bull, the bear, the great snake. Pillars of starlight burst from the ground, and the bull charges with it.",
+      body: "hsl(236 44% 12%)", glow: "hsl(48 100% 82%)", a: "hsl(44 100% 70%)", b: "hsl(0 0% 100%)",
+      moves: [
+        M({ id: "star-pillars", name: "Star Pillars", kind: "eruption", anim: "slam", range: 560, minRange: 40, cd: 6, dmg: 13, radius: 46, count: 4, lift: -700, status: "blind", statusDur: 0.5, wind: 0.38 }),
+        M({ id: "bull-charge", name: "The Bull's Charge", kind: "dash", anim: "lunge", range: 560, minRange: 90, cd: 4.6, dmg: 15, kb: 460, lift: -300, wind: 0.32 }),
+      ],
+    },
+    {
+      ...P4, power: "lux", title: "THE WHOLE SKY", guard: 0.8, regen: 1.3,
+      blurb: "Every star in the sky joins its outline, and the Hunter stands as tall as the night. The Celestial Sphere pulls everyone in, and the Last Arrow falls on most of the arena at once.",
+      body: "hsl(236 60% 6%)", glow: "hsl(44 100% 84%)", a: "hsl(236 60% 16%)", b: "hsl(44 100% 80%)", dark: "hsl(236 60% 3%)",
+      moves: [
+        M({ id: "celestial-sphere", name: "The Celestial Sphere", kind: "zone", anim: "raise", range: 440, cd: 10, dmg: 7, radius: 200, dur: 5, pullIn: 240, status: "slow", statusDur: 0.8, wind: 0.4 }),
+        M({ id: "last-arrow", name: "The Last Arrow", kind: "burst", anim: "raise", range: 480, cd: 12, dmg: 16, radius: 430, kb: 460, lift: -380, status: "stun", statusDur: 0.8, wind: 0.55, rec: 0.35 }),
       ],
     },
   ],

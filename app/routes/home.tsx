@@ -977,7 +977,7 @@ function StoryBanner({ chapter, stage, won, onRetry, onNext, onNextChapter, onBa
       )}
       <div className="mt-4 flex flex-wrap justify-center gap-2">
         {!last && <Button onClick={onNext}><Text id="arena.winner.nextStage" /></Button>}
-        {last && hasNext && <Button onClick={onNextChapter}><Text id={finale ? "arena.winner.nextBook" : "arena.winner.nextChapter"} /></Button>}
+        {last && hasNext && <Button onClick={onNextChapter}><Text id={finale ? "arena.winner.nextBook" : "arena.winner.nextChapter"} vars={{ n: bookOf(chapter) + 2 }} /></Button>}
         <Button variant="outline" onClick={last ? onRetry : onBack}><Text id={last ? "arena.winner.again" : "arena.winner.changePair"} /></Button>
       </div>
     </>

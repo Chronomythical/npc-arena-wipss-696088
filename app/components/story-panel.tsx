@@ -65,7 +65,11 @@ export function StoryPanel({ cleared, chapter, onChapter, stage, onStage, pair, 
             );
           })}
         </div>
-        {!chapterOpen(cleared, BOOKS[1].first) && <Text id="story.books.b2Locked" as="p" className="text-sm text-muted-foreground" />}
+        {/* what opens the next locked book */}
+        {(() => {
+          const next = BOOKS.findIndex((b, i) => i > 0 && !chapterOpen(cleared, b.first));
+          return next > 0 ? <Text id={`story.books.b${next + 1}Locked` as StringKey} as="p" className="text-sm text-muted-foreground" /> : null;
+        })()}
       </div>
       <div className="-my-1.5 flex gap-2 overflow-x-auto py-1.5" role="group" aria-label={chaptersAria} data-story-chapters>
         {chaptersOf(book).map((ch) => {

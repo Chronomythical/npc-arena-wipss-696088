@@ -6,7 +6,7 @@ import {
   PiEyeFill, PiFireFill, PiGhostFill, PiHourglassFill, PiLighthouseFill, PiLightningFill, PiLockSimpleFill, PiMoonStarsFill,
   PiMountainsFill, PiPlanetFill, PiShootingStarFill, PiSkullFill, PiSnowflakeFill, PiSpiralFill, PiStarFill, PiSunFill,
   PiSunHorizonFill, PiTreeFill, PiWavesFill, PiBookOpenFill, PiBugFill, PiButterflyFill, PiHouseFill, PiMaskHappyFill, PiMoonFill,
-  PiPlantFill, PiScrollFill, PiTreeEvergreenFill,
+  PiPlantFill, PiScrollFill, PiTreeEvergreenFill, PiCompassFill, PiTargetFill,
 } from "react-icons/pi";
 import { Text, useString } from "~stencil/ui/strings";
 import { cn } from "~/lib/utils";
@@ -17,6 +17,8 @@ import { stageNameKey } from "~/components/story-scene";
 const ROAD: [number, number][] = [[8, 80], [22, 64], [16, 38], [31, 22], [45, 40], [55, 70], [69, 58], [65, 30], [79, 17], [91, 44]];
 /** Book 2's chapters have nine stages, so their road is one stop shorter. */
 const ROAD9: [number, number][] = [[8, 80], [22, 60], [18, 32], [35, 22], [48, 46], [60, 72], [73, 54], [77, 22], [91, 44]];
+/** Book 3's chapters have eight stages. */
+const ROAD8: [number, number][] = [[8, 78], [22, 56], [22, 26], [41, 24], [52, 56], [67, 72], [79, 36], [92, 50]];
 const SPOTS: [number, number, number][] = [[5, 18, 2.6], [39, 84, 2.2], [44, 11, 2], [86, 82, 2.8], [57, 14, 2.2], [73, 86, 2.4], [29, 50, 2], [96, 70, 2]];
 
 type Theme = { top: string; bottom: string; blob: string; deco: string; road: string; icons: IconType[] };
@@ -43,6 +45,10 @@ const THEMES: Theme[] = [
   { top: "hsl(350 34% 10%)", bottom: "hsl(4 36% 28%)", blob: "hsl(354 100% 66% / 0.12)", deco: "hsl(354 100% 80% / 0.5)", road: "hsl(354 100% 70%)", icons: [PiBellFill, PiCastleTurretFill, PiBuildingsFill, PiWavesFill] },
   // Book 2. The Elder Dark: broken ground floating up into a starless sky
   { top: "hsl(262 60% 4%)", bottom: "hsl(264 40% 16%)", blob: "hsl(150 100% 56% / 0.1)", deco: "hsl(268 100% 84% / 0.55)", road: "hsl(268 100% 78%)", icons: [PiEyeFill, PiPlanetFill, PiShootingStarFill, PiSpiralFill] },
+  // Book 3. The Falling Star: snowfields at night under a comet that grows every stage
+  { top: "hsl(214 54% 9%)", bottom: "hsl(204 30% 38%)", blob: "hsl(190 100% 80% / 0.14)", deco: "hsl(190 100% 88% / 0.6)", road: "hsl(190 100% 76%)", icons: [PiSnowflakeFill, PiShootingStarFill, PiMountainsFill, PiFireFill] },
+  // Book 3. The Hunter in the Stars: a plateau of standing stones under a sky drawn with constellations
+  { top: "hsl(232 64% 6%)", bottom: "hsl(240 34% 22%)", blob: "hsl(44 100% 70% / 0.12)", deco: "hsl(44 100% 80% / 0.55)", road: "hsl(44 100% 72%)", icons: [PiStarFill, PiCompassFill, PiTargetFill, PiMoonStarsFill] },
 ];
 
 /** A smooth road through the points, in the SVG's 1000 by 520 space. */
@@ -62,7 +68,7 @@ export function StoryMap({ chapter, done, stage, onStage, locked }: { chapter: n
   const theme = THEMES[chapter] ?? THEMES[0];
   const flip = chapter % 2 === 1;
   const stages = CHAPTERS[chapter].stages;
-  const road = (stages.length === 9 ? ROAD9 : ROAD).map(([x, y]) => [flip ? 100 - x : x, y] as [number, number]);
+  const road = (stages.length === 8 ? ROAD8 : stages.length === 9 ? ROAD9 : ROAD).map(([x, y]) => [flip ? 100 - x : x, y] as [number, number]);
   const spots = SPOTS.map(([x, y, s]) => [flip ? 100 - x : x, y, s] as const);
   const gid = `map-sky-${chapter}`;
 

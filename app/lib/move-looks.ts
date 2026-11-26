@@ -583,6 +583,32 @@ const QUEST_LOOKS: Record<string, Look> = {
   "gaze-of-eons": F("dimension-tear", "hsl(150 100% 50%)", "hsl(268 100% 90%)", "star", true, 0, "starburst"),
   "void-between": F("singularity", "hsl(262 60% 3%)", "hsl(268 100% 80%)", "star", false, -30, "implode"),
   "end-of-all-light": F("total-eclipse", "hsl(262 60% 4%)", "hsl(150 100% 76%)", "star", true, 0, "starburst"),
+  // Perihelion (Book 3): old blue ice, white comet fire and a gold dust tail
+  "tail-lash": F("rime-sickle", "hsl(200 60% 60%)", "hsl(190 100% 88%)", "ember", true, -60, "slash"),
+  "coma-shards": F("ice-shard-volley", "hsl(196 80% 70%)", "hsl(0 0% 100%)", "flake", true, 200, "shatter"),
+  "comet-dive": F("mach-rush", "hsl(190 100% 72%)", "hsl(0 0% 100%)", "ember", true, -100, "flare"),
+  "tailfire-ray": F("solar-flare", "hsl(192 100% 66%)", "hsl(0 0% 100%)", "ember", true, -120, "flare"),
+  "meteor-shower": F("meteor-drop", "hsl(196 90% 70%)", "hsl(44 100% 80%)", "ember", true, 220, "crater"),
+  "nucleus-flare": F("rift-burst", "hsl(190 100% 80%)", "hsl(0 0% 100%)", "flake", true, 0, "starburst"),
+  "twin-tails": F("eclipse-disc", "hsl(196 100% 66%)", "hsl(44 100% 78%)", "ember", true, 0, "flare"),
+  "ion-wake": F("gravity-pull", "hsl(200 90% 50%)", "hsl(190 100% 86%)", "spark", true, 0, "implode"),
+  "impact-craters": F("glacier-spike", "hsl(200 70% 78%)", "hsl(0 0% 100%)", "flake", true, 400, "crater"),
+  "calving-ice": F("mirror-shards", "hsl(196 60% 80%)", "hsl(0 0% 100%)", "shard", true, 300, "shatter"),
+  "orbits-end": F("singularity", "hsl(214 60% 8%)", "hsl(190 100% 84%)", "ember", false, -30, "implode"),
+  "impact-winter": F("total-eclipse", "hsl(214 60% 10%)", "hsl(190 100% 90%)", "flake", true, 0, "starburst"),
+  // Asterion (Book 3): deep night blue and the gold of old starlight
+  "star-spear": F("trident-rake", "hsl(232 40% 28%)", "hsl(44 100% 80%)", "star", true, 0, "starburst"),
+  "starshot": F("railgun", "hsl(44 100% 70%)", "hsl(0 0% 100%)", "star", true, 0, "starburst"),
+  "star-to-star": F("shadow-step", "hsl(232 44% 20%)", "hsl(44 100% 80%)", "star", true, 0, "portal"),
+  "line-of-stars": F("antimatter-lance", "hsl(44 100% 66%)", "hsl(0 0% 100%)", "star", true, 0, "starburst"),
+  "shooting-stars": F("sunspot-rain", "hsl(44 100% 72%)", "hsl(220 90% 86%)", "star", true, 200, "starburst"),
+  "star-chart": F("null-field", "hsl(232 50% 10%)", "hsl(44 100% 74%)", "star", false, -30, "implode"),
+  "arrow-of-dawn": F("railgun", "hsl(30 100% 70%)", "hsl(48 100% 92%)", "spark", true, 0, "flare"),
+  "hunters-snare": F("soul-chains", "hsl(232 40% 24%)", "hsl(44 100% 78%)", "star", false, 0, "implode"),
+  "star-pillars": F("flame-pillar", "hsl(44 100% 70%)", "hsl(0 0% 100%)", "star", true, -200, "starburst"),
+  "bull-charge": F("mach-rush", "hsl(232 50% 30%)", "hsl(44 100% 80%)", "star", true, 0, "crater"),
+  "celestial-sphere": F("singularity", "hsl(236 60% 5%)", "hsl(44 100% 78%)", "star", false, -30, "implode"),
+  "last-arrow": F("rift-burst", "hsl(44 100% 70%)", "hsl(0 0% 100%)", "star", true, 0, "starburst"),
 };
 for (const [id, lk] of Object.entries(QUEST_LOOKS)) FORM_LOOKS[id] = lk;
 for (const [id, lk] of Object.entries(FORM_LOOKS)) {

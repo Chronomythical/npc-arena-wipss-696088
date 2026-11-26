@@ -1431,6 +1431,160 @@ export function drawBossDesign(
       }
       break;
     }
+    // ----- Perihelion: a living comet, a white-hot head in a crown of ice, its cold fire tail streaming behind -----
+    case "perihelion": {
+      const back = -face;
+      if (layer === "back") {
+        if (alive) glow(ctx, mid.x, mid.y, 96 * s, "hsl(190 100% 70% / 0.18)", "hsl(190 100% 70% / 0)");
+        // the tail: streamers of cold fire flowing off the head, longer the faster it moves
+        const stretch = 1 + Math.min(0.8, Math.abs(vx) * 0.002);
+        for (let i = 0; i < 5; i++) {
+          const len = (120 + i * 14) * s * stretch;
+          const wave = alive ? Math.sin(t * 4 + i * 1.3) * 8 * s : 0;
+          const sx = head.x + back * 4 * s, sy = head.y + (i - 2) * 3 * s;
+          const ex = sx + back * len, ey = sy - 30 * s + i * 12 * s + wave;
+          if (alive) {
+            const g = ctx.createLinearGradient(sx, sy, ex, ey);
+            g.addColorStop(0, i % 2 ? "hsl(190 100% 84% / 0.75)" : "hsl(205 100% 66% / 0.6)");
+            g.addColorStop(1, "hsl(205 100% 60% / 0)");
+            ctx.strokeStyle = g;
+          } else ctx.strokeStyle = "hsl(210 10% 40% / 0.25)";
+          ctx.lineWidth = (12 - i * 1.8) * s;
+          ctx.beginPath();
+          ctx.moveTo(sx, sy);
+          ctx.quadraticCurveTo(sx + back * len * 0.5, sy - 10 * s + wave, ex, ey);
+          ctx.stroke();
+        }
+      } else {
+        // plates of old blue ice over the chest
+        ctx.fillStyle = alive ? "hsl(200 50% 72% / 0.9)" : "hsl(210 10% 50% / 0.9)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.2 * s;
+        for (const [dx, dy, w, h] of [[-5, -8, 8, 12], [4, -4, 7, 10], [-1, 6, 6, 9]] as const) {
+          const cx = mid.x + face * dx * s, cy = mid.y + dy * s;
+          ctx.beginPath();
+          ctx.moveTo(cx, cy - h * 0.5 * s);
+          ctx.lineTo(cx + w * 0.5 * s, cy);
+          ctx.lineTo(cx, cy + h * 0.5 * s);
+          ctx.lineTo(cx - w * 0.5 * s, cy);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+        }
+        // a crown of ice shards round the head, pointing out like the rays of a star
+        ctx.fillStyle = alive ? "hsl(196 70% 82%)" : "hsl(210 10% 60%)";
+        for (let i = 0; i < 6; i++) {
+          const a = Math.PI + 0.25 + (i / 5) * (Math.PI - 0.5);
+          const r0 = (HEAD + 1) * s, r1 = (HEAD + 9 + (i % 2) * 5) * s;
+          const cx = head.x + back * 2 * s, cy = head.y;
+          ctx.beginPath();
+          ctx.moveTo(cx + Math.cos(a - 0.14) * r0, cy + Math.sin(a - 0.14) * r0);
+          ctx.lineTo(cx + Math.cos(a) * r1, cy + Math.sin(a) * r1);
+          ctx.lineTo(cx + Math.cos(a + 0.14) * r0, cy + Math.sin(a + 0.14) * r0);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+        }
+        // the head: a comet's nucleus, white hot inside a cloud of cold light
+        if (alive) {
+          ctx.globalCompositeOperation = "lighter";
+          glow(ctx, head.x, head.y, (30 + Math.sin(t * 6) * 2) * s, "hsl(190 100% 80% / 0.85)", "hsl(190 100% 70% / 0)");
+          ctx.globalCompositeOperation = "source-over";
+        }
+        ctx.fillStyle = alive ? "hsl(196 80% 92%)" : "hsl(210 10% 66%)";
+        ctx.beginPath();
+        ctx.arc(head.x, head.y, (HEAD + 0.5) * s, 0, TAU);
+        ctx.fill();
+        ctx.stroke();
+        // one narrow eye of pure white fire, looking ahead
+        ctx.fillStyle = alive ? "hsl(0 0% 100%)" : INK;
+        ctx.beginPath();
+        ctx.ellipse(head.x + face * 4 * s, head.y - 1 * s, 4 * s, 1.4 * s, 0, 0, TAU);
+        ctx.fill();
+        if (alive) glow(ctx, head.x + face * 4 * s, head.y - 1 * s, 7 * s, "hsl(190 100% 90% / 0.9)", "hsl(190 100% 80% / 0)");
+      }
+      break;
+    }
+    // ----- Asterion: the Hunter drawn in stars, a bright star at every joint and a spear of starlight -----
+    case "asterion": {
+      const back = -face;
+      if (layer === "back") {
+        if (alive) glow(ctx, mid.x, mid.y, 90 * s, "hsl(44 100% 70% / 0.14)", "hsl(44 100% 70% / 0)");
+        // a turning star-chart ring behind it, marked like an old brass globe
+        const cx = mid.x + back * 6 * s, cy = mid.y - 6 * s, r = 62 * s;
+        ctx.strokeStyle = alive ? "hsl(44 100% 74% / 0.45)" : "hsl(44 10% 50% / 0.25)";
+        ctx.lineWidth = 1.6 * s;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, TAU);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, r, r * 0.3, 0.3 + (alive ? t * 0.2 : 0), 0, TAU);
+        ctx.stroke();
+        for (let i = 0; i < 24; i++) {
+          const a = (i / 24) * TAU + (alive ? t * 0.15 : 0), k = i % 6 === 0 ? 7 : 3;
+          ctx.beginPath();
+          ctx.moveTo(cx + Math.cos(a) * r, cy + Math.sin(a) * r);
+          ctx.lineTo(cx + Math.cos(a) * (r - k * s), cy + Math.sin(a) * (r - k * s));
+          ctx.stroke();
+        }
+      } else {
+        // the spear: a shaft of starlight through the front hand, a star burning at its point
+        const dx = p.hF.x - p.eF.x, dy = p.hF.y - p.eF.y, dl = Math.hypot(dx, dy) || 1;
+        const ux = dx / dl, uy = dy / dl;
+        const tip = { x: p.hF.x + ux * 58 * s, y: p.hF.y + uy * 58 * s };
+        const butt = { x: p.hF.x - ux * 34 * s, y: p.hF.y - uy * 34 * s };
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 4 * s;
+        ctx.beginPath();
+        ctx.moveTo(butt.x, butt.y);
+        ctx.lineTo(tip.x, tip.y);
+        ctx.stroke();
+        ctx.strokeStyle = alive ? "hsl(44 100% 78%)" : "hsl(44 10% 56%)";
+        ctx.lineWidth = 2 * s;
+        ctx.stroke();
+        const star = (x: number, y: number, r: number, lit: boolean) => {
+          if (lit && alive) glow(ctx, x, y, r * 3, "hsl(44 100% 80% / 0.8)", "hsl(44 100% 70% / 0)");
+          ctx.fillStyle = lit && alive ? "hsl(48 100% 94%)" : "hsl(44 10% 60%)";
+          ctx.beginPath();
+          for (let k = 0; k < 8; k++) {
+            const ka = (k / 8) * TAU - Math.PI / 2, rr = k % 2 ? r * 0.4 : r;
+            if (k === 0) ctx.moveTo(x + Math.cos(ka) * rr, y + Math.sin(ka) * rr);
+            else ctx.lineTo(x + Math.cos(ka) * rr, y + Math.sin(ka) * rr);
+          }
+          ctx.closePath();
+          ctx.fill();
+        };
+        star(tip.x, tip.y, 6 * s, true);
+        // the constellation it is drawn from: lines along its limbs and a star at every joint
+        const joints: Pt[] = [shoulder, p.eF, p.hF, p.eB, p.hB, hip, p.kF, p.fF, p.kB, p.fB];
+        ctx.strokeStyle = alive ? "hsl(44 100% 80% / 0.55)" : "hsl(44 10% 50% / 0.3)";
+        ctx.lineWidth = 1 * s;
+        ctx.beginPath();
+        for (const [a, b] of [[shoulder, p.eF], [p.eF, p.hF], [shoulder, p.eB], [p.eB, p.hB], [shoulder, hip], [hip, p.kF], [p.kF, p.fF], [hip, p.kB], [p.kB, p.fB]] as const) {
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+        }
+        ctx.stroke();
+        joints.forEach((q, i) => star(q.x, q.y, (i === 0 ? 3.6 : 2.6) * s, i % 3 !== 2 || Math.sin(t * 3 + i) > 0));
+        // the Hunter's belt: three stars in a row across the hips
+        for (let i = -1; i <= 1; i++) star(hip.x + i * 5 * s, hip.y - 4 * s + i * 1.2 * s, 2.6 * s, true);
+        // a helm of night with a crest of three stars, and one gold eye
+        ctx.fillStyle = "hsl(232 44% 14%)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.6 * s;
+        ctx.beginPath();
+        ctx.arc(head.x, head.y, (HEAD + 1) * s, 0, TAU);
+        ctx.fill();
+        ctx.strokeStyle = alive ? "hsl(44 100% 74% / 0.7)" : "hsl(44 10% 50% / 0.5)";
+        ctx.stroke();
+        for (let i = 0; i < 3; i++) {
+          const a = -Math.PI / 2 + back * (0.25 + i * 0.45);
+          star(head.x + Math.cos(a) * (HEAD + 6 + i * 2) * s, head.y + Math.sin(a) * (HEAD + 6 + i * 2) * s, (3.4 - i * 0.6) * s, true);
+        }
+        star(head.x + face * 4 * s, head.y - 1 * s, 3 * s, true);
+      }
+      break;
+    }
   }
   ctx.restore();
   if (layer === "front") drawBossExtras(ctx, design, layer, p, s, face, t, alive, vx, act);
@@ -2575,6 +2729,131 @@ function drawBossPhase(
       }
       break;
     }
+    case "perihelion": {
+      if (!front) {
+        // 2: two tails: a straight blue one of ions and a curved gold one of dust
+        const sx = head.x + back * 4 * s, sy = head.y;
+        ctx.globalCompositeOperation = "lighter";
+        const ion = ctx.createLinearGradient(sx, sy, sx + back * 220 * s, sy - 60 * s);
+        ion.addColorStop(0, "hsl(205 100% 70% / 0.7)");
+        ion.addColorStop(1, "hsl(205 100% 60% / 0)");
+        ctx.strokeStyle = ion;
+        ctx.lineWidth = 5 * s;
+        ctx.beginPath();
+        ctx.moveTo(sx, sy);
+        ctx.lineTo(sx + back * 220 * s, sy - 60 * s);
+        ctx.stroke();
+        const dust = ctx.createLinearGradient(sx, sy, sx + back * 180 * s, sy + 50 * s);
+        dust.addColorStop(0, "hsl(44 100% 74% / 0.6)");
+        dust.addColorStop(1, "hsl(44 100% 60% / 0)");
+        ctx.strokeStyle = dust;
+        ctx.lineWidth = 9 * s;
+        ctx.beginPath();
+        ctx.moveTo(sx, sy);
+        ctx.quadraticCurveTo(sx + back * 90 * s, sy - 10 * s + Math.sin(t * 2) * 6 * s, sx + back * 180 * s, sy + 50 * s);
+        ctx.stroke();
+        ctx.globalCompositeOperation = "source-over";
+      }
+      if (phase >= 3) {
+        // 3: a corona of cold white flame wrapped round it
+        orbit(8, 26, 12, mid.y, 1.4, (x, y, i) => {
+          ctx.globalCompositeOperation = "lighter";
+          flame(ctx, x, y + 6 * s, 4 * s, (12 + (i % 3) * 4 + Math.sin(t * 9 + i) * 3) * s, "hsl(190 100% 84% / 0.75)");
+          ctx.globalCompositeOperation = "source-over";
+        });
+      }
+      if (phase >= 4) {
+        // 4: the head breaks into a ring of burning fragments, and a tail as wide as the sky opens behind it
+        if (!front) {
+          const g = ctx.createLinearGradient(head.x, head.y, head.x + back * 420 * s, head.y - 120 * s);
+          g.addColorStop(0, "hsl(196 100% 76% / 0.35)");
+          g.addColorStop(1, "hsl(196 100% 60% / 0)");
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.moveTo(head.x, head.y - 10 * s);
+          ctx.lineTo(head.x + back * 420 * s, head.y - 220 * s);
+          ctx.lineTo(head.x + back * 420 * s, head.y + 60 * s);
+          ctx.closePath();
+          ctx.fill();
+        }
+        orbit(6, 34, 10, head.y - 4 * s, 1.1, (x, y, i) => {
+          ctx.globalCompositeOperation = "lighter";
+          glow(ctx, x, y, 9 * s, "hsl(190 100% 84% / 0.9)", "hsl(190 100% 70% / 0)");
+          ctx.globalCompositeOperation = "source-over";
+          ctx.fillStyle = "hsl(204 30% 40%)";
+          ctx.strokeStyle = INK;
+          ctx.lineWidth = 1 * s;
+          ctx.beginPath();
+          ctx.moveTo(x - 3 * s, y - 2 * s);
+          ctx.lineTo(x + 1 * s, y - 4 * s);
+          ctx.lineTo(x + 4 * s, y + 1 * s);
+          ctx.lineTo(x - (1 + (i % 2)) * s, y + 3 * s);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+        });
+      }
+      break;
+    }
+    case "asterion": {
+      if (!front) {
+        // 2: a bow of starlight slung across its back
+        const bx = shoulder.x + back * 10 * s, by = shoulder.y + 8 * s;
+        ctx.strokeStyle = "hsl(44 100% 76%)";
+        ctx.lineWidth = 2.4 * s;
+        ctx.beginPath();
+        ctx.arc(bx, by, 34 * s, -Math.PI / 2 - 1.1, -Math.PI / 2 + 1.1);
+        ctx.stroke();
+        const a0 = -Math.PI / 2 - 1.1, a1 = -Math.PI / 2 + 1.1;
+        ctx.strokeStyle = "hsl(220 90% 86% / 0.7)";
+        ctx.lineWidth = 1 * s;
+        ctx.beginPath();
+        ctx.moveTo(bx + Math.cos(a0) * 34 * s, by + Math.sin(a0) * 34 * s);
+        ctx.lineTo(bx + Math.cos(a1) * 34 * s, by + Math.sin(a1) * 34 * s);
+        ctx.stroke();
+      }
+      if (phase >= 3) {
+        // 3: the beasts of the sky circling it: small constellations, each a few stars and the lines between
+        const shapes: [number, number][][] = [
+          [[-8, 2], [-3, -3], [3, -2], [8, -6], [6, 4]],
+          [[-8, -3], [-4, 2], [0, -1], [4, 3], [8, 0]],
+          [[-7, 4], [-6, -4], [0, -5], [6, -4], [7, 4]],
+        ];
+        orbit(3, 66, 16, mid.y - 18 * s, 0.4, (x, y, i) => {
+          const pts = shapes[i % 3];
+          ctx.strokeStyle = "hsl(44 100% 80% / 0.6)";
+          ctx.lineWidth = 1 * s;
+          ctx.beginPath();
+          pts.forEach(([px, py], k) => (k ? ctx.lineTo(x + px * 2 * s, y + py * 2 * s) : ctx.moveTo(x + px * 2 * s, y + py * 2 * s)));
+          ctx.stroke();
+          ctx.fillStyle = "hsl(48 100% 92%)";
+          for (const [px, py] of pts) ctx.fillRect(x + px * 2 * s - 1.4 * s, y + py * 2 * s - 1.4 * s, 2.8 * s, 2.8 * s);
+        });
+      }
+      if (phase >= 4 && !front) {
+        // 4: the whole sky joins its outline, a Hunter as tall as the night standing behind it
+        const k = 3.2, fx = hip.x + back * 30 * s, fy = Math.max(p.fF.y, p.fB.y);
+        const big = (q: Pt) => ({ x: fx + (q.x - hip.x) * k, y: fy + (q.y - fy) * k });
+        const pairs: [Pt, Pt][] = [[head, neck], [neck, hip], [shoulder, p.eF], [p.eF, p.hF], [shoulder, p.eB], [p.eB, p.hB], [hip, p.kF], [p.kF, p.fF], [hip, p.kB], [p.kB, p.fB]];
+        ctx.strokeStyle = "hsl(44 100% 80% / 0.28)";
+        ctx.lineWidth = 2 * s;
+        ctx.beginPath();
+        for (const [a, b] of pairs) {
+          const A = big(a), B = big(b);
+          ctx.moveTo(A.x, A.y);
+          ctx.lineTo(B.x, B.y);
+        }
+        ctx.stroke();
+        ctx.fillStyle = "hsl(48 100% 92%)";
+        for (const q of [head, shoulder, p.eF, p.hF, p.eB, p.hB, hip, p.kF, p.fF, p.kB, p.fB]) {
+          const Q = big(q);
+          ctx.globalAlpha = 0.4 + 0.5 * Math.abs(Math.sin(t * 1.5 + Q.x));
+          ctx.fillRect(Q.x - 2.4 * s, Q.y - 2.4 * s, 4.8 * s, 4.8 * s);
+        }
+        ctx.globalAlpha = 1;
+      }
+      break;
+    }
   }
   ctx.restore();
 }
@@ -2867,6 +3146,32 @@ function drawBossExtras(
       } else {
         pauldron(ctx, shoulder, face, s, "hsl(262 40% 10%)", "hsl(268 100% 76%)", 3);
         fists("hsl(150 100% 72%)", "hsl(150 100% 50% / 0)");
+      }
+      break;
+    case "perihelion":
+      if (layer === "back") {
+        if (alive) {
+          // flakes of comet ice falling off it
+          ctx.globalCompositeOperation = "lighter";
+          motes(ctx, mid.x, hip.y + 30 * s, 90 * s, 150 * s, t * 0.5, 12, "hsl(196 100% 86%)", 1.5 * s, -1);
+          ctx.globalCompositeOperation = "source-over";
+        }
+      } else {
+        pauldron(ctx, shoulder, face, s, "hsl(200 46% 66%)", "hsl(190 100% 84%)", 2);
+        fists("hsl(190 100% 86%)", "hsl(190 100% 60% / 0)");
+      }
+      break;
+    case "asterion":
+      if (layer === "back") {
+        // a short cloak of night sky, starlight caught in it
+        cape(34, "hsl(232 50% 10% / 0.95)", "hsl(44 100% 72% / 0.8)", 4);
+        if (alive) {
+          ctx.globalCompositeOperation = "lighter";
+          motes(ctx, mid.x, hip.y + 20 * s, 90 * s, 140 * s, t * 0.3, 10, "hsl(44 100% 84%)", 1.3 * s);
+          ctx.globalCompositeOperation = "source-over";
+        }
+      } else {
+        fists("hsl(44 100% 82%)", "hsl(44 100% 60% / 0)");
       }
       break;
   }

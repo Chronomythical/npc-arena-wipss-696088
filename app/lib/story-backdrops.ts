@@ -1045,6 +1045,171 @@ const LOOKS: Look[] = [
       }
     },
   },
+  // Book 3, 1. The Falling Star: snowfields in the far north under a comet that comes closer every stage, until at
+  // the lair its head fills the sky and pieces of it lie burning blue in the snow.
+  {
+    sky: [["hsl(208 60% 70%)", "hsl(200 50% 84%)", "hsl(340 60% 88%)"], ["hsl(206 64% 52%)", "hsl(200 54% 70%)", "hsl(196 40% 86%)"], ["hsl(222 50% 22%)", "hsl(214 44% 36%)", "hsl(24 70% 62%)"], ["hsl(218 60% 5%)", "hsl(206 60% 16%)", "hsl(190 80% 40%)"]],
+    far: "hsl(214 24% 62%)", near: "hsl(210 30% 78%)", floor: ["hsl(206 40% 90%)", "hsl(210 30% 72%)"], line: "hsl(210 30% 56% / 0.45)", starsFrom: 2,
+    scene(ctx, stage, phase, rnd) {
+      // far peaks under snow
+      for (let i = 0; i < 6; i++) {
+        const x = i * 190 - 40 + rnd() * 60, h = 120 + rnd() * 80;
+        ctx.fillStyle = "hsl(216 20% 52%)";
+        ctx.beginPath();
+        ctx.moveTo(x - 130, 330);
+        ctx.lineTo(x, 330 - h);
+        ctx.lineTo(x + 130, 330);
+        ctx.fill();
+        ctx.fillStyle = "hsl(206 40% 92%)";
+        ctx.beginPath();
+        ctx.moveTo(x - 38, 330 - h + 34);
+        ctx.lineTo(x, 330 - h);
+        ctx.lineTo(x + 38, 330 - h + 34);
+        ctx.lineTo(x + 12, 330 - h + 26);
+        ctx.lineTo(x - 10, 330 - h + 36);
+        ctx.fill();
+      }
+      // meteors breaking off ahead of it, more every stage
+      for (let i = 0; i < stage * 2; i++) {
+        const mx = rnd() * W, my = 30 + rnd() * 200, len = 40 + rnd() * 60;
+        ctx.strokeStyle = "hsl(196 100% 86% / 0.7)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(mx, my);
+        ctx.lineTo(mx + len * 0.8, my - len * 0.5);
+        ctx.stroke();
+      }
+      // the comet: closer, bigger and brighter with every stage
+      const k = stage / 7;
+      const cx = 700 - k * 220, cy = 120 + k * 30, r = 6 + k * 34;
+      const len = 180 + k * 520;
+      for (const [w, col] of [[r * 2.6, "hsl(205 100% 66%)"], [r * 1.4, "hsl(190 100% 82%)"], [r * 0.5, "hsl(0 0% 100%)"]] as const) {
+        const g = ctx.createLinearGradient(cx, cy, cx + len, cy - len * 0.42);
+        g.addColorStop(0, col.replace(")", " / 0.85)"));
+        g.addColorStop(1, col.replace(")", " / 0)"));
+        ctx.strokeStyle = g;
+        ctx.lineWidth = w;
+        ctx.lineCap = "round";
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.quadraticCurveTo(cx + len * 0.5, cy - len * 0.16, cx + len, cy - len * 0.42);
+        ctx.stroke();
+      }
+      glow(ctx, cx, cy, r * 4, "hsl(190 100% 80%)", 0.7 + phase * 0.08);
+      ctx.fillStyle = "hsl(0 0% 100%)";
+      ctx.beginPath();
+      ctx.arc(cx, cy, r * 0.6, 0, Math.PI * 2);
+      ctx.fill();
+      // at the lair the whole sky is lit by it
+      if (phase === 3) glow(ctx, cx, cy, 520, "hsl(190 100% 70%)", 0.25);
+    },
+    front(ctx, stage, phase, rnd) {
+      // snowy pines along both edges
+      for (let i = 0; i < 14; i++) {
+        const left = i < 7, x = left ? rnd() * 230 : W - rnd() * 230, h = 60 + rnd() * 90, w = h * 0.38;
+        ctx.fillStyle = phase >= 2 ? "hsl(214 30% 16%)" : "hsl(190 26% 26%)";
+        ctx.beginPath();
+        ctx.moveTo(x - w, FLOOR);
+        ctx.lineTo(x, FLOOR - h);
+        ctx.lineTo(x + w, FLOOR);
+        ctx.fill();
+        ctx.fillStyle = "hsl(206 40% 94% / 0.9)";
+        ctx.beginPath();
+        ctx.moveTo(x - w * 0.36, FLOOR - h * 0.64);
+        ctx.lineTo(x, FLOOR - h);
+        ctx.lineTo(x + w * 0.36, FLOOR - h * 0.64);
+        ctx.fill();
+      }
+      // pieces of the comet stuck in the snow, still burning blue
+      for (let i = 0; i < Math.max(0, stage - 1) * 2; i++) {
+        const x = 220 + rnd() * 520, h = 16 + rnd() * 30;
+        glow(ctx, x, FLOOR - h * 0.4, h * 1.6, "hsl(190 100% 72%)", 0.6);
+        ctx.fillStyle = "hsl(196 70% 84%)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(x - h * 0.3, FLOOR);
+        ctx.lineTo(x - h * 0.1, FLOOR - h);
+        ctx.lineTo(x + h * 0.35, FLOOR - h * 0.6);
+        ctx.lineTo(x + h * 0.3, FLOOR);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+      }
+    },
+  },
+  // Book 3, 2. The Hunter in the Stars: a high plateau ringed with standing stones. Each stage another line of the
+  // Hunter's constellation is drawn across the sky, until at the lair the whole figure burns gold over the stones.
+  {
+    sky: [["hsl(256 44% 26%)", "hsl(290 30% 40%)", "hsl(20 60% 62%)"], ["hsl(232 56% 14%)", "hsl(240 40% 24%)", "hsl(260 30% 38%)"], ["hsl(234 64% 8%)", "hsl(238 50% 16%)", "hsl(250 40% 26%)"], ["hsl(236 70% 4%)", "hsl(232 60% 10%)", "hsl(40 60% 30%)"]],
+    far: "hsl(236 24% 22%)", near: "hsl(234 22% 14%)", floor: ["hsl(232 14% 34%)", "hsl(232 16% 22%)"], line: "hsl(44 60% 70% / 0.25)", starsFrom: 0,
+    scene(ctx, stage, phase, rnd) {
+      // the Milky Way: a soft band of light across the sky
+      for (let i = 0; i < 9; i++) glow(ctx, 80 + i * 110, 300 - i * 30 + (rnd() - 0.5) * 30, 120, "hsl(230 60% 80%)", 0.12);
+      for (let i = 0; i < 160; i++) {
+        const u = rnd();
+        ctx.fillStyle = `hsl(${rnd() < 0.5 ? 44 : 220} 80% 90% / ${0.3 + rnd() * 0.6})`;
+        ctx.fillRect(80 + u * 880 + (rnd() - 0.5) * 120, 300 - u * 240 + (rnd() - 0.5) * 80, 1.5, 1.5);
+      }
+      // the Hunter's constellation, one more pair of lines every stage
+      const pts: [number, number][] = [[480, 60], [440, 100], [520, 100], [570, 70], [600, 30], [400, 140], [380, 190], [460, 190], [480, 194], [500, 198], [450, 260], [520, 260], [430, 320], [540, 320]];
+      const lines: [number, number][] = [[0, 1], [0, 2], [1, 2], [2, 3], [3, 4], [1, 5], [5, 6], [1, 7], [2, 9], [7, 8], [8, 9], [7, 10], [9, 11], [10, 12], [11, 13]];
+      const shown = phase === 3 ? lines.length : Math.min(lines.length, 2 + stage * 2);
+      if (phase === 3) glow(ctx, 480, 190, 260, "hsl(44 100% 70%)", 0.3);
+      ctx.strokeStyle = phase === 3 ? "hsl(44 100% 80% / 0.8)" : "hsl(44 100% 80% / 0.45)";
+      ctx.lineWidth = phase === 3 ? 2.5 : 1.5;
+      ctx.beginPath();
+      for (const [a, b] of lines.slice(0, shown)) {
+        ctx.moveTo(pts[a][0], pts[a][1]);
+        ctx.lineTo(pts[b][0], pts[b][1]);
+      }
+      ctx.stroke();
+      for (const [x, y] of pts) {
+        glow(ctx, x, y, 14, "hsl(44 100% 80%)", 0.7);
+        ctx.fillStyle = "hsl(48 100% 94%)";
+        ctx.fillRect(x - 2, y - 2, 4, 4);
+      }
+      // the other beasts of the sky waking up behind it
+      if (stage >= 4) {
+        const bull: [number, number][] = [[140, 80], [190, 110], [240, 100], [280, 140], [210, 150], [170, 130]];
+        ctx.strokeStyle = "hsl(220 90% 84% / 0.4)";
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        bull.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
+        ctx.stroke();
+        for (const [x, y] of bull) {
+          ctx.fillStyle = "hsl(220 90% 92%)";
+          ctx.fillRect(x - 1.5, y - 1.5, 3, 3);
+        }
+      }
+    },
+    front(ctx, stage, phase, rnd) {
+      // a ring of standing stones, the far ones small, star marks carved into them glowing as night falls
+      for (let i = 0; i < 9; i++) {
+        const x = 40 + i * 112 + (rnd() - 0.5) * 30;
+        const near = i === 0 || i === 8 || i === 1 || i === 7;
+        const h = near ? 120 + rnd() * 50 : 60 + rnd() * 30, w = near ? 34 : 20;
+        ctx.fillStyle = near ? "hsl(232 12% 26%)" : "hsl(234 14% 30%)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(x - w / 2, FLOOR);
+        ctx.lineTo(x - w / 2 + 3, FLOOR - h);
+        ctx.lineTo(x + w / 2 - 2, FLOOR - h - 4);
+        ctx.lineTo(x + w / 2, FLOOR);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        if (phase >= 1) {
+          glow(ctx, x, FLOOR - h * 0.6, w, "hsl(44 100% 70%)", 0.25 + phase * 0.12);
+          ctx.fillStyle = `hsl(44 100% 80% / ${0.4 + phase * 0.15})`;
+          ctx.fillRect(x - 2, FLOOR - h * 0.6 - 2, 4, 4);
+          ctx.fillRect(x - 6, FLOOR - h * 0.6 + 6, 3, 3);
+          ctx.fillRect(x + 4, FLOOR - h * 0.6 + 9, 3, 3);
+        }
+      }
+    },
+  },
 ];
 
 function paint(ch: number, stage: number): HTMLCanvasElement {

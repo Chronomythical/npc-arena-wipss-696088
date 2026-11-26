@@ -2470,6 +2470,125 @@ export const BOSS_INTROS: Record<BossDesign, IntroSpec> = {
       ctx.restore();
     },
   },
+  // Perihelion: the sky darkens, a comet streaks down out of the corner of it trailing cold fire, and hits the floor
+  // in a flash of white; ice spikes up round the crater, and the boss stands up out of the light.
+  perihelion: {
+    len: BOSS_LEN, hit: 0.55, shake: 18, wave: ["hsl(190 100% 80%)", "hsl(44 100% 76%)"],
+    body: (u) => base(u < 0.55 ? "crouch" : settle(u, "land", 0.74), {
+      alpha: u < 0.55 ? 0 : 1,
+      solid: "hsl(190 100% 92%)", solidA: 1 - seg(u, 0.55, 0.86),
+    }),
+    bursts: [
+      { at: 0.55, n: 40, spd: 600, shape: "flake", a: "hsl(196 100% 82%)", b: "hsl(0 0% 100%)", grav: 300, add: true, from: "feet", dir: "up" },
+      { at: 0.55, n: 24, spd: 420, shape: "ember", a: "hsl(190 100% 70%)", b: "hsl(44 100% 76%)", grav: -60, add: true, from: "body", dir: "out" },
+      { at: 0.57, n: 16, spd: 300, shape: "dust", a: "hsl(210 20% 60%)", b: "hsl(210 20% 80%)", grav: -20, add: false, from: "feet", dir: "flat" },
+    ],
+    trickle: { rate: 26, until: 0.55, spd: 40, shape: "flake", a: "hsl(196 100% 86%)", b: "hsl(0 0% 100%)", grav: 120, add: true, from: "sky", dir: "out", spread: 300, life: 1.2 },
+    back: ({ ctx, x, y, s, u, face }) => {
+      const on = seg(u, 0, 0.15) * (1 - seg(u, 0.86, 1));
+      if (on <= 0) return;
+      ctx.save();
+      ctx.fillStyle = hsla(214, 50, 6, 0.55 * on);
+      ctx.fillRect(-400, -400, 2000, 1200);
+      if (u < 0.58) {
+        // the comet falling, its tail stretched back along the way it came
+        const k = easeIn(seg(u, 0.04, 0.55));
+        const sx = x - face * 620 * s, sy = y - 540 * s;
+        const cx = lerp(sx, x, k), cy = lerp(sy, y - 16 * s, k);
+        const tx = cx + (sx - x) * 0.4, ty = cy + (sy - y) * 0.4;
+        ctx.globalCompositeOperation = "lighter";
+        for (const [w, col] of [[30, [205, 100, 60]], [14, [190, 100, 80]], [5, [0, 0, 100]]] as const) {
+          const g = ctx.createLinearGradient(cx, cy, tx, ty);
+          g.addColorStop(0, hsla(col[0], col[1], col[2], 0.8 * on));
+          g.addColorStop(1, hsla(col[0], col[1], col[2], 0));
+          ctx.strokeStyle = g;
+          ctx.lineWidth = w * s;
+          ctx.lineCap = "round";
+          ctx.beginPath();
+          ctx.moveTo(cx, cy);
+          ctx.lineTo(tx, ty);
+          ctx.stroke();
+        }
+        glow(ctx, cx, cy, 46 * s, 46 * s, hsla(190, 100, 80, 0.9 * on), hsla(190, 100, 70, 0));
+        ctx.fillStyle = hsla(0, 0, 100, on);
+        ctx.beginPath();
+        ctx.arc(cx, cy, 10 * s, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalCompositeOperation = "source-over";
+      } else {
+        // the crater: a glow on the floor and spikes of comet ice round it
+        const k = seg(u, 0.55, 0.7), fade = 1 - seg(u, 0.74, 0.96);
+        ctx.globalCompositeOperation = "lighter";
+        glow(ctx, x, y, 150 * s, 40 * s, hsla(190, 100, 76, 0.6 * fade), hsla(190, 100, 70, 0));
+        ctx.globalCompositeOperation = "source-over";
+        for (let i = 0; i < 8; i++) {
+          const side = i % 2 ? 1 : -1, bx = x + side * (40 + (i >> 1) * 26) * s;
+          const h = easeOut(k) * (30 + Math.abs(wob(i * 3.1)) * 40) * s;
+          ctx.fillStyle = hsla(196, 70, 82, 0.95 * fade);
+          ctx.strokeStyle = hsla(250, 32, 14, fade);
+          ctx.lineWidth = 1.4 * s;
+          ctx.beginPath();
+          ctx.moveTo(bx - 7 * s, y);
+          ctx.lineTo(bx + side * 6 * s, y - h);
+          ctx.lineTo(bx + 7 * s, y);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+        }
+      }
+      ctx.restore();
+    },
+  },
+  // Asterion: the arena goes dark and the Hunter's constellation lights up over it one star at a time, the lines
+  // join, and then the whole figure in the sky draws down into one body and lands, spear first.
+  asterion: {
+    len: BOSS_LEN, hit: 0.66, shake: 12, wave: ["hsl(44 100% 76%)", "hsl(220 90% 80%)"],
+    body: (u) => base(u < 0.66 ? "float" : settle(u, "guard", 0.8), {
+      alpha: seg(u, 0.6, 0.68),
+      solid: "hsl(48 100% 90%)", solidA: 1 - seg(u, 0.66, 0.9),
+    }),
+    bursts: [
+      { at: 0.66, n: 40, spd: 520, shape: "star", a: "hsl(44 100% 80%)", b: "hsl(0 0% 100%)", grav: 0, add: true, from: "body", dir: "out" },
+      { at: 0.66, n: 16, spd: 260, shape: "spark", a: "hsl(220 90% 80%)", b: "hsl(44 100% 86%)", grav: 0, add: true, from: "feet", dir: "flat" },
+    ],
+    back: ({ ctx, x, y, s, u, t, face }) => {
+      const on = seg(u, 0, 0.15) * (1 - seg(u, 0.86, 1));
+      if (on <= 0) return;
+      ctx.save();
+      ctx.fillStyle = hsla(232, 60, 5, 0.65 * on);
+      ctx.fillRect(-400, -400, 2000, 1200);
+      // the Hunter in the sky: head, shoulders, spear arm raised, belt, knees and feet
+      const pts: [number, number][] = [[0, -62], [-14, -46], [14, -46], [30, -34], [42, -58], [-28, -30], [-36, -12], [-6, -10], [0, -8], [6, -6], [-12, 16], [12, 16], [-16, 40], [16, 40]];
+      const lines: [number, number][] = [[0, 1], [0, 2], [1, 2], [2, 3], [3, 4], [1, 5], [5, 6], [1, 7], [2, 9], [7, 8], [8, 9], [7, 10], [9, 11], [10, 12], [11, 13]];
+      const pull = easeIn(seg(u, 0.5, 0.66));
+      const sc = lerp(2.6, 1, pull) * s, cy = lerp(y - 200 * s, y - 50 * s, pull);
+      const at = (i: number) => ({ x: x + pts[i][0] * face * sc, y: cy + pts[i][1] * sc });
+      const fade = u < 0.66 ? 1 : 1 - seg(u, 0.66, 0.74);
+      const joined = seg(u, 0.36, 0.5);
+      if (joined > 0) {
+        ctx.strokeStyle = hsla(44, 100, 80, 0.6 * on * fade);
+        ctx.lineWidth = 1.6 * s;
+        ctx.beginPath();
+        lines.slice(0, Math.ceil(lines.length * joined)).forEach(([a, b]) => {
+          const A = at(a), B = at(b);
+          ctx.moveTo(A.x, A.y);
+          ctx.lineTo(B.x, B.y);
+        });
+        ctx.stroke();
+      }
+      ctx.globalCompositeOperation = "lighter";
+      pts.forEach((_, i) => {
+        const lit = seg(u, 0.04 + i * 0.022, 0.08 + i * 0.022);
+        if (lit <= 0) return;
+        const q = at(i), r = (i === 0 ? 7 : 5) * s * (0.8 + 0.2 * Math.sin(t * 6 + i));
+        glow(ctx, q.x, q.y, r * 3, r * 3, hsla(44, 100, 80, 0.8 * lit * on * fade), hsla(44, 100, 70, 0));
+        ctx.fillStyle = hsla(48, 100, 94, lit * on * fade);
+        ctx.fillRect(q.x - r * 0.4, q.y - r * 0.4, r * 0.8, r * 0.8);
+      });
+      ctx.globalCompositeOperation = "source-over";
+      ctx.restore();
+    },
+  },
 };
 
 // ---------- hybrids ----------

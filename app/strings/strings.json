@@ -92,7 +92,7 @@
       "teamDropped": "{{name}} team drops to the losers bracket",
       "teamKnockedOut": "{{name}} team is knocked out",
       "teamResetNeeded": "{{name}} team forces a reset match!",
-      "nextBook": "Start Book 2",
+      "nextBook": "Start Book {{n}}",
       "book2Complete": "Book 2 complete! The Elder Dark is sealed beyond the stars."
     },
     "idle": "Press Start to begin the battle",
@@ -186,7 +186,7 @@
     "versus": "vs",
     "backAria": "Back to the title screen",
     "modes": {
-      "story": "Eight chapters with a fused or teamed-up pair.",
+      "story": "Three books: the Reign 8, the Elder Dark and the Celestials, with a fused or teamed-up pair.",
       "duel": "One on one, no distractions.",
       "ffa": "Everyone in, free for all.",
       "teams": "Pick sides and fight together.",
@@ -1232,6 +1232,96 @@
           "l2": "Small lights are still lights.",
           "l3": "The Elder Dark folds in on itself like a closing eye and falls back past the edge of the sky. Behind it the crack seals shut, and one by one the stars come back on."
         }
+      },
+      "c16": {
+        "intro": {
+          "l1": "Long before there was anyone to see them, the first stars were already old. They are the Celestials: the comets, the constellations, the lights that pushed the Elder Dark to the edge of the sky.",
+          "l2": "They have watched the world from above ever since and kept it in its place. Then something down there beat the Elder Dark on its own, and the Celestials did not like how bright the world had become.",
+          "l3": "Now a new star hangs over the snowfields of the far north, a little closer every night. It is not a star. It is Perihelion, the first of the Celestials, and it is coming down."
+        },
+        "s1": {
+          "l1": "Bright little world. Too bright. We fell to put you out!",
+          "l2": "You fell. That part went fine."
+        },
+        "s2": {
+          "l1": "More of us fall every night. Soon the snow will burn blue all the way to the sea.",
+          "l2": "Then we'd better stop the thing you're falling off."
+        },
+        "s3": {
+          "l1": "Hit the ground hard. Got up harder. You next.",
+          "l2": "You're not the first rock we've beaten."
+        },
+        "s4": {
+          "l1": "The solar wind sings to us. It sings that your world has wandered out of its place.",
+          "l2": "Our world is right where we left it."
+        },
+        "s5": {
+          "l1": "Crater. Big. You. Small.",
+          "l2": "Small hits hard too."
+        },
+        "s6": {
+          "l1": "Look up! It is so close now you can feel it on your face.",
+          "l2": "We can. And we're still not running."
+        },
+        "s7": {
+          "l1": "I passed this world when it was all fire, and again when it was all ice. Each time it looked smaller than you think it is now.",
+          "l2": "Then this time, take a better look."
+        },
+        "s8": {
+          "l1": "Little world. You pushed back the Dark by yourselves, and now you burn too brightly to be left alone.",
+          "l2": "So you came all this way to tell us off?",
+          "l3": "I came to put you back in your place. Hold still, and the fire will be quick."
+        },
+        "outro": {
+          "l1": "Impossible. I have crossed this sky ten thousand times, and nothing has ever turned me around.",
+          "l2": "There's a first time for everything.",
+          "l3": "Perihelion breaks into a shower of blue sparks that drift up and up, back into the sky. Far above, between the stars, something holding a spear turns to watch."
+        }
+      },
+      "c17": {
+        "intro": {
+          "l1": "The Celestials do not hunt alone. The oldest of them, Asterion, has run across the night since before the first sunrise, and every beast in the sky runs with him.",
+          "l2": "He saw Perihelion fall, and he saw who knocked it down. Now there is a new shape in the sky every night: a spear, pointing at the world.",
+          "l3": "On the high plateau of Starfall Reach the old standing stones are glowing again. That is where the Hunter will land, and that is where he expects to find his prey."
+        },
+        "s1": {
+          "l1": "Grr. You smell like falling stars. The Hunter wants you.",
+          "l2": "He'll have to catch us first."
+        },
+        "s2": {
+          "l1": "Every note I play moves a star. Listen: this one moves you.",
+          "l2": "Let's see how you like our music."
+        },
+        "s3": {
+          "l1": "The pack found your trail. The pack always finds the trail.",
+          "l2": "Then the pack can follow us home, sit and stay."
+        },
+        "s4": {
+          "l1": "I have carried the sky on my horns since before your mountains were born. You are not heavy.",
+          "l2": "We're heavier than we look."
+        },
+        "s5": {
+          "l1": "The spheres are singing your last song. It is a short one.",
+          "l2": "We know a few more verses."
+        },
+        "s6": {
+          "l1": "Once I chased the Hunter across half the sky. Now I guard his gate. That is how much he wants you.",
+          "l2": "Then he can come and get us himself."
+        },
+        "s7": {
+          "l1": "My sting is the brightest red in the night. It will be the last light you see.",
+          "l2": "We've stood in the dark before the stars. Your sting doesn't scare us."
+        },
+        "s8": {
+          "l1": "So this is the prey that broke a comet. Small. Fast. Brave.",
+          "l2": "We're not prey.",
+          "l3": "Everything under the sky is prey. I have hunted since before the first dawn, and I have never missed."
+        },
+        "outro": {
+          "l1": "Missed. I missed. In all the ages of the sky, I have never missed.",
+          "l2": "Maybe you were aiming at the wrong thing.",
+          "l3": "Asterion's stars come loose one by one and rise back into the night, until only his belt is left: three stars in a row. Above them the sky turns, and three more Celestials begin to look down at the world."
+        }
       }
     },
     "map": {
@@ -1258,7 +1348,9 @@
       "aria": "Story books",
       "b1": "Book 1: The Reign 8",
       "b2": "Book 2: The Elder Dark",
-      "b2Locked": "Defeat all of the Reign 8 in Book 1 to open Book 2."
+      "b2Locked": "Defeat all of the Reign 8 in Book 1 to open Book 2.",
+      "b3": "Book 3: The Celestials",
+      "b3Locked": "Defeat the Elder Dark in Book 2 to open Book 3."
     },
     "ch9": {
       "title": "Chapter 1: Lights Under the Sea",
@@ -1356,6 +1448,32 @@
         "s7": "The Door",
         "s8": "The Threshold",
         "s9": "The Dark Before the Stars"
+      }
+    },
+    "ch16": {
+      "title": "Chapter 1: The Falling Star",
+      "stages": {
+        "s1": "Kaldmark Road",
+        "s2": "The Frozen Lake",
+        "s3": "Pinewatch",
+        "s4": "The Meteor Field",
+        "s5": "Snowblind Pass",
+        "s6": "The Burning Ice",
+        "s7": "Rim of the Crater",
+        "s8": "Perihelion's Crater"
+      }
+    },
+    "ch17": {
+      "title": "Chapter 2: The Hunter in the Stars",
+      "stages": {
+        "s1": "The Long Climb",
+        "s2": "Wolf Ridge",
+        "s3": "The Shepherd's Stones",
+        "s4": "Skyfield",
+        "s5": "The Bull's Path",
+        "s6": "Observers' Ring",
+        "s7": "The Hunter's Gate",
+        "s8": "Asterion's Circle"
       }
     },
     "ending": {

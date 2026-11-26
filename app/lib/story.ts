@@ -22,8 +22,8 @@ const st = (code: string, enemyHp?: number): Stage => ({ foes: [...code].map((k)
 
 /**
  * The chapters of every book in one list. Book 1's chapters are nine stages of the boss's minions, then the boss;
- * Book 2's are eight, then the boss. A chapter opens once the one before it is cleared, so Book 2 opens once the
- * Reign 8 (Book 1's eight bosses) have all fallen.
+ * Book 2's are eight, then the boss; Book 3's seven, then the boss. A chapter opens once the one before it is cleared,
+ * so Book 2 opens once the Reign 8 (Book 1's eight bosses) have all fallen, and Book 3 once the Elder Dark has.
  */
 export const CHAPTERS: Chapter[] = [
   {
@@ -245,12 +245,40 @@ export const CHAPTERS: Chapter[] = [
       { foes: [], boss: "elderdark" },
     ],
   },
+  // ---------- Book 3: The Celestials. Eight stages a chapter: seven of minions, then the boss. ----------
+  {
+    // Book 3, chapter 1: The Falling Star
+    stages: [
+      st("g"),
+      st("gc", 0.84),
+      st("bg", 0.78),
+      st("ccg", 0.5),
+      st("bgc", 0.46),
+      st("ggcb", 0.27),
+      st("ebcg", 0.24),
+      { foes: [], boss: "perihelion" },
+    ],
+  },
+  {
+    // Book 3, chapter 2: The Hunter in the Stars
+    stages: [
+      st("gg", 0.85),
+      st("cb", 0.8),
+      st("gcg", 0.5),
+      st("bbc", 0.46),
+      st("ccgb", 0.27),
+      st("egbcg", 0.16),
+      st("ebcbc", 0.15),
+      { foes: [], boss: "asterion" },
+    ],
+  },
 ];
 
 /** The books of Story mode: where each starts in CHAPTERS and how many chapters it will have once it is all written. */
 export const BOOKS = [
   { first: 0, planned: 8 },
   { first: 8, planned: 7 },
+  { first: 15, planned: 5 },
 ] as const;
 
 /** Which book (0-based) a chapter belongs to. */
@@ -269,7 +297,7 @@ export const chapterInBook = (ch: number) => ch - BOOKS[bookOf(ch)].first + 1;
 /** The last chapter of a whole book: beating its boss finishes the book. */
 export const endsBook = (ch: number) => chapterInBook(ch) === BOOKS[bookOf(ch)].planned;
 
-/** How many stages a chapter has (Book 1 has ten, Book 2 nine). */
+/** How many stages a chapter has (Book 1 has ten, Book 2 nine, Book 3 eight). */
 export const stagesIn = (ch: number) => CHAPTERS[ch]?.stages.length ?? 10;
 /** The boss's stage, the last of the chapter. */
 export const lairOf = (ch: number) => stagesIn(ch) - 1;

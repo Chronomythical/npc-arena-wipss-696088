@@ -26,7 +26,7 @@ export function sceneLines(scene: Scene): Line[] {
   if (kind === "ending") return ENDING;
   if (kind === "intro") return [1, 2, 3].map((n) => ({ who: "narrator", key: k(ch, "intro", n) }));
   if (kind === "outro") return [{ who: "boss", key: k(ch, "outro", 1) }, { who: "you", key: k(ch, "outro", 2) }, { who: "narrator", key: k(ch, "outro", 3) }];
-  // the boss's stage: the last of the chapter (s10 in Book 1, s9 in Book 2)
+  // the boss's stage: the last of the chapter (s10 in Book 1, s9 in Book 2, s8 in Book 3)
   if (stage >= lairOf(ch)) {
     const part = `s${lairOf(ch) + 1}`;
     return [{ who: "boss", key: k(ch, part, 1) }, { who: "you", key: k(ch, part, 2) }, { who: "boss", key: k(ch, part, 3) }];
