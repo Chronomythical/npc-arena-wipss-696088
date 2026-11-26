@@ -185,7 +185,7 @@ const FORM_LOOKS: Record<string, Look> = {
   "hydra-lash": F("blade-arm", "hsl(318 85% 54%)", "hsl(150 100% 72%)", "drop", false, 300, "bite"),
   "chimera-burst": F("plague-burst", "hsl(318 80% 48%)", "hsl(150 100% 70%)", "bubble", false, -60, "splat"),
   // Mastery Mode
-  "frozen-requiem": F("prism-beam", "hsl(205 90% 66%)", "hsl(0 0% 100%)", "flake", false, 40, "shatter"),
+  "frozen-requiem": F("frost-lance", "hsl(205 90% 66%)", "hsl(0 0% 100%)", "flake", false, 40, "shatter"),
   "glacial-lotus": F("glacier-spike", "hsl(200 80% 78%)", "hsl(0 0% 100%)", "flake", false, 200, "shatter"),
   "tsunami-crash": F("tidal-wall", "hsl(215 90% 46%)", "hsl(185 100% 88%)", "drop", false, 800, "splash"),
   "hydro-cutter": F("railgun", "hsl(205 100% 56%)", "hsl(185 100% 90%)", "drop", false, 600, "ripple"),
@@ -380,7 +380,7 @@ const QUEST_LOOKS: Record<string, Look> = {
   // Facet
   "facet-jab": F("flash-jab", "hsl(286 45% 64%)", "hsl(172 100% 78%)", "shard", true, 200, "shatter"),
   "geode-crush": F("boulder-fist", "hsl(280 35% 42%)", "hsl(172 100% 74%)", "shard", false, 600, "crater"),
-  "prism-split": F("prism-beam", "hsl(286 60% 64%)", "hsl(172 100% 82%)", "shard", true, 0, "starburst"),
+  "prism-split": F("antimatter-lance", "hsl(286 60% 64%)", "hsl(172 100% 82%)", "shard", true, 0, "starburst"),
   "crystal-spray": F("ice-shard-volley", "hsl(290 50% 70%)", "hsl(172 100% 82%)", "shard", true, 200, "shatter"),
   "gem-lance": F("railgun", "hsl(282 55% 54%)", "hsl(172 100% 78%)", "shard", true, 0, "shatter"),
   "crystal-spire": F("glacier-spike", "hsl(286 45% 60%)", "hsl(172 100% 78%)", "shard", false, 400, "shatter"),
@@ -392,7 +392,7 @@ const QUEST_LOOKS: Record<string, Look> = {
   "regrow-facets": F("mend", "hsl(286 50% 66%)", "hsl(172 100% 80%)", "shard", true, -120),
   "diamond-storm": F("light-lances", "hsl(280 20% 12%)", "hsl(350 100% 62%)", "shard", true, 300, "shatter"),
   "obsidian-prison": F("spatial-prison", "hsl(280 20% 8%)", "hsl(350 100% 60%)", "shard", true, 0),
-  "spectrum-ray": F("prism-beam", "hsl(340 90% 50%)", "hsl(172 100% 80%)", "spark", true, 0, "starburst"),
+  "spectrum-ray": F("antimatter-lance", "hsl(340 90% 50%)", "hsl(172 100% 80%)", "spark", true, 0, "starburst"),
   // Sirocco
   "sand-lash": F("water-whip", "hsl(36 55% 58%)", "hsl(26 100% 64%)", "dust", false, 300, "slash"),
   "dune-kick": F("gale-kick", "hsl(34 50% 54%)", "hsl(26 100% 66%)", "dust", false, 300, "swirl"),
@@ -424,7 +424,7 @@ const QUEST_LOOKS: Record<string, Look> = {
   "star-collapse": F("total-eclipse", "hsl(285 100% 60%)", "hsl(0 0% 100%)", "star", true, 0, "starburst"),
   "supernova-fist": F("iron-fist", "hsl(285 100% 55%)", "hsl(0 0% 100%)", "spark", true, 0, "flare"),
   "twin-star-barrage": F("railgun", "hsl(190 100% 70%)", "hsl(285 100% 80%)", "star", true, 0, "starburst"),
-  "zenith-beam": F("prism-beam", "hsl(285 100% 62%)", "hsl(0 0% 100%)", "star", true, 0, "starburst"),
+  "zenith-beam": F("solar-flare", "hsl(285 100% 62%)", "hsl(0 0% 100%)", "star", true, 0, "starburst"),
   "solar-rush": F("mach-rush", "hsl(285 90% 60%)", "hsl(190 100% 82%)", "star", true, -40, "flare"),
   "singularity-step": F("shadow-step", "hsl(190 100% 64%)", "hsl(285 100% 84%)", "star", true, -60, "starburst"),
   "corona-eruption": F("flame-pillar", "hsl(285 95% 58%)", "hsl(0 0% 100%)", "ember", true, -300, "flare"),
@@ -447,7 +447,7 @@ const QUEST_LOOKS: Record<string, Look> = {
   "bramble-fist": F("venom-jab", "hsl(140 40% 20%)", "hsl(350 100% 60%)", "leaf", false, 200, "bite"),
   "spore-volley": F("acid-spit", "hsl(140 30% 24%)", "hsl(350 100% 58%)", "leaf", false, -80, "fizz"),
   "needle-storm": F("ice-shard-volley", "hsl(140 30% 16%)", "hsl(350 100% 62%)", "leaf", false, 250, "bite"),
-  "seed-lance": F("prism-beam", "hsl(140 40% 22%)", "hsl(350 100% 66%)", "petal", true, 0, "flare"),
+  "seed-lance": F("soul-chains", "hsl(140 40% 22%)", "hsl(350 100% 66%)", "petal", true, 0, "flare"),
   "root-rush": F("quake-stomp", "hsl(140 35% 20%)", "hsl(350 100% 60%)", "leaf", false, -30, "crater"),
   "vine-step": F("warp-kick", "hsl(140 40% 24%)", "hsl(350 100% 66%)", "leaf", false, 80, "swirl"),
   "toxic-canopy": F("light-lances", "hsl(140 30% 12%)", "hsl(350 100% 60%)", "petal", false, 150, "fizz"),
@@ -465,7 +465,7 @@ const QUEST_LOOKS: Record<string, Look> = {
   // Turbo, Super Form (SEVEN EMERALDS)
   "golden-fist": F("iron-fist", "hsl(46 100% 56%)", "hsl(0 0% 100%)", "star", true, 0, "starburst"),
   "gold-rush": F("mach-rush", "hsl(46 100% 56%)", "hsl(54 100% 84%)", "spark", true, 0, "slash"),
-  "chaos-lance": F("prism-beam", "hsl(48 100% 60%)", "hsl(0 0% 100%)", "star", true, 0, "flare"),
+  "chaos-lance": F("solar-flare", "hsl(48 100% 60%)", "hsl(0 0% 100%)", "star", true, 0, "flare"),
   "emerald-volley": F("ice-shard-volley", "hsl(140 85% 50%)", "hsl(54 100% 84%)", "star", true, 0, "starburst"),
   "radiant-spin": F("rift-burst", "hsl(46 100% 58%)", "hsl(0 0% 100%)", "star", true, 0, "starburst"),
   "chaos-rain": F("light-lances", "hsl(48 100% 62%)", "hsl(0 0% 100%)", "star", true, 100, "flare"),
