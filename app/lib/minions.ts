@@ -554,4 +554,58 @@ export const MINIONS: Crew[] = [
       surge: { from: "line-of-stars", name: "Line of Venom" },
     }),
   },
+  // Book 3, chapter 3: Carina's brood, the newborn stars and living gas of her nursery
+  {
+    grunt: minion("grunt", "carina", {
+      base: "pyro", name: "Starling", color: "hsl(304 30% 24%)", mark: "hsl(326 100% 80%)",
+      power: "Firstlight", ability: "A star born last night, small and hot and very sure of itself. It has never seen anything brighter than its mother, and it wants to keep it that way.",
+      tone: ["hsl(326 100% 66%)", "hsl(48 100% 92%)"], moves: ["Firstlight Jab", "Newborn Spark", "Birth Flame"],
+      surge: { from: "newborn-stars", name: "Little Sisters" },
+    }),
+    caster: minion("caster", "carina", {
+      base: "toxi", name: "Veil Wisp", color: "hsl(296 26% 22%)", mark: "hsl(326 100% 80%)",
+      power: "Star Gas", ability: "A curl of the nebula's glowing gas that learned to float on its own. Breathe it in and everything goes soft and pink, then goes away.",
+      tone: ["hsl(172 80% 52%)", "hsl(326 100% 86%)"], moves: ["Gas Sting", "Glow Spit", "Nebula Fog", "Gas Bloom"],
+      surge: { from: "the-nursery", name: "Small Nursery" },
+    }),
+    brute: minion("brute", "carina", {
+      base: "gravi", name: "Protostar", color: "hsl(300 30% 14%)", mark: "hsl(326 100% 80%)",
+      power: "Collapse", ability: "A star that has not been born yet: a ball of gas pulling itself tighter and hotter every second. It is heavy, it is cross, and it is getting worse.",
+      tone: ["hsl(320 60% 30%)", "hsl(326 100% 80%)"], moves: ["Heavy Glow", "Falling In", "Drawing Close"],
+      surge: { from: "veil-lash", name: "Gas Lash" },
+    }),
+    elite: minion("elite", "carina", {
+      base: "terra", name: "The Pillar", color: "hsl(300 26% 10%)", mark: "hsl(172 100% 80%)",
+      power: "Pillar of Creation", ability: "A tower of dark dust taller than mountains, with stars being born at its tips. It has guarded Carina's nursery since before the sun was lit.",
+      tone: ["hsl(300 20% 20%)", "hsl(172 90% 76%)"], moves: ["Dust Fist", "Dark Clod", "Pillar Rise", "Nursery Quake"],
+      surge: { from: "birthlight", name: "Pillar Light" },
+    }),
+  },
+  // Book 3, chapter 4: Vela's keepers, things the pulsar's beat has shaken loose or turned to glass
+  {
+    grunt: minion("grunt", "vela", {
+      base: "electro", name: "Blip", color: "hsl(250 20% 22%)", mark: "hsl(32 100% 70%)",
+      power: "Flicker", ability: "A spark thrown off the pulsar's spin. It blinks on and off a hundred times a second, and you never quite know which one is real.",
+      tone: ["hsl(32 100% 62%)", "hsl(48 100% 92%)"], moves: ["Blip Strike", "Pulse Line", "Spark Tick"],
+      surge: { from: "tick-shots", name: "Tick Tock" },
+    }),
+    caster: minion("caster", "vela", {
+      base: "psy", name: "Radio Ghost", color: "hsl(254 22% 20%)", mark: "hsl(32 100% 70%)",
+      power: "Static", ability: "A voice caught in the pulsar's radio beam, crackling between stations. It talks in hiss and whispers, and every whisper is counting down.",
+      tone: ["hsl(276 70% 64%)", "hsl(32 100% 84%)"], moves: ["Crackle", "Signal Lift", "Radio Wave", "Interference"],
+      surge: { from: "lighthouse-beam", name: "Small Beacon" },
+    }),
+    brute: minion("brute", "vela", {
+      base: "cryo", name: "Glass Giant", color: "hsl(36 30% 30%)", mark: "hsl(32 100% 74%)",
+      power: "Glassing", ability: "A dune that the beam swept across one night and turned to glass. Then it stood up. Then it got bigger.",
+      tone: ["hsl(36 60% 62%)", "hsl(48 100% 92%)"], moves: ["Glass Fist", "Glass Spire", "Shard Spray"],
+      surge: { from: "spin-rush", name: "Rolling Dune" },
+    }),
+    elite: minion("elite", "vela", {
+      base: "gravi", name: "The White Dwarf", color: "hsl(220 20% 82%)", mark: "hsl(32 100% 70%)",
+      power: "Dead Weight", ability: "The cinder of the star that once circled Vela. It burned out long ago, small and cold and heavy as a mountain, but it never stopped following Vela round.",
+      tone: ["hsl(220 30% 70%)", "hsl(32 100% 80%)"], moves: ["Dense Palm", "Collapsed Star", "Old Companion", "Cinder Rain"],
+      surge: { from: "magnetic-pole", name: "Pole Pull" },
+    }),
+  },
 ];

@@ -272,6 +272,32 @@ export const CHAPTERS: Chapter[] = [
       { foes: [], boss: "asterion" },
     ],
   },
+  {
+    // Book 3, chapter 3: Where Stars Are Born
+    stages: [
+      st("gc", 0.82),
+      st("bc", 0.78),
+      st("ggb", 0.5),
+      st("ccb", 0.45),
+      st("gcbg", 0.26),
+      st("ebcg", 0.2),
+      st("ebccg", 0.15),
+      { foes: [], boss: "carina" },
+    ],
+  },
+  {
+    // Book 3, chapter 4: The Spinning Heart
+    stages: [
+      st("gb", 0.8),
+      st("cc", 0.78),
+      st("gbc", 0.48),
+      st("bbg", 0.44),
+      st("ccgb", 0.25),
+      st("egcbg", 0.15),
+      st("ebbcc", 0.14),
+      { foes: [], boss: "vela" },
+    ],
+  },
 ];
 
 /** The books of Story mode: where each starts in CHAPTERS and how many chapters it will have once it is all written. */

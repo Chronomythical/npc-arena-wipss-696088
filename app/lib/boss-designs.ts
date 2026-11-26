@@ -1585,6 +1585,194 @@ export function drawBossDesign(
       }
       break;
     }
+    // ----- Carina: the Star Mother, a nebula with a body: rose and green gas with new stars being born inside it -----
+    case "carina": {
+      const back = -face;
+      /** A small four-pointed star, the shape her newborn stars take. */
+      const spark4 = (x: number, y: number, r: number, col: string) => {
+        ctx.fillStyle = col;
+        ctx.beginPath();
+        ctx.moveTo(x, y - r);
+        ctx.lineTo(x + r * 0.26, y - r * 0.26);
+        ctx.lineTo(x + r, y);
+        ctx.lineTo(x + r * 0.26, y + r * 0.26);
+        ctx.lineTo(x, y + r);
+        ctx.lineTo(x - r * 0.26, y + r * 0.26);
+        ctx.lineTo(x - r, y);
+        ctx.lineTo(x - r * 0.26, y - r * 0.26);
+        ctx.closePath();
+        ctx.fill();
+      };
+      if (layer === "back") {
+        if (alive) {
+          // the cloud she is made of: soft puffs of rose and green gas, slowly turning round her
+          ctx.globalCompositeOperation = "lighter";
+          for (let i = 0; i < 7; i++) {
+            const a = (i / 7) * TAU + t * 0.25;
+            const r = (34 + (i % 3) * 14) * s;
+            const x = mid.x + back * 10 * s + Math.cos(a) * r * 1.3, y = mid.y - 8 * s + Math.sin(a) * r * 0.8;
+            glow(ctx, x, y, (40 + (i % 2) * 16) * s, i % 2 ? "hsl(172 90% 60% / 0.22)" : "hsl(326 100% 66% / 0.26)", "hsl(310 80% 50% / 0)");
+          }
+          // stars being born in the cloud, twinkling on and off
+          for (let i = 0; i < 9; i++) {
+            const a = i * 2.4 + t * 0.2, r = (24 + ((i * 13) % 50)) * s;
+            const x = mid.x + back * 8 * s + Math.cos(a) * r * 1.4, y = mid.y - 10 * s + Math.sin(a) * r * 0.9;
+            spark4(x, y, (2 + (i % 3)) * s, `hsl(48 100% 94% / ${0.35 + 0.65 * Math.abs(Math.sin(t * 2 + i * 1.7))})`);
+          }
+          ctx.globalCompositeOperation = "source-over";
+        }
+      } else {
+        // a hood of gas drawn over the head, trailing down the back, its edge lit rose
+        ctx.fillStyle = alive ? "hsl(304 36% 22%)" : "hsl(300 8% 30%)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.5 * s;
+        ctx.beginPath();
+        ctx.moveTo(head.x + face * (HEAD + 2) * s, head.y + 4 * s);
+        ctx.quadraticCurveTo(head.x + face * (HEAD + 4) * s, head.y - (HEAD + 8) * s, head.x + back * 4 * s, head.y - (HEAD + 10) * s);
+        ctx.quadraticCurveTo(head.x + back * (HEAD + 12) * s, head.y - 4 * s, head.x + back * (HEAD + 16) * s, neck.y + 16 * s);
+        ctx.lineTo(head.x + back * (HEAD - 2) * s, neck.y);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.strokeStyle = alive ? "hsl(326 100% 76% / 0.85)" : "hsl(300 8% 50% / 0.5)";
+        ctx.lineWidth = 1.6 * s;
+        ctx.beginPath();
+        ctx.moveTo(head.x + face * (HEAD + 2) * s, head.y + 4 * s);
+        ctx.quadraticCurveTo(head.x + face * (HEAD + 4) * s, head.y - (HEAD + 8) * s, head.x + back * 4 * s, head.y - (HEAD + 10) * s);
+        ctx.stroke();
+        // her face, deep in the hood, with two green eyes
+        ctx.fillStyle = alive ? "hsl(300 40% 10%)" : "hsl(300 6% 24%)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.2 * s;
+        ctx.beginPath();
+        ctx.arc(head.x + face * 1.5 * s, head.y + 1 * s, (HEAD - 2) * s, 0, TAU);
+        ctx.fill();
+        for (const dx of [2, 7]) {
+          const ex = head.x + face * dx * s, ey = head.y - 0.5 * s;
+          if (alive) glow(ctx, ex, ey, 5 * s, "hsl(172 100% 76% / 0.9)", "hsl(172 100% 60% / 0)");
+          ctx.fillStyle = alive ? "hsl(172 100% 88%)" : INK;
+          ctx.beginPath();
+          ctx.arc(ex, ey, 1.3 * s, 0, TAU);
+          ctx.fill();
+        }
+        // her heart: a star not yet born, glowing in her chest
+        const hx = mid.x + face * 2 * s, hy = shoulder.y + 10 * s;
+        if (alive) {
+          ctx.globalCompositeOperation = "lighter";
+          glow(ctx, hx, hy, (16 + Math.sin(t * 3) * 3) * s, "hsl(326 100% 76% / 0.85)", "hsl(326 100% 60% / 0)");
+          ctx.globalCompositeOperation = "source-over";
+        }
+        spark4(hx, hy, 5 * s, alive ? "hsl(48 100% 96%)" : "hsl(300 6% 56%)");
+        // a crown of three newborn stars turning slowly over the hood
+        for (let i = 0; i < 3; i++) {
+          const a = -Math.PI / 2 + (i - 1) * 0.6 + (alive ? Math.sin(t * 0.8) * 0.15 : 0);
+          const x = head.x + Math.cos(a) * (HEAD + 15) * s, y = head.y - 2 * s + Math.sin(a) * (HEAD + 15) * s;
+          if (alive) glow(ctx, x, y, 8 * s, i === 1 ? "hsl(172 100% 80% / 0.8)" : "hsl(326 100% 80% / 0.8)", "hsl(326 100% 60% / 0)");
+          spark4(x, y, (i === 1 ? 4.5 : 3.2) * s, alive ? "hsl(48 100% 96%)" : "hsl(300 6% 56%)");
+        }
+      }
+      break;
+    }
+    // ----- Vela: a pulsar, a burnt-out star spinning in its chest, two beams sweeping from it like a lighthouse -----
+    case "vela": {
+      const spin = alive ? t * 2.2 : 0;
+      const core = { x: mid.x, y: shoulder.y + 9 * s };
+      if (layer === "back") {
+        if (alive) {
+          glow(ctx, mid.x, mid.y, 86 * s, "hsl(32 100% 60% / 0.16)", "hsl(32 100% 60% / 0)");
+          // its magnetic field: loops out of the top of it and back in at the bottom
+          ctx.strokeStyle = "hsl(276 80% 72% / 0.32)";
+          ctx.lineWidth = 1.2 * s;
+          for (const k of [1, 1.5, 2.1]) {
+            for (const side of [-1, 1]) {
+              ctx.beginPath();
+              ctx.ellipse(core.x + side * 16 * k * s, core.y, 16 * k * s, 34 * k * s, 0, 0, TAU);
+              ctx.stroke();
+            }
+          }
+          // two beams out of its poles, sweeping round and round like a lighthouse
+          ctx.globalCompositeOperation = "lighter";
+          for (const a of [spin, spin + Math.PI]) {
+            const len = 170 * s, w = 13 * s;
+            const ex = core.x + Math.cos(a) * len, ey = core.y + Math.sin(a) * len;
+            const nx = -Math.sin(a) * w, ny = Math.cos(a) * w;
+            const g = ctx.createLinearGradient(core.x, core.y, ex, ey);
+            g.addColorStop(0, "hsl(40 100% 86% / 0.75)");
+            g.addColorStop(1, "hsl(32 100% 60% / 0)");
+            ctx.fillStyle = g;
+            ctx.beginPath();
+            ctx.moveTo(core.x, core.y);
+            ctx.lineTo(ex + nx, ey + ny);
+            ctx.lineTo(ex - nx, ey - ny);
+            ctx.closePath();
+            ctx.fill();
+          }
+          ctx.globalCompositeOperation = "source-over";
+        }
+      } else {
+        // plates of dark glass over the chest
+        ctx.fillStyle = alive ? "hsl(250 22% 22%)" : "hsl(250 6% 34%)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.2 * s;
+        for (const [dx, dy, w, h] of [[-7, -4, 9, 14], [7, -4, 9, 14], [0, 10, 12, 8]] as const) {
+          const cx = mid.x + face * dx * s, cy = mid.y + dy * s;
+          ctx.beginPath();
+          ctx.moveTo(cx - w * 0.5 * s, cy - h * 0.5 * s);
+          ctx.lineTo(cx + w * 0.5 * s, cy - h * 0.3 * s);
+          ctx.lineTo(cx + w * 0.4 * s, cy + h * 0.5 * s);
+          ctx.lineTo(cx - w * 0.5 * s, cy + h * 0.4 * s);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+        }
+        // the heart: a dead star the size of a city, white hot, with a ring spinning round it
+        if (alive) {
+          ctx.globalCompositeOperation = "lighter";
+          glow(ctx, core.x, core.y, (20 + Math.abs(Math.sin(t * 2.4 * Math.PI)) * 5) * s, "hsl(36 100% 74% / 0.9)", "hsl(32 100% 60% / 0)");
+          ctx.globalCompositeOperation = "source-over";
+        }
+        ctx.strokeStyle = alive ? "hsl(32 100% 70%)" : "hsl(250 6% 50%)";
+        ctx.lineWidth = 1.8 * s;
+        ctx.beginPath();
+        ctx.ellipse(core.x, core.y, 10 * s, 3.6 * s, spin, 0, TAU);
+        ctx.stroke();
+        ctx.fillStyle = alive ? "hsl(48 100% 96%)" : "hsl(250 6% 60%)";
+        ctx.beginPath();
+        ctx.arc(core.x, core.y, 4 * s, 0, TAU);
+        ctx.fill();
+        // a smooth helm with one amber slit that blinks on the beat
+        ctx.fillStyle = alive ? "hsl(250 24% 18%)" : "hsl(250 6% 30%)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.6 * s;
+        ctx.beginPath();
+        ctx.arc(head.x, head.y, (HEAD + 1) * s, 0, TAU);
+        ctx.fill();
+        ctx.stroke();
+        const lit = !alive ? 0 : 0.45 + 0.55 * Math.abs(Math.sin(t * 2.4 * Math.PI));
+        ctx.fillStyle = alive ? `hsl(36 100% 74% / ${lit})` : INK;
+        ctx.fillRect(head.x + (face > 0 ? -1 : -9) * s, head.y - 2 * s, 10 * s, 2.6 * s);
+        // a ring of ticks round the helm, like the face of a clock, with one hand going round
+        ctx.strokeStyle = alive ? "hsl(32 100% 72% / 0.8)" : "hsl(250 6% 50% / 0.5)";
+        ctx.lineWidth = 1.2 * s;
+        ctx.beginPath();
+        for (let i = 0; i < 12; i++) {
+          const a = (i / 12) * TAU, r0 = (HEAD + 4) * s, r1 = (HEAD + (i % 3 === 0 ? 9 : 6.5)) * s;
+          ctx.moveTo(head.x + Math.cos(a) * r0, head.y + Math.sin(a) * r0);
+          ctx.lineTo(head.x + Math.cos(a) * r1, head.y + Math.sin(a) * r1);
+        }
+        ctx.stroke();
+        if (alive) {
+          const a = t * 1.2 - Math.PI / 2;
+          ctx.strokeStyle = "hsl(48 100% 92%)";
+          ctx.lineWidth = 1.6 * s;
+          ctx.beginPath();
+          ctx.moveTo(head.x + Math.cos(a) * (HEAD + 3) * s, head.y + Math.sin(a) * (HEAD + 3) * s);
+          ctx.lineTo(head.x + Math.cos(a) * (HEAD + 11) * s, head.y + Math.sin(a) * (HEAD + 11) * s);
+          ctx.stroke();
+        }
+      }
+      break;
+    }
   }
   ctx.restore();
   if (layer === "front") drawBossExtras(ctx, design, layer, p, s, face, t, alive, vx, act);
@@ -2854,6 +3042,114 @@ function drawBossPhase(
       }
       break;
     }
+    case "carina": {
+      // 2: twin newborn suns circling her, one rose, one green
+      orbit(2, 42, 12, mid.y - 6 * s, 1.6, (x, y, i) => {
+        ctx.globalCompositeOperation = "lighter";
+        glow(ctx, x, y, 13 * s, i ? "hsl(172 100% 74% / 0.9)" : "hsl(326 100% 74% / 0.9)", "hsl(326 100% 60% / 0)");
+        ctx.globalCompositeOperation = "source-over";
+        ctx.fillStyle = "hsl(48 100% 96%)";
+        ctx.beginPath();
+        ctx.arc(x, y, 3.4 * s, 0, TAU);
+        ctx.fill();
+      });
+      if (phase >= 3 && !front) {
+        // 3: pillars of dark dust rising behind her, new stars burning at their tips
+        const gy = Math.max(p.fF.y, p.fB.y);
+        for (const [dx, h, w] of [[-46, 150, 20], [-14, 190, 26], [26, 130, 18]] as const) {
+          const x = mid.x + back * (30 + dx) * s, top = gy - h * s;
+          ctx.fillStyle = "hsl(300 30% 12% / 0.9)";
+          ctx.beginPath();
+          ctx.moveTo(x - w * 0.5 * s, gy);
+          ctx.quadraticCurveTo(x - w * 0.7 * s, gy - h * 0.5 * s, x - w * 0.2 * s, top);
+          ctx.quadraticCurveTo(x, top - 8 * s, x + w * 0.25 * s, top + 4 * s);
+          ctx.quadraticCurveTo(x + w * 0.6 * s, gy - h * 0.5 * s, x + w * 0.5 * s, gy);
+          ctx.closePath();
+          ctx.fill();
+          ctx.globalCompositeOperation = "lighter";
+          glow(ctx, x, top, (16 + Math.sin(t * 3 + dx) * 3) * s, "hsl(172 100% 76% / 0.85)", "hsl(172 100% 60% / 0)");
+          ctx.globalCompositeOperation = "source-over";
+          ctx.fillStyle = "hsl(48 100% 96%)";
+          ctx.fillRect(x - 2 * s, top - 2 * s, 4 * s, 4 * s);
+        }
+      }
+      if (phase >= 4) {
+        // 4: the veil opens across the sky behind her, and a ring of new stars circles inside it
+        if (!front) {
+          ctx.globalCompositeOperation = "lighter";
+          glow(ctx, head.x + back * 20 * s, head.y, 240 * s, "hsl(326 100% 60% / 0.22)", "hsl(300 80% 40% / 0)");
+          glow(ctx, head.x + back * 90 * s, head.y - 40 * s, 160 * s, "hsl(172 100% 56% / 0.16)", "hsl(172 80% 40% / 0)");
+          ctx.globalCompositeOperation = "source-over";
+        }
+        orbit(8, 62, 18, mid.y - 10 * s, 0.6, (x, y, i) => {
+          ctx.globalCompositeOperation = "lighter";
+          glow(ctx, x, y, 8 * s, i % 2 ? "hsl(172 100% 80% / 0.9)" : "hsl(326 100% 82% / 0.9)", "hsl(326 100% 60% / 0)");
+          ctx.globalCompositeOperation = "source-over";
+          ctx.fillStyle = "hsl(48 100% 96%)";
+          ctx.fillRect(x - 1.6 * s, y - 1.6 * s, 3.2 * s, 3.2 * s);
+        });
+      }
+      break;
+    }
+    case "vela": {
+      // 2: splinters of glass flung round it by its spin
+      orbit(6, 40, 10, mid.y, 3.2, (x, y, i) => {
+        ctx.fillStyle = "hsl(40 70% 78% / 0.85)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1 * s;
+        const a = t * 6 + i;
+        ctx.beginPath();
+        ctx.moveTo(x + Math.cos(a) * 6 * s, y + Math.sin(a) * 6 * s);
+        ctx.lineTo(x + Math.cos(a + 2.4) * 3 * s, y + Math.sin(a + 2.4) * 3 * s);
+        ctx.lineTo(x + Math.cos(a + 3.6) * 3 * s, y + Math.sin(a + 3.6) * 3 * s);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+      });
+      if (phase >= 3 && !front) {
+        // 3: the magnetar wakes: field lines arc out of it on both sides, pulsing violet
+        const cy = shoulder.y + 9 * s;
+        ctx.globalCompositeOperation = "lighter";
+        for (let i = 0; i < 6; i++) {
+          const r = (40 + i * 18) * s;
+          ctx.strokeStyle = `hsl(276 100% 74% / ${0.16 + 0.24 * Math.abs(Math.sin(t * 3 - i * 0.6))})`;
+          ctx.lineWidth = 1.6 * s;
+          for (const side of [-1, 1]) {
+            ctx.beginPath();
+            ctx.moveTo(mid.x, cy - 6 * s);
+            ctx.bezierCurveTo(mid.x + side * r, cy - r * 1.2, mid.x + side * r, cy + r * 1.2, mid.x, cy + 6 * s);
+            ctx.stroke();
+          }
+        }
+        ctx.globalCompositeOperation = "source-over";
+      }
+      if (phase >= 4 && !front) {
+        // 4: the clock of the sky behind it, twelve marks and a hand going round fast
+        const cx = mid.x + back * 6 * s, cy = mid.y - 14 * s, r = 112 * s;
+        ctx.strokeStyle = "hsl(32 100% 72% / 0.5)";
+        ctx.lineWidth = 2 * s;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, TAU);
+        ctx.stroke();
+        ctx.beginPath();
+        for (let i = 0; i < 12; i++) {
+          const a = (i / 12) * TAU, k = i % 3 === 0 ? 18 : 10;
+          ctx.moveTo(cx + Math.cos(a) * r, cy + Math.sin(a) * r);
+          ctx.lineTo(cx + Math.cos(a) * (r - k * s), cy + Math.sin(a) * (r - k * s));
+        }
+        ctx.stroke();
+        const a = t * 2.4 - Math.PI / 2;
+        ctx.globalCompositeOperation = "lighter";
+        ctx.strokeStyle = "hsl(40 100% 84% / 0.8)";
+        ctx.lineWidth = 3 * s;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + Math.cos(a) * (r - 14 * s), cy + Math.sin(a) * (r - 14 * s));
+        ctx.stroke();
+        ctx.globalCompositeOperation = "source-over";
+      }
+      break;
+    }
   }
   ctx.restore();
 }
@@ -3172,6 +3468,32 @@ function drawBossExtras(
         }
       } else {
         fists("hsl(44 100% 82%)", "hsl(44 100% 60% / 0)");
+      }
+      break;
+    case "carina":
+      if (layer === "back") {
+        // a long train of gas off her shoulders, lit rose at the edge
+        cape(44, "hsl(304 40% 16% / 0.85)", "hsl(326 100% 76% / 0.8)", 6);
+        if (alive) {
+          ctx.globalCompositeOperation = "lighter";
+          motes(ctx, mid.x, hip.y + 24 * s, 90 * s, 150 * s, t * 0.3, 12, "hsl(326 100% 84%)", 1.4 * s);
+          ctx.globalCompositeOperation = "source-over";
+        }
+      } else {
+        fists("hsl(326 100% 80%)", "hsl(326 100% 60% / 0)");
+      }
+      break;
+    case "vela":
+      if (layer === "back") {
+        if (alive) {
+          // grains of hot glass falling off it
+          ctx.globalCompositeOperation = "lighter";
+          motes(ctx, mid.x, hip.y + 30 * s, 80 * s, 140 * s, t * 0.6, 10, "hsl(36 100% 76%)", 1.4 * s, -1);
+          ctx.globalCompositeOperation = "source-over";
+        }
+      } else {
+        pauldron(ctx, shoulder, face, s, "hsl(250 20% 24%)", "hsl(32 100% 70%)", 2);
+        fists("hsl(36 100% 80%)", "hsl(32 100% 60% / 0)");
       }
       break;
   }

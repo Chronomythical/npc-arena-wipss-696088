@@ -609,6 +609,32 @@ const QUEST_LOOKS: Record<string, Look> = {
   "bull-charge": F("mach-rush", "hsl(232 50% 30%)", "hsl(44 100% 80%)", "star", true, 0, "crater"),
   "celestial-sphere": F("singularity", "hsl(236 60% 5%)", "hsl(44 100% 78%)", "star", false, -30, "implode"),
   "last-arrow": F("rift-burst", "hsl(44 100% 70%)", "hsl(0 0% 100%)", "star", true, 0, "starburst"),
+  // Carina (Book 3): a nebula's rose and green gas on deep plum, and the white of newborn stars
+  "veil-lash": F("corona-edge", "hsl(326 80% 60%)", "hsl(172 90% 80%)", "spark", true, -60, "slash"),
+  "newborn-stars": F("fireball", "hsl(326 100% 70%)", "hsl(0 0% 100%)", "star", true, -80, "starburst"),
+  "through-the-veil": F("shadow-step", "hsl(300 40% 20%)", "hsl(326 100% 78%)", "smoke", false, -40, "portal"),
+  "birthlight": F("solar-flare", "hsl(172 90% 60%)", "hsl(0 0% 100%)", "star", true, -100, "flare"),
+  "stardust-fall": F("sunspot-rain", "hsl(326 90% 70%)", "hsl(172 90% 82%)", "dust", true, 120, "starburst"),
+  "the-nursery": F("miasma-cloud", "hsl(310 50% 30%)", "hsl(326 100% 76%)", "smoke", false, -30, "swirl"),
+  "twin-suns": F("eclipse-disc", "hsl(326 100% 66%)", "hsl(172 90% 80%)", "star", true, 0, "flare"),
+  "mothers-pull": F("gravity-pull", "hsl(300 50% 30%)", "hsl(326 100% 80%)", "smoke", false, 0, "implode"),
+  "creation-pillars": F("flame-pillar", "hsl(300 30% 22%)", "hsl(326 100% 80%)", "star", true, -200, "starburst"),
+  "rekindle": F("mend", "hsl(172 90% 60%)", "hsl(326 100% 86%)", "star", true, -120, "sprout"),
+  "great-veil": F("singularity", "hsl(300 50% 8%)", "hsl(326 100% 76%)", "smoke", false, -30, "implode"),
+  "ten-thousand-suns": F("total-eclipse", "hsl(300 50% 10%)", "hsl(172 100% 84%)", "star", true, 0, "starburst"),
+  // Vela (Book 3): white-hot amber beams, dark glass and a magnetar's violet field
+  "pulse-strike": F("iron-fist", "hsl(32 100% 60%)", "hsl(0 0% 100%)", "spark", true, 0, "sparks"),
+  "tick-shots": F("shard-storm", "hsl(32 100% 66%)", "hsl(48 100% 92%)", "spark", true, 0, "sparks"),
+  "spin-rush": F("mach-rush", "hsl(250 30% 26%)", "hsl(32 100% 70%)", "spark", true, 0, "crater"),
+  "lighthouse-beam": F("railgun", "hsl(32 100% 64%)", "hsl(0 0% 100%)", "spark", true, 0, "flare"),
+  "glass-rain": F("meteor-drop", "hsl(40 60% 70%)", "hsl(32 100% 80%)", "shard", true, 200, "shatter"),
+  "magnetic-pole": F("magnet-pull", "hsl(250 40% 30%)", "hsl(32 100% 70%)", "spark", true, 0, "implode"),
+  "spun-glass": F("mirror-shards", "hsl(40 70% 74%)", "hsl(0 0% 100%)", "shard", true, 300, "shatter"),
+  "lighthouse-sweep": F("antimatter-lance", "hsl(32 100% 62%)", "hsl(0 0% 100%)", "spark", true, 0, "flare"),
+  "field-lines": F("earth-spike", "hsl(256 30% 18%)", "hsl(276 100% 80%)", "spark", true, 300, "crater"),
+  "starquake": F("rift-burst", "hsl(276 80% 66%)", "hsl(32 100% 80%)", "spark", true, 0, "starburst"),
+  "sky-clock": F("stasis-field", "hsl(250 40% 8%)", "hsl(32 100% 72%)", "spark", false, -30, "clock"),
+  "final-pulse": F("total-eclipse", "hsl(250 40% 10%)", "hsl(32 100% 80%)", "spark", true, 0, "starburst"),
 };
 for (const [id, lk] of Object.entries(QUEST_LOOKS)) FORM_LOOKS[id] = lk;
 for (const [id, lk] of Object.entries(FORM_LOOKS)) {

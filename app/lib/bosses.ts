@@ -4,7 +4,7 @@
 import type { BossDesign, FighterDef, Move } from "./fighters";
 import type { Form } from "./forms";
 
-export type BossId = "nullshade" | "maelstrom" | "magmaw" | "everwinter" | "riftmaker" | "hollowking" | "blacksun" | "axiom" | "lanternmaw" | "sporemother" | "mnemovore" | "dustmoth" | "somnarch" | "hush" | "elderdark" | "perihelion" | "asterion";
+export type BossId = "nullshade" | "maelstrom" | "magmaw" | "everwinter" | "riftmaker" | "hollowking" | "blacksun" | "axiom" | "lanternmaw" | "sporemother" | "mnemovore" | "dustmoth" | "somnarch" | "hush" | "elderdark" | "perihelion" | "asterion" | "carina" | "vela";
 
 const M = (m: Omit<Move, "wind" | "act" | "rec"> & Partial<Pick<Move, "wind" | "act" | "rec">>): Move => ({
   wind: 0.2,
@@ -259,6 +259,36 @@ export const BOSSES: Record<BossId, FighterDef> = {
       M({ id: "line-of-stars", name: "Line of Stars", kind: "beam", anim: "thrust", range: 580, minRange: 70, cd: 3.4, dmg: 14, act: 0.32, status: "stun", statusDur: 0.4, wind: 0.32 }),
       M({ id: "shooting-stars", name: "Shooting Stars", kind: "rain", anim: "raise", range: 560, cd: 5.5, dmg: 8, count: 7, radius: 180, size: 10, status: "blind", statusDur: 0.5, wind: 0.34 }),
       M({ id: "star-chart", name: "Star Chart", kind: "zone", anim: "slam", range: 420, cd: 9, dmg: 6, radius: 145, dur: 4.5, pullIn: 140, status: "slow", statusDur: 0.8, wind: 0.36 }),
+    ],
+  },
+  // Book 3, chapter 3. The third Celestial: the Star Mother, a nebula so vast that new stars are born inside her.
+  // She has come down to draw her cloud over the world, so that her own children are the only lights left.
+  carina: {
+    id: "vita", boss: "carina", name: "Carina", power: "Nebula", role: "attacker",
+    ability: "A Celestial: the Star Mother, a cloud of rose and green gas where new stars are born. Her veil blinds and chokes, her newborn stars burn, and her nursery pulls you into the cloud.",
+    color: "hsl(300 34% 16%)", glow: "hsl(326 100% 76%)", hp: 650, speed: 98,
+    moves: [
+      M({ id: "veil-lash", name: "Veil Lash", kind: "melee", anim: "spin", range: 108, cd: 1, dmg: 12, kb: 260, status: "poison", statusDur: 1 }),
+      M({ id: "newborn-stars", name: "Newborn Stars", kind: "projectile", anim: "cast", range: 620, minRange: 80, cd: 2.5, dmg: 6, speed: 520, size: 11, count: 5, spread: 0.34, shape: "orb", status: "burn", statusDur: 0.8 }),
+      M({ id: "through-the-veil", name: "Through the Veil", kind: "blink", anim: "kick", range: 560, minRange: 130, cd: 4.2, dmg: 13, kb: 300, lift: -240, status: "blind", statusDur: 0.4 }),
+      M({ id: "birthlight", name: "Birthlight", kind: "beam", anim: "thrust", range: 560, minRange: 70, cd: 3.4, dmg: 14, act: 0.34, status: "blind", statusDur: 0.5, wind: 0.32 }),
+      M({ id: "stardust-fall", name: "Stardust Fall", kind: "rain", anim: "raise", range: 560, cd: 5.5, dmg: 8, count: 7, radius: 180, size: 10, status: "poison", statusDur: 1, wind: 0.34 }),
+      M({ id: "the-nursery", name: "The Nursery", kind: "zone", anim: "slam", range: 420, cd: 9, dmg: 6, radius: 150, dur: 4.5, pullIn: 150, status: "slow", statusDur: 0.8, wind: 0.36 }),
+    ],
+  },
+  // Book 3, chapter 4. The fourth Celestial: a pulsar, the first star that ever burned out. Its heart crushed to the
+  // size of a city, it spins a hundred times a heartbeat and keeps the time of the whole sky. Its beams turn sand to glass.
+  vela: {
+    id: "magneto", boss: "vela", name: "Vela", power: "Pulse", role: "attacker",
+    ability: "A Celestial: a dead star that never stopped spinning, the clock of the sky. Two beams sweep out from its poles like a lighthouse, its field drags iron and bone alike, and every hit lands on the beat.",
+    color: "hsl(250 22% 14%)", glow: "hsl(32 100% 66%)", hp: 660, speed: 102,
+    moves: [
+      M({ id: "pulse-strike", name: "Pulse Strike", kind: "melee", anim: "jab", range: 100, cd: 0.9, dmg: 11, kb: 240, status: "stun", statusDur: 0.2 }),
+      M({ id: "tick-shots", name: "Tick Shots", kind: "projectile", anim: "thrust", range: 640, minRange: 90, cd: 2.2, dmg: 6, speed: 760, size: 9, count: 4, spread: 0.1, shape: "disc" }),
+      M({ id: "spin-rush", name: "Spin Rush", kind: "dash", anim: "spin", range: 560, minRange: 90, cd: 4.4, dmg: 14, kb: 380, lift: -240, wind: 0.3 }),
+      M({ id: "lighthouse-beam", name: "Lighthouse Beam", kind: "beam", anim: "thrust", range: 600, minRange: 70, cd: 3.4, dmg: 14, act: 0.36, status: "burn", statusDur: 1, wind: 0.32 }),
+      M({ id: "glass-rain", name: "Glass Rain", kind: "rain", anim: "raise", range: 560, cd: 5.5, dmg: 8, count: 7, radius: 180, size: 10, status: "slow", statusDur: 0.8, wind: 0.34 }),
+      M({ id: "magnetic-pole", name: "Magnetic Pole", kind: "pull", anim: "cast", range: 520, minRange: 110, cd: 5, dmg: 9, status: "stun", statusDur: 0.35, wind: 0.26 }),
     ],
   },
 };
@@ -763,6 +793,64 @@ export const BOSS_PHASES: Partial<Record<BossDesign, Form[]>> = {
       moves: [
         M({ id: "celestial-sphere", name: "The Celestial Sphere", kind: "zone", anim: "raise", range: 440, cd: 10, dmg: 7, radius: 200, dur: 5, pullIn: 240, status: "slow", statusDur: 0.8, wind: 0.4 }),
         M({ id: "last-arrow", name: "The Last Arrow", kind: "burst", anim: "raise", range: 480, cd: 12, dmg: 16, radius: 430, kb: 460, lift: -380, status: "stun", statusDur: 0.8, wind: 0.55, rec: 0.35 }),
+      ],
+    },
+  ],
+  carina: [
+    {
+      ...P2, power: "vita", title: "THE CLOUD GLOWS", dodge: 0.12,
+      blurb: "Her cloud lights up from the inside, rose and green. Twin newborn suns spin out of it, and the Mother's Pull drags whoever runs back into the gas.",
+      body: "hsl(300 36% 18%)", glow: "hsl(326 100% 80%)", a: "hsl(326 100% 70%)", b: "hsl(172 90% 74%)",
+      moves: [
+        M({ id: "twin-suns", name: "Twin Suns", kind: "projectile", anim: "cast", range: 620, minRange: 80, cd: 3, dmg: 7, speed: 560, size: 13, count: 2, spread: 0.2, shape: "disc", status: "burn", statusDur: 0.8 }),
+        M({ id: "mothers-pull", name: "Mother's Pull", kind: "pull", anim: "cast", range: 500, minRange: 110, cd: 4.5, dmg: 9, status: "slow", statusDur: 1.2, wind: 0.26 }),
+      ],
+    },
+    {
+      ...P3, power: "vita", title: "PILLARS OF CREATION", drain: 0.12,
+      blurb: "Towers of dark dust rise out of the ground with new stars burning at their tips. When she is hurt, her nursery pours fresh light back into her.",
+      body: "hsl(296 30% 14%)", glow: "hsl(172 100% 80%)", a: "hsl(172 90% 64%)", b: "hsl(326 100% 84%)",
+      moves: [
+        M({ id: "creation-pillars", name: "Creation Pillars", kind: "eruption", anim: "slam", range: 560, minRange: 40, cd: 6, dmg: 13, radius: 46, count: 4, lift: -680, status: "poison", statusDur: 0.8, wind: 0.38 }),
+        M({ id: "rekindle", name: "Rekindle", kind: "heal", anim: "raise", range: 2000, cd: 13, dmg: 0, heal: 28, below: 0.6, wind: 0.4, act: 0.3 }),
+      ],
+    },
+    {
+      ...P4, power: "vita", title: "THE GREAT VEIL", guard: 0.8, regen: 1.3,
+      blurb: "Her cloud spreads across the whole sky and the world goes dim under it. The Great Veil pulls everyone in, and Ten Thousand Suns are born at once across most of the arena.",
+      body: "hsl(300 50% 8%)", glow: "hsl(326 100% 84%)", a: "hsl(300 50% 18%)", b: "hsl(172 100% 80%)", dark: "hsl(300 50% 4%)",
+      moves: [
+        M({ id: "great-veil", name: "The Great Veil", kind: "zone", anim: "raise", range: 440, cd: 10, dmg: 7, radius: 200, dur: 5, pullIn: 240, status: "blind", statusDur: 0.5, wind: 0.4 }),
+        M({ id: "ten-thousand-suns", name: "Ten Thousand Suns", kind: "burst", anim: "raise", range: 480, cd: 12, dmg: 16, radius: 430, kb: 460, lift: -380, status: "burn", statusDur: 0.8, wind: 0.55, rec: 0.35 }),
+      ],
+    },
+  ],
+  vela: [
+    {
+      ...P2, power: "magneto", title: "SPIN UP", dodge: 0.14,
+      blurb: "It spins faster and faster until it hums. Glass spun off its edges cuts the air, and its beam sweeps the arena like a lighthouse gone mad.",
+      body: "hsl(250 24% 16%)", glow: "hsl(36 100% 74%)", a: "hsl(32 100% 64%)", b: "hsl(48 100% 90%)",
+      moves: [
+        M({ id: "spun-glass", name: "Spun Glass", kind: "projectile", anim: "spin", range: 600, minRange: 80, cd: 3, dmg: 6, speed: 640, size: 10, count: 5, spread: 0.3, shape: "shard", status: "slow", statusDur: 0.6 }),
+        M({ id: "lighthouse-sweep", name: "Lighthouse Sweep", kind: "beam", anim: "thrust", range: 640, minRange: 70, cd: 4.2, dmg: 12, act: 0.5, status: "burn", statusDur: 1, wind: 0.34 }),
+      ],
+    },
+    {
+      ...P3, power: "magneto", title: "MAGNETAR", drain: 0.12,
+      blurb: "Its magnetic field wakes up, a million million times stronger than any lodestone. Iron-black spires tear out of the glass, and a starquake shakes the whole floor.",
+      body: "hsl(256 30% 12%)", glow: "hsl(276 100% 80%)", a: "hsl(276 80% 66%)", b: "hsl(32 100% 74%)",
+      moves: [
+        M({ id: "field-lines", name: "Field Lines", kind: "eruption", anim: "slam", range: 560, minRange: 40, cd: 6, dmg: 13, radius: 46, count: 4, lift: -700, status: "stun", statusDur: 0.4, wind: 0.38 }),
+        M({ id: "starquake", name: "Starquake", kind: "burst", anim: "slam", range: 180, cd: 6.5, dmg: 14, radius: 190, kb: 440, lift: -300, status: "stun", statusDur: 0.5, wind: 0.34 }),
+      ],
+    },
+    {
+      ...P4, power: "magneto", title: "THE LAST TICK", guard: 0.8, regen: 1.3,
+      blurb: "It spins so fast that time itself starts to keep its beat. The Sky Clock drags everyone into its rhythm, and the Final Pulse sweeps across most of the arena at once.",
+      body: "hsl(250 40% 7%)", glow: "hsl(32 100% 80%)", a: "hsl(250 40% 16%)", b: "hsl(32 100% 74%)", dark: "hsl(250 40% 3%)",
+      moves: [
+        M({ id: "sky-clock", name: "The Sky Clock", kind: "zone", anim: "raise", range: 440, cd: 10, dmg: 7, radius: 200, dur: 5, pullIn: 240, status: "slow", statusDur: 0.8, wind: 0.4 }),
+        M({ id: "final-pulse", name: "The Final Pulse", kind: "burst", anim: "raise", range: 480, cd: 12, dmg: 16, radius: 430, kb: 480, lift: -400, status: "burn", statusDur: 0.8, wind: 0.55, rec: 0.35 }),
       ],
     },
   ],

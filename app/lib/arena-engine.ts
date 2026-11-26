@@ -97,6 +97,10 @@ const BOSS_STANCE: Record<BossDesign, Pose> = {
   perihelion: { t: 0.34, aF1: -0.5, aF2: -0.3, aB1: -1.1, aB2: -0.9, lF1: 0.45, lF2: -0.2, lB1: -0.45, lB2: -0.35 },
   // Asterion: a hunter's crouch, spear arm drawn back high, the other reaching out to aim
   asterion: { t: 0.14, aF1: 1.45, aF2: 1.55, aB1: -2.2, aB2: -2.6, lF1: 0.5, lF2: -0.3, lB1: -0.4, lB2: -0.3 },
+  // Carina: floating upright, arms opened wide and low like someone holding a cloud
+  carina: { t: -0.06, aF1: 0.9, aF2: 0.5, aB1: -0.9, aB2: -0.5, lF1: 0.12, lF2: 0.06, lB1: -0.12, lB2: 0.06 },
+  // Vela: square and steady, both fists held out at the poles of its body, keeping time
+  vela: { t: 0.04, aF1: 1.6, aF2: 0.2, aB1: -1.6, aB2: -0.2, lF1: 0.36, lF2: -0.1, lB1: -0.36, lB2: -0.1 },
 };
 /** How each boss breathes at rest: speed, torso sway, arm sway (front, back) and knee bob. */
 const BOSS_IDLE: Record<BossDesign, { hz: number; t: number; aF: number; aB: number; l: number }> = {
@@ -117,6 +121,8 @@ const BOSS_IDLE: Record<BossDesign, { hz: number; t: number; aF: number; aB: num
   elderdark: { hz: 0.8, t: 0.05, aF: 0.14, aB: 0.14, l: 0.03 },
   perihelion: { hz: 1.8, t: 0.04, aF: 0.08, aB: 0.12, l: 0.03 },
   asterion: { hz: 1.2, t: 0.03, aF: 0.04, aB: 0.08, l: 0.04 },
+  carina: { hz: 0.45, t: 0.05, aF: 0.16, aB: 0.16, l: 0.02 },
+  vela: { hz: 2.4, t: 0.01, aF: 0.03, aB: 0.03, l: 0.01 },
 };
 /** Hybrids pick one of these by their pair, so the same pair always stands the same way: two powers held ready at once. */
 const HYBRID_STANCES: Pose[] = [

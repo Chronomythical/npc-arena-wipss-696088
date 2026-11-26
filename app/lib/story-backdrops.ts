@@ -1210,6 +1210,191 @@ const LOOKS: Look[] = [
       }
     },
   },
+  // Book 3, 3. Where Stars Are Born: the white salt of the Mirror Flats, far in the south. A nebula of rose and green
+  // gas sinks lower over it every stage, new stars switching on inside, until at the lair the whole sky is her cloud.
+  {
+    sky: [["hsl(280 40% 46%)", "hsl(320 50% 72%)", "hsl(30 80% 82%)"], ["hsl(250 40% 34%)", "hsl(300 40% 52%)", "hsl(340 60% 76%)"], ["hsl(270 50% 16%)", "hsl(300 44% 30%)", "hsl(326 50% 50%)"], ["hsl(296 60% 6%)", "hsl(310 50% 16%)", "hsl(172 50% 30%)"]],
+    far: "hsl(300 16% 54%)", near: "hsl(320 20% 80%)", floor: ["hsl(320 30% 90%)", "hsl(300 18% 68%)"], line: "hsl(300 30% 50% / 0.3)", starsFrom: 1, flat: true,
+    scene(ctx, stage, phase, rnd) {
+      // the nebula, lower, wider and brighter every stage
+      const k = stage / 7;
+      const cy = 150 - k * 30 + (phase === 3 ? -20 : 0);
+      for (let i = 0; i < 10 + stage * 2; i++) {
+        const x = 480 + (rnd() - 0.5) * (360 + k * 640), y = cy + (rnd() - 0.5) * (120 + k * 140);
+        glow(ctx, x, y, 70 + rnd() * 90 + k * 50, rnd() < 0.5 ? "hsl(326 100% 66%)" : "hsl(172 90% 56%)", 0.14 + k * 0.12);
+      }
+      // dark threads of dust through the gas
+      ctx.strokeStyle = `hsl(300 40% 10% / ${0.25 + k * 0.2})`;
+      ctx.lineWidth = 10;
+      ctx.lineCap = "round";
+      for (let i = 0; i < 3; i++) {
+        const x = 300 + rnd() * 360, y = cy - 40 + rnd() * 80;
+        ctx.beginPath();
+        ctx.moveTo(x - 160, y + 20);
+        ctx.quadraticCurveTo(x, y - 40 + rnd() * 80, x + 170, y + 10);
+        ctx.stroke();
+      }
+      // new stars being born in it, more every stage
+      for (let i = 0; i < 6 + stage * 4; i++) {
+        const x = 480 + (rnd() - 0.5) * (300 + k * 600), y = cy + (rnd() - 0.5) * (100 + k * 120);
+        glow(ctx, x, y, 8 + rnd() * 8, "hsl(48 100% 94%)", 0.8);
+        ctx.fillStyle = "hsl(48 100% 97%)";
+        ctx.fillRect(x - 1.5, y - 1.5, 3, 3);
+      }
+      // at the lair, the Star Mother's heart burns in the middle of the cloud
+      if (phase === 3) {
+        glow(ctx, 480, cy, 260, "hsl(326 100% 70%)", 0.4);
+        glow(ctx, 480, cy, 60, "hsl(48 100% 96%)", 0.9);
+      }
+      // low far mesas on the horizon, flat-topped and violet
+      ctx.fillStyle = phase >= 2 ? "hsl(290 20% 22%)" : "hsl(300 16% 54%)";
+      for (let i = 0; i < 5; i++) {
+        const x = rnd() * W, w = 80 + rnd() * 120, h = 20 + rnd() * 30;
+        ctx.beginPath();
+        ctx.moveTo(x - w * 0.6, FLOOR - 40);
+        ctx.lineTo(x - w * 0.4, FLOOR - 40 - h);
+        ctx.lineTo(x + w * 0.4, FLOOR - 40 - h);
+        ctx.lineTo(x + w * 0.6, FLOOR - 40);
+        ctx.fill();
+      }
+    },
+    front(ctx, stage, phase, rnd) {
+      // the salt itself: a flat white plain that holds the sky like a mirror
+      const salt = ctx.createLinearGradient(0, FLOOR - 40, 0, FLOOR);
+      salt.addColorStop(0, phase >= 2 ? "hsl(300 30% 34%)" : "hsl(320 30% 84%)");
+      salt.addColorStop(1, phase >= 2 ? "hsl(310 30% 46%)" : "hsl(320 30% 90%)");
+      ctx.fillStyle = salt;
+      ctx.fillRect(0, FLOOR - 40, W, 40);
+      // the nebula's reflection lying in the salt
+      glow(ctx, 480, FLOOR - 16, 200 + stage * 30, "hsl(326 100% 70%)", 0.18 + stage * 0.04);
+      glow(ctx, 420, FLOOR - 10, 120 + stage * 20, "hsl(172 90% 60%)", 0.12 + stage * 0.03);
+      // the cracked hexagon crust of the flats
+      ctx.strokeStyle = phase >= 2 ? "hsl(300 30% 60% / 0.4)" : "hsl(300 20% 70% / 0.5)";
+      ctx.lineWidth = 1;
+      for (let i = 0; i < 26; i++) {
+        const x = rnd() * W, y = FLOOR - 34 + rnd() * 30, r = 10 + rnd() * 10;
+        ctx.beginPath();
+        for (let k = 0; k < 6; k++) {
+          const a = (k / 6) * Math.PI * 2;
+          if (k === 0) ctx.moveTo(x + Math.cos(a) * r, y + Math.sin(a) * r * 0.3);
+          else ctx.lineTo(x + Math.cos(a) * r, y + Math.sin(a) * r * 0.3);
+        }
+        ctx.closePath();
+        ctx.stroke();
+      }
+      // salt mounds along the edges, and little fallen newborn stars glowing on the salt from the third stage on
+      for (let i = 0; i < 8; i++) {
+        const left = i < 4, x = left ? rnd() * 200 : W - rnd() * 200, h = 24 + rnd() * 40, w = h * 1.1;
+        ctx.fillStyle = phase >= 2 ? "hsl(300 18% 40%)" : "hsl(320 24% 92%)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(x - w, FLOOR);
+        ctx.quadraticCurveTo(x, FLOOR - h * 1.6, x + w, FLOOR);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+      }
+      for (let i = 0; i < Math.max(0, stage - 2) * 2; i++) {
+        const x = 200 + rnd() * 560, y = FLOOR - 4 - rnd() * 26;
+        glow(ctx, x, y, 18, rnd() < 0.5 ? "hsl(326 100% 76%)" : "hsl(172 100% 70%)", 0.7);
+        ctx.fillStyle = "hsl(48 100% 96%)";
+        ctx.fillRect(x - 2, y - 2, 4, 4);
+      }
+    },
+  },
+  // Book 3, 4. The Spinning Heart: the Glasslands, a desert in the east where the pulsar's beams have swept the dunes
+  // into glass. Its point of light climbs higher every stage, the beams sweep wider, and more of the sand turns to glass.
+  {
+    sky: [["hsl(30 70% 64%)", "hsl(36 80% 76%)", "hsl(44 90% 86%)"], ["hsl(206 50% 56%)", "hsl(36 60% 76%)", "hsl(40 80% 84%)"], ["hsl(256 40% 22%)", "hsl(300 30% 36%)", "hsl(24 80% 58%)"], ["hsl(250 50% 5%)", "hsl(256 40% 12%)", "hsl(276 50% 26%)"]],
+    far: "hsl(32 40% 62%)", near: "hsl(36 50% 72%)", floor: ["hsl(38 50% 74%)", "hsl(30 36% 54%)"], line: "hsl(30 40% 40% / 0.35)", starsFrom: 2,
+    scene(ctx, stage, phase, rnd) {
+      const k = stage / 7;
+      // the pulsar: a hard point of light, higher and brighter every stage
+      const px = 640 - k * 160, py = 220 - k * 120;
+      // its beams, sweeping a little further round every stage
+      const a0 = -0.4 - k * 1.6;
+      for (const a of [a0, a0 + Math.PI]) {
+        const len = 700, w = 18 + k * 22;
+        const ex = px + Math.cos(a) * len, ey = py + Math.sin(a) * len;
+        const nx = -Math.sin(a) * w, ny = Math.cos(a) * w;
+        const g = ctx.createLinearGradient(px, py, ex, ey);
+        g.addColorStop(0, `hsl(40 100% 86% / ${0.35 + phase * 0.12})`);
+        g.addColorStop(1, "hsl(32 100% 60% / 0)");
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.moveTo(px, py);
+        ctx.lineTo(ex + nx, ey + ny);
+        ctx.lineTo(ex - nx, ey - ny);
+        ctx.closePath();
+        ctx.fill();
+      }
+      glow(ctx, px, py, 30 + k * 40, "hsl(36 100% 76%)", 0.6 + phase * 0.1);
+      ctx.fillStyle = "hsl(48 100% 97%)";
+      ctx.beginPath();
+      ctx.arc(px, py, 3 + k * 4, 0, Math.PI * 2);
+      ctx.fill();
+      // its field at the lair: violet arcs out of the poles across the sky
+      if (phase === 3) {
+        ctx.strokeStyle = "hsl(276 100% 74% / 0.35)";
+        ctx.lineWidth = 2;
+        for (let i = 1; i <= 4; i++) {
+          for (const side of [-1, 1]) {
+            ctx.beginPath();
+            ctx.moveTo(px, py - 6);
+            ctx.bezierCurveTo(px + side * i * 60, py - i * 80, px + side * i * 60, py + i * 80, px, py + 6);
+            ctx.stroke();
+          }
+        }
+        glow(ctx, px, py, 240, "hsl(32 100% 66%)", 0.22);
+      }
+      // the dunes far off, glinting where the beam has crossed them
+      ctx.fillStyle = phase >= 2 ? "hsl(270 20% 30%)" : "hsl(34 44% 66%)";
+      ctx.beginPath();
+      ctx.moveTo(0, 330);
+      for (let x = 0; x <= W; x += 24) ctx.lineTo(x, 300 - Math.sin(x * 0.008 + stage) * 26 - Math.sin(x * 0.02) * 10);
+      ctx.lineTo(W, 330);
+      ctx.fill();
+      for (let i = 0; i < 4 + stage * 2; i++) {
+        const x = rnd() * W, y = 296 + rnd() * 30;
+        glow(ctx, x, y, 10, "hsl(44 100% 90%)", 0.6);
+      }
+    },
+    front(ctx, stage, phase, rnd) {
+      // streaks of glass the beam left across the sand, more each stage
+      for (let i = 0; i < 2 + stage; i++) {
+        const y = 392 + rnd() * 40, x = rnd() * W, len = 120 + rnd() * 220;
+        const g = ctx.createLinearGradient(x, y, x + len, y);
+        g.addColorStop(0, "hsl(36 70% 84% / 0)");
+        g.addColorStop(0.5, phase >= 2 ? "hsl(276 60% 70% / 0.55)" : "hsl(40 80% 90% / 0.7)");
+        g.addColorStop(1, "hsl(36 70% 84% / 0)");
+        ctx.fillStyle = g;
+        ctx.fillRect(x, y, len, 4);
+      }
+      // spires of glass standing up out of the sand along both edges, lit amber from inside as night falls
+      for (let i = 0; i < 10; i++) {
+        const left = i < 5, x = left ? 20 + rnd() * 220 : W - 20 - rnd() * 220, h = 40 + rnd() * 110, w = 8 + rnd() * 14;
+        const lean = (rnd() - 0.5) * 20;
+        ctx.fillStyle = phase >= 2 ? "hsl(256 30% 26% / 0.92)" : "hsl(40 50% 80% / 0.85)";
+        ctx.strokeStyle = INK;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(x - w, FLOOR);
+        ctx.lineTo(x + lean - 2, FLOOR - h);
+        ctx.lineTo(x + lean + 3, FLOOR - h + 6);
+        ctx.lineTo(x + w, FLOOR);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.strokeStyle = phase >= 2 ? `hsl(32 100% 70% / ${0.3 + phase * 0.15})` : "hsl(0 0% 100% / 0.6)";
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(x - w * 0.4, FLOOR - 6);
+        ctx.lineTo(x + lean - 1, FLOOR - h + 6);
+        ctx.stroke();
+      }
+    },
+  },
 ];
 
 function paint(ch: number, stage: number): HTMLCanvasElement {

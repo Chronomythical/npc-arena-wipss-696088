@@ -2589,6 +2589,118 @@ export const BOSS_INTROS: Record<BossDesign, IntroSpec> = {
       ctx.restore();
     },
   },
+  // Carina: the arena dims and a cloud of rose and green gas rolls in across the sky, stars blinking on inside it.
+  // The cloud draws together into one bright knot, a new star flares, and the Star Mother steps out of its light.
+  carina: {
+    len: BOSS_LEN, hit: 0.62, shake: 10, wave: ["hsl(326 100% 76%)", "hsl(172 100% 74%)"],
+    body: (u) => base(u < 0.62 ? "float" : settle(u, "guard", 0.78), {
+      alpha: seg(u, 0.56, 0.66),
+      solid: "hsl(326 100% 88%)", solidA: 1 - seg(u, 0.62, 0.9),
+    }),
+    bursts: [
+      { at: 0.62, n: 44, spd: 480, shape: "star", a: "hsl(326 100% 80%)", b: "hsl(48 100% 94%)", grav: 0, add: true, from: "body", dir: "out" },
+      { at: 0.62, n: 26, spd: 220, shape: "smoke", a: "hsl(300 40% 30%)", b: "hsl(172 60% 50%)", grav: -40, add: false, from: "body", dir: "out" },
+      { at: 0.64, n: 18, spd: 260, shape: "dust", a: "hsl(172 100% 76%)", b: "hsl(326 100% 84%)", grav: 0, add: true, from: "feet", dir: "flat" },
+    ],
+    trickle: { rate: 18, until: 0.6, spd: 30, shape: "star", a: "hsl(48 100% 94%)", b: "hsl(326 100% 84%)", grav: 0, add: true, from: "sky", dir: "out", spread: 340, life: 1 },
+    back: ({ ctx, x, y, s, u, t }) => {
+      const on = seg(u, 0, 0.15) * (1 - seg(u, 0.86, 1));
+      if (on <= 0) return;
+      ctx.save();
+      ctx.fillStyle = hsla(300, 50, 5, 0.55 * on);
+      ctx.fillRect(-400, -400, 2000, 1200);
+      // the cloud: wide puffs that roll in and then pull together into one knot over the fighter
+      const gather = easeIn(seg(u, 0.3, 0.62)), fade = u < 0.62 ? 1 : 1 - seg(u, 0.62, 0.8);
+      const cy = y - 90 * s;
+      ctx.globalCompositeOperation = "lighter";
+      for (let i = 0; i < 9; i++) {
+        const a = (i / 9) * Math.PI * 2 + t * 0.4;
+        const r = lerp(260, 20, gather) * s * (0.7 + (i % 3) * 0.2);
+        const px = x + Math.cos(a) * r * 1.4, py = cy + Math.sin(a) * r * 0.6;
+        const sz = lerp(110, 40, gather) * s;
+        glow(ctx, px, py, sz, sz * 0.7, i % 2 ? hsla(172, 90, 56, 0.3 * on * fade) : hsla(326, 100, 64, 0.34 * on * fade), hsla(310, 80, 50, 0));
+      }
+      // stars switching on in the cloud, one after another
+      for (let i = 0; i < 16; i++) {
+        const lit = seg(u, 0.08 + i * 0.02, 0.12 + i * 0.02);
+        if (lit <= 0) continue;
+        const a = i * 2.3 + t * 0.4, r = lerp(220, 10, gather) * s * (0.4 + ((i * 7) % 10) / 14);
+        const px = x + Math.cos(a) * r * 1.3, py = cy + Math.sin(a) * r * 0.6;
+        ctx.fillStyle = hsla(48, 100, 94, lit * on * fade);
+        ctx.fillRect(px - 1.8 * s, py - 1.8 * s, 3.6 * s, 3.6 * s);
+      }
+      // the knot flares into a new star the moment she arrives
+      const flare = seg(u, 0.5, 0.62) * (1 - seg(u, 0.62, 0.8));
+      if (flare > 0) glow(ctx, x, lerp(cy, y - 50 * s, seg(u, 0.55, 0.62)), 120 * s * flare, 120 * s * flare, hsla(48, 100, 96, 0.9 * flare), hsla(326, 100, 70, 0));
+      ctx.globalCompositeOperation = "source-over";
+      ctx.restore();
+    },
+  },
+  // Vela: everything goes dark, and far off a point of light starts to spin, two beams sweeping the arena like a
+  // lighthouse, faster and faster. The beams fold in, the pulsar drops, and the floor rings with one huge beat.
+  vela: {
+    len: BOSS_LEN, hit: 0.6, shake: 16, wave: ["hsl(32 100% 70%)", "hsl(276 100% 74%)"],
+    body: (u, s) => base(u < 0.6 ? "air" : settle(u, "land", 0.74), {
+      alpha: seg(u, 0.5, 0.6),
+      dy: -(1 - easeIn(seg(u, 0.5, 0.6))) * 260 * s,
+      solid: "hsl(40 100% 86%)", solidA: 1 - seg(u, 0.6, 0.88),
+    }),
+    bursts: [
+      { at: 0.6, n: 36, spd: 640, shape: "shard", a: "hsl(40 70% 78%)", b: "hsl(48 100% 94%)", grav: 900, add: false, from: "feet", dir: "up" },
+      { at: 0.6, n: 28, spd: 520, shape: "spark", a: "hsl(32 100% 66%)", b: "hsl(276 100% 80%)", grav: 0, add: true, from: "feet", dir: "flat" },
+      { at: 0.62, n: 14, spd: 240, shape: "dust", a: "hsl(36 40% 60%)", b: "hsl(40 40% 80%)", grav: -20, add: false, from: "feet", dir: "flat" },
+    ],
+    back: ({ ctx, x, y, s, u, t }) => {
+      const on = seg(u, 0, 0.12) * (1 - seg(u, 0.86, 1));
+      if (on <= 0) return;
+      ctx.save();
+      ctx.fillStyle = hsla(250, 40, 4, 0.65 * on);
+      ctx.fillRect(-400, -400, 2000, 1200);
+      if (u < 0.62) {
+        // the pulsar far above, spinning faster and faster, its two beams sweeping the whole arena
+        const fall = easeIn(seg(u, 0.48, 0.6));
+        const px = x, py = lerp(y - 330 * s, y - 40 * s, fall);
+        const spin = t * lerp(2, 14, seg(u, 0.05, 0.5));
+        const len = lerp(900, 60, fall) * s, w = lerp(36, 6, fall) * s;
+        ctx.globalCompositeOperation = "lighter";
+        for (const a of [spin, spin + Math.PI]) {
+          const ex = px + Math.cos(a) * len, ey = py + Math.sin(a) * len;
+          const nx = -Math.sin(a) * w, ny = Math.cos(a) * w;
+          const g = ctx.createLinearGradient(px, py, ex, ey);
+          g.addColorStop(0, hsla(40, 100, 86, 0.7 * on));
+          g.addColorStop(1, hsla(32, 100, 60, 0));
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.moveTo(px, py);
+          ctx.lineTo(ex + nx, ey + ny);
+          ctx.lineTo(ex - nx, ey - ny);
+          ctx.closePath();
+          ctx.fill();
+        }
+        glow(ctx, px, py, 34 * s, 34 * s, hsla(36, 100, 80, 0.9 * on), hsla(32, 100, 60, 0));
+        ctx.fillStyle = hsla(48, 100, 96, on);
+        ctx.beginPath();
+        ctx.arc(px, py, 7 * s, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalCompositeOperation = "source-over";
+      } else {
+        // the beat: rings of amber and violet racing out along the floor
+        const k = seg(u, 0.6, 0.86);
+        ctx.globalCompositeOperation = "lighter";
+        for (let i = 0; i < 3; i++) {
+          const r = easeOut(clamp(k * 1.4 - i * 0.2, 0, 1)) * 320 * s;
+          if (r <= 0) continue;
+          ctx.strokeStyle = i % 2 ? hsla(276, 100, 74, 0.6 * (1 - k)) : hsla(36, 100, 74, 0.7 * (1 - k));
+          ctx.lineWidth = 4 * s;
+          ctx.beginPath();
+          ctx.ellipse(x, y, r, r * 0.18, 0, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+        ctx.globalCompositeOperation = "source-over";
+      }
+      ctx.restore();
+    },
+  },
 };
 
 // ---------- hybrids ----------

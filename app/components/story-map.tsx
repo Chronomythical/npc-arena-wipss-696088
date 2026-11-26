@@ -6,7 +6,7 @@ import {
   PiEyeFill, PiFireFill, PiGhostFill, PiHourglassFill, PiLighthouseFill, PiLightningFill, PiLockSimpleFill, PiMoonStarsFill,
   PiMountainsFill, PiPlanetFill, PiShootingStarFill, PiSkullFill, PiSnowflakeFill, PiSpiralFill, PiStarFill, PiSunFill,
   PiSunHorizonFill, PiTreeFill, PiWavesFill, PiBookOpenFill, PiBugFill, PiButterflyFill, PiHouseFill, PiMaskHappyFill, PiMoonFill,
-  PiPlantFill, PiScrollFill, PiTreeEvergreenFill, PiCompassFill, PiTargetFill,
+  PiPlantFill, PiScrollFill, PiTreeEvergreenFill, PiCompassFill, PiTargetFill, PiCloudFill, PiSparkleFill, PiMagnetFill,
 } from "react-icons/pi";
 import { Text, useString } from "~stencil/ui/strings";
 import { cn } from "~/lib/utils";
@@ -49,6 +49,10 @@ const THEMES: Theme[] = [
   { top: "hsl(214 54% 9%)", bottom: "hsl(204 30% 38%)", blob: "hsl(190 100% 80% / 0.14)", deco: "hsl(190 100% 88% / 0.6)", road: "hsl(190 100% 76%)", icons: [PiSnowflakeFill, PiShootingStarFill, PiMountainsFill, PiFireFill] },
   // Book 3. The Hunter in the Stars: a plateau of standing stones under a sky drawn with constellations
   { top: "hsl(232 64% 6%)", bottom: "hsl(240 34% 22%)", blob: "hsl(44 100% 70% / 0.12)", deco: "hsl(44 100% 80% / 0.55)", road: "hsl(44 100% 72%)", icons: [PiStarFill, PiCompassFill, PiTargetFill, PiMoonStarsFill] },
+  // Book 3. Where Stars Are Born: white salt flats under a rose and green nebula full of new stars
+  { top: "hsl(296 50% 10%)", bottom: "hsl(320 30% 40%)", blob: "hsl(326 100% 70% / 0.14)", deco: "hsl(172 100% 80% / 0.55)", road: "hsl(326 100% 78%)", icons: [PiCloudFill, PiSparkleFill, PiStarFill, PiShootingStarFill] },
+  // Book 3. The Spinning Heart: a desert swept into glass by a pulsar's beams
+  { top: "hsl(250 44% 8%)", bottom: "hsl(30 40% 34%)", blob: "hsl(32 100% 64% / 0.14)", deco: "hsl(36 100% 80% / 0.55)", road: "hsl(32 100% 70%)", icons: [PiLighthouseFill, PiClockFill, PiMagnetFill, PiSunFill] },
 ];
 
 /** A smooth road through the points, in the SVG's 1000 by 520 space. */

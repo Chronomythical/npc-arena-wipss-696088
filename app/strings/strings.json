@@ -1322,6 +1322,96 @@
           "l2": "Maybe you were aiming at the wrong thing.",
           "l3": "Asterion's stars come loose one by one and rise back into the night, until only his belt is left: three stars in a row. Above them the sky turns, and three more Celestials begin to look down at the world."
         }
+      },
+      "c18": {
+        "intro": {
+          "l1": "Two Celestials have fallen, and the sky has started to whisper about it. Far to the south, over the white salt of the Mirror Flats, the night has turned rose and green.",
+          "l2": "That glow is Carina, the Star Mother: a cloud so vast that new stars are born inside her. She lit half the lights in the sky, and she thinks the world is shining where only her children should.",
+          "l3": "She has come down to draw her veil over it. If the cloud closes, the world goes dark underneath, and her newborn stars will be the only light left."
+        },
+        "s1": {
+          "l1": "I was born last night! Mother says I'm going to be the brightest thing you ever see.",
+          "l2": "Born last night and already picking fights."
+        },
+        "s2": {
+          "l1": "Breathe me in. Everything goes soft and pink, and then it goes away.",
+          "l2": "We'll hold our breath."
+        },
+        "s3": {
+          "l1": "Not a star yet. Getting tighter. Getting hotter. Getting ANGRY.",
+          "l2": "Maybe come back when you're finished."
+        },
+        "s4": {
+          "l1": "The veil is closing. Can you feel the sky getting closer?",
+          "l2": "We can feel you getting closer. That's worse for you."
+        },
+        "s5": {
+          "l1": "Mother made a hundred of us tonight. You can't put out a hundred stars.",
+          "l2": "We've had a busy few books. Watch us."
+        },
+        "s6": {
+          "l1": "I have stood in her cloud since before your sun was lit. Stars are born at my tips. Nothing gets past my feet.",
+          "l2": "Then we'll go round."
+        },
+        "s7": {
+          "l1": "You broke a comet and made the Hunter miss. Mother is waiting for you. She isn't angry. That is what should scare you.",
+          "l2": "We've met angry. We can handle calm."
+        },
+        "s8": {
+          "l1": "Look at you. So bright, and so small. I have made more stars than there are grains of salt on these flats.",
+          "l2": "Then you won't miss one little world keeping its own light.",
+          "l3": "Every light in the sky is mine. Sleep now, little ones. The veil is coming down."
+        },
+        "outro": {
+          "l1": "My cloud is thinning. I can see straight through myself.",
+          "l2": "Turns out the world can shine without you.",
+          "l3": "Carina comes apart into soft colour and drifts back up into the night. Where she was, the stars she made go on burning, small and new. And far off, past the edge of the sky, something begins to tick."
+        }
+      },
+      "c19": {
+        "intro": {
+          "l1": "Every star burns out in the end. Vela was the first that did, and it never stopped spinning. Its heart crushed down to the size of a city, it turns a hundred times a heartbeat and keeps the time of the whole sky.",
+          "l2": "Two beams of fire sweep out from it like a lighthouse. Every night they cross the deserts of the east, and wherever they touch, the sand turns to glass.",
+          "l3": "Vela has counted every second since the first stars were lit. Now it says the world's time is up, and it has come down to the Glasslands to stop the clock."
+        },
+        "s1": {
+          "l1": "On. Off. On. Off. Which one was the real me? Too slow!",
+          "l2": "We'll just hit both."
+        },
+        "s2": {
+          "l1": "Kssshh... can you hear it? The pulse... the pulse is counting you down... kssshh.",
+          "l2": "Change the station."
+        },
+        "s3": {
+          "l1": "Was dune. Beam came. Now glass. Now big. Now you.",
+          "l2": "Glass breaks."
+        },
+        "s4": {
+          "l1": "Vela spins a hundred times a heartbeat. How fast do you spin?",
+          "l2": "Fast enough to get out of your way."
+        },
+        "s5": {
+          "l1": "Every star in the sky keeps time to Vela's beat. Soon your world's beat stops.",
+          "l2": "Ours has a few left in it."
+        },
+        "s6": {
+          "l1": "I circled Vela when it was still a star. I burned out too, but I never left its side. Nobody stops it turning.",
+          "l2": "Loyal. We respect that. We still have to get past you."
+        },
+        "s7": {
+          "l1": "Hear that? Tick. Tick. That's the clock you came to stop. It's very, very close now.",
+          "l2": "Good. We were looking for it."
+        },
+        "s8": {
+          "l1": "Tick. You are late. Tick. You were always late. Tick. Your world's time ran out the night it outshone us.",
+          "l2": "Then we'll wind it back up.",
+          "l3": "I keep the time of the sky. Nobody winds me. Hold still, and I will count you out."
+        },
+        "outro": {
+          "l1": "My spin... it's slowing. I can hear the seconds falling out of me.",
+          "l2": "Take a break. You've been going for a while.",
+          "l3": "Vela's beams flicker and go dim, and it settles into the glass like a stopped watch. For the first time in an age, the sky has no beat to keep. High above, the oldest of the Celestials opens its eye."
+        }
       }
     },
     "map": {
@@ -1474,6 +1564,32 @@
         "s6": "Observers' Ring",
         "s7": "The Hunter's Gate",
         "s8": "Asterion's Circle"
+      }
+    },
+    "ch18": {
+      "title": "Chapter 3: Where Stars Are Born",
+      "stages": {
+        "s1": "The Salt Road",
+        "s2": "Mirror Flats",
+        "s3": "The Glow Wells",
+        "s4": "Nursery Shallows",
+        "s5": "The Dust Towers",
+        "s6": "Starfall Pan",
+        "s7": "The Pillar's Shadow",
+        "s8": "Carina's Cradle"
+      }
+    },
+    "ch19": {
+      "title": "Chapter 4: The Spinning Heart",
+      "stages": {
+        "s1": "Edge of the Sand",
+        "s2": "The Glass Dunes",
+        "s3": "Beacon Rock",
+        "s4": "The Sweep Line",
+        "s5": "Shatter Canyon",
+        "s6": "The Melted Road",
+        "s7": "The Still Point",
+        "s8": "Vela's Clockface"
       }
     },
     "ending": {
